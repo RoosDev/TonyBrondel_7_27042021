@@ -25,8 +25,9 @@ if( fs.existsSync(KEY_HTTPS) && fs.existsSync(CERT_HTTPS) ){
     
     https.createServer(options, (req, res) => {
         res.writeHead(200);
-        res.end('hello world\n Let\' go !!\n');
+        res.end(app);
     }).listen(APP_PORTS);
+    console.log('hello world\n Let\' go !!\n || Listening on '+ APP_PORTS )
 }else{
 
     const normalizePort = (val) => {
