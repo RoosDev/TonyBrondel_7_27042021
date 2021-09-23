@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const path = require("path");
 
 // Définition des routes
+const DBConnect = require("./middlewares/mysql");
 // const sauceRoutes = require("./routes/sauce_routes.js");
 // const userRoutes = require("./routes/user_routes");
 
