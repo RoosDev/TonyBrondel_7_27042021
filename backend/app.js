@@ -3,20 +3,29 @@ const express = require("express");
 const helmet = require("helmet");
 const path = require("path");
 
+
 // Définition des routes
-const DBConnect = require("./middlewares/mysql");
 // const sauceRoutes = require("./routes/sauce_routes.js");
-// const userRoutes = require("./routes/user_routes");
+const userRoutes = require("./routes/users_routes");
 
 // Mise en place des variables d'environnement
 const dotenv = require("dotenv");
 dotenv.config();
-// const URL_MonDb = process.env.URL_DB;
+const SQLhost = process.env.MYSQL_URL;
+const SQLuser = process.env.MYSQL_User;
+const SQLpass = process.env.MYSQL_Pass;
+const SQLdb = process.env.MYSQL_DBName;
+const SQLport = process.env.MYSQL_Port;
 
-//paramétrage de la connexion à la DB MongoDB
-
-
-
+//paramétrage de la connexion à MySQL
+const mysql      = require('mysql');
+const connection = mysql.createConnection({
+  host     : SQLhost,
+  user     : SQLuser,
+  password : SQLpass,
+  database : SQLdb, 
+  port     : SQLport,
+});
 
 // instantiation express
 const app = express();
@@ -46,6 +55,6 @@ app.use(express.json());
 // Appel des differents modules de l'app
 // app.use("/images", express.static(path.join(__dirname, "images")));
 // app.use("/api/sauces", sauceRoutes);
-// app.use("/api/auth", userRoutes);
+app.use("/api/auth", userRoutes);
 
 module.exports = app;
