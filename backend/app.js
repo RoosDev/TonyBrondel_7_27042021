@@ -18,7 +18,7 @@ const SQLdb = process.env.MYSQL_DBName;
 const SQLport = process.env.MYSQL_Port;
 
 
-const connection = new Sequelize(SQLdb, SQLuser, SQLpass, {
+const sequelize  = new Sequelize(SQLdb, SQLuser, SQLpass, {
   host: SQLhost,
   port: SQLport,
   dialect: 'mysql',
@@ -32,7 +32,7 @@ const connection = new Sequelize(SQLdb, SQLuser, SQLpass, {
 });  
 
 try {
-  connection.authenticate();
+  sequelize .authenticate();
   console.log('Connection has been established successfully.');
 } catch (error) {
   console.error('Unable to connect to the database:', error);
@@ -66,8 +66,8 @@ app.use(
 app.use(express.json());
 
 // Appel des differents modules de l'app
-// app.use("/Public_Images", express.static(path.join(__dirname, "images")));
-app.use("/api/feed", feedeRoutes);
+app.use("/Public_Images", express.static(path.join(__dirname, "images")));
+app.use("/api/feed", feedRoutes);
 // app.use("/api/auth", userRoutes);
 
 module.exports = connection;

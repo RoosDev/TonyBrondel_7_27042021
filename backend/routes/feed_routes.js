@@ -3,7 +3,7 @@ const router = express.Router();
 
 const feedCtrl = require("../controllers/feed_control");
 // const auth = require("../middleware/auth");
-// const multer = require("../middleware/multer_config");
+const multer = require("../middleware/multer_config");
 
 // Ajout d'un post dans la DB
 router.post("", auth, multer, feedCtrl.createSauce);
