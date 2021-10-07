@@ -17,6 +17,7 @@ const SQLpass = process.env.MYSQL_Pass;
 const SQLdb = process.env.MYSQL_DBName;
 const SQLport = process.env.MYSQL_Port;
 
+// initialisation de la base de donnée.
 
 const sequelize  = new Sequelize(SQLdb, SQLuser, SQLpass, {
   host: SQLhost,
@@ -66,9 +67,11 @@ app.use(
 app.use(express.json());
 
 // Appel des differents modules de l'app
-app.use("/Public_Images", express.static(path.join(__dirname, "images")));
+app.use("/Public_Images", express.static(path.join(__dirname, "/Public_Images")));
 app.use("/api/feed", feedRoutes);
 // app.use("/api/auth", userRoutes);
 
-module.exports = connection;
+module.exports = Object.freeze({
+  sequelize
+});
 module.exports = app;

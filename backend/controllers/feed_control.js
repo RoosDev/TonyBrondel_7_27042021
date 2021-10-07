@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const Feed = require("../models/feed_models");
+// const Feed = require("../models/feed_models");
 
 exports.createFeed = (req, res, next) => {
   const feedObject = JSON.parse(req.body.feedPost);

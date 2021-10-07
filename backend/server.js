@@ -71,7 +71,7 @@ if( fs.existsSync(KEY_HTTPS) && fs.existsSync(CERT_HTTPS) ){
     server.on("listening", () => {
     const address = server.address();
     const bind = typeof address === "string" ? "pipe " + address : "port " + port;
-    console.log("Listening on " + bind);
+    console.log("Not secure !! but listening on " + bind);
     });
 
     server.listen(port);

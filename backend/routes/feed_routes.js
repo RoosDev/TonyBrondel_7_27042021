@@ -3,24 +3,44 @@ const router = express.Router();
 
 const feedCtrl = require("../controllers/feed_control");
 // const auth = require("../middleware/auth");
-const multer = require("../middleware/multer_config");
+const multer = require("../middlewares/multer_config");
 
-// Ajout d'un post dans la DB
-router.post("", auth, multer, feedCtrl.createSauce);
+// Liste des routes pour créer quelque chose :
+    // Création d'un utilisateur
+    router.post("/user",  multer, feedCtrl.createFeed);
+    // Création d'un post dans le feed
+    router.post("/feed",  multer, feedCtrl.createFeed);
+    // Création d'un commentaire
+    router.post("/feed/id",  multer, feedCtrl.createFeed);
+    // Création d'un like
+    router.post("/feed/id/like",  multer, feedCtrl.createFeed);
 
-// pour la modification d'un post
-router.put("/:id", auth, multer, feedCtrl.modifySauce);
+// Liste des routes pour modifier quelque chose :
+    // Modification d'un utilisateur
+    router.put("/user",  multer, feedCtrl.createFeed);
+    // Modification d'un post dans le feed
+    router.put("/feed",  multer, feedCtrl.createFeed);
+    // Modification d'un like
+    router.put("/feed/id/like",  multer, feedCtrl.createFeed);
 
-// pour la suppression d'une post
-router.delete("/:id", auth, feedCtrl.deleteSauce);
+// Liste des routes pour supprimer quelque chose :
+    // Suppression d'un utilisateur
+    router.delete("/user",  multer, feedCtrl.createFeed);
+    // Suppression d'un post dans le feed
+    router.delete("/feed",  multer, feedCtrl.createFeed);
+    // Suppression d'un like
+    router.delete("/feed/id/like",  multer, feedCtrl.createFeed);
 
-// Affiche un seule post
-router.get("/:id", auth, feedCtrl.getOneSauce);
-
-// Affiche toutes les posts
-router.get("", auth, feedCtrl.getAllSauces);
-
-// Ajoute un Like ou dislike
-router.post("/:id/like", auth, feedCtrl.addAVote);
+// Liste des routes pour obtenir quelque chose :
+    // Liste de tous les utilisateurs
+    router.get("/user",  multer, feedCtrl.createFeed);
+    // Détail d'un utilisateur
+    router.get("/user/id",  multer, feedCtrl.createFeed);
+    // Liste de tous les post dans le feed
+    router.get("/feed",  multer, feedCtrl.createFeed);
+    // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
+    router.get("/feed/id",  multer, feedCtrl.createFeed);
+    // Obtention des likes d'un post
+    router.get("/feed/id/like",  multer, feedCtrl.createFeed);
 
 module.exports = router;
