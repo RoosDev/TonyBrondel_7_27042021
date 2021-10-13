@@ -1,4 +1,4 @@
-const Sequelize = require("Sequelize");
+const { Sequelize } = require("sequelize");
 
 // Mise en place des variables d'environnement
 const dotenv = require("dotenv");
@@ -11,25 +11,32 @@ const SQLport = process.env.MYSQL_Port;
 
 // initialisation de la base de donnée.
 
-
-const sequelize  = new Sequelize(SQLdb, SQLuser, SQLpass, {
+const sequelize = new Sequelize(SQLdb, SQLuser, SQLpass, {
   host: SQLhost,
   port: SQLport,
-  dialect: 'mysql',
+  dialect: "mysql",
+  operatorsAliases: false,
 
   pool: {
     max: 5,
     min: 0,
-    idle: 10000
-  },  
+    acquire: 30000,
+    idle: 10000,
+  },
 
-});  
+  define: {
+    freezeTableName: true,
+  },
+});
 
 const dbConnect = {};
 
 dbConnect.Sequelize = Sequelize;
 dbConnect.sequelize = sequelize;
 
-dbConnect.PostList = require("../models/feed_model")(sequelize, Sequelize);
+dbConnect.post_comment_list = require("../models/feed_model")(
+  sequelize,
+  Sequelize
+);
 
-module.exports= dbConnect;
+module.exports = dbConnect;

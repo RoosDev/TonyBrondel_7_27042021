@@ -2,6 +2,7 @@
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
+const models  = require('../models/user_model')
 
 // // Mise en place des variables d'environnement
 const dotenv = require("dotenv");
@@ -37,15 +38,7 @@ exports.signup = async (req, res, next) => {
     const email_Cryp = await CryptoJS.AES.encrypt(email_visible, CRYPT_PASS);
 
     // Mise en place des variables utiles
-    let newEmail = { email_H: email_Hash };
-
-    let currentUser = connection.query(
-      "SELECT id FROM users_connect WHERE ?;",
-      newEmail,
-      // function (err, res, fields) {
-      //   if (err) throw err;
-      // }
-    );
+    let newEmail_H = { email_H: email_Hash };
 
     //lancement de la vérification : nouvel utilisateur ou non ?
     if (currentUser > 0) {
@@ -57,7 +50,7 @@ exports.signup = async (req, res, next) => {
     } else {
 
       // c'est bien un nouvel utilisateur, enregistrons le !
-      let newIdentity = {
+      const users = await users.create ({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email_Crypt: email_Cryp,
@@ -68,17 +61,7 @@ exports.signup = async (req, res, next) => {
         division: req.body.division,
         role_id: role_id_select,
         active: activeornot,
-      };
-      connection.query(
-        "INSERT INTO users_identity SET ?",
-        newIdentity,
-        function (err, res, fields) {
-          res
-          .status(201)
-          .json({ message: "Il y a un nouveau venu parmit nous !! " });
-  
-        }
-      );
+      });
       res
         .status(201)
         .json({ message: "Il y a un nouveau venu parmit nous !! " });
@@ -89,31 +72,26 @@ exports.signup = async (req, res, next) => {
       .json({ message: "Le nouvel utilisateur n'a pu être enregistré.", err });
   }
 };
-// exports.login = (req, res, next) => {
-
-//   //     if (emailTable.includes(email_visible) == false) {
-//   //       return res.status(401).json({ error: "Utilisateur inconnu ." });
-//   //     } else {
-//   //       const emailIndex = emailTable.indexOf(currentEmail) / 2;
-//   //       argon2
-//   //         .verify(usersList[emailIndex].password, req.body.password)
-//   //         .then((valid) => {
-//   //           if (!valid) {
-//   //             return res.status(401).json({ error: "Mot de passe incorrect" });
-//   //           }
-//   //           res.status(200).json({
-//   //             userId: usersList[emailIndex]._id,
-//   //             token: jwt.sign(
-//   //               { userId: usersList[emailIndex]._id },
-//   //               MY_APP_SECRET,
-//   //               {
-//   //                 expiresIn: "2h",
-//   //               }
-//   //             ),
-//   //           });
-//   //         })
-//   //         .catch((error) => res.status(500).json({ error }));
-//   //     }
-//   //   })
-//   //   .catch((error) => res.status(500).json({ error }));
-// };
+exports.login = (req, res, next) => {
+  
+  model
+    const login = await Login.findOne( { where:{ email_H: email_Hash } } );
+    // .then( );
+    // .verify(usersList[emailIndex].password, req.body.password)
+    // .then((valid) => {
+    //   if (!valid) {
+    //     return res.status(401).json({ error: "Mot de passe incorrect" });
+    //   }
+    //   res.status(200).json({
+    //     userId: usersList[emailIndex]._id,
+    //     token: jwt.sign(
+    //       { userId: usersList[emailIndex]._id },
+    //       MY_APP_SECRET,
+    //       {
+    //         expiresIn: "2h",
+    //       }
+    //     ),
+    //   });
+    // })
+    // .catch((error) => res.status(500).json({ error }));
+};
