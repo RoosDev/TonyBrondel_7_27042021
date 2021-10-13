@@ -1,6 +1,6 @@
-// const { sequelize , DataTypes } = require('sequelize');
+const { sequelize , DataTypes } = require('sequelize');
 
-module.exports = (sequelize, DataTypes ) => {
+module.exports = (sequelize) => {
     const post_comment_list = sequelize.define('post_comment_list', {
       id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, allowNull: false, primaryKey: true },
       content: { type: DataTypes.TEXT, allowNull: true } ,
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes ) => {
     return post_comment_list;
   };
 
-  module.exports = (sequelize, DataTypes ) => {
+  module.exports = (sequelize) => {
     const posts_like = sequelize.define("posts_like", {
       id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, allowNull: false, primaryKey: true },
       post_comment_Id: { type: DataTypes .INTEGER.UNSIGNED } ,

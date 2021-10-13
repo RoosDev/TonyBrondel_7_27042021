@@ -1,13 +1,24 @@
 const fs = require("fs");
-const Model  = require('../models/feed_model').post_comment_list;
-// attributes: ['id', 'content', 'image_URL', 'timecode'],
+const Model  = require('../config/db.config');
 
-exports.getAllFeeds = ( (req, res, next) => {
-  const postsList = Model.findAll({ order: [['timecode', 'DESC']] })
-  console.log(postsList.every(post_comment_list => post_comment_list instanceof Model));
-    // .then((data) => res.send(data))
-    // .catch((error) => res.status(500).send({message:err.message || "Some error occurred while retrieving tutorials."}));
+exports.getAllFeeds = ( async(req, res, next) => {
+  try{
+  const data = await Model.post_comment_list .findAll({ order: [['timecode', 'DESC']] }) 
+  res.send(data)
+  }catch(error){
+    res.status(500).send({message:err.message || "Some error occurred while retrieving the post's list."});
+  }
 });
+
+exports.getLikes = ( async(req, res, next) => {
+  try{
+  const data = await Model.posts_like .findAll({ where: { post_comment_Id: [1] } }) 
+  res.send(data)
+  }catch(error){
+    res.status(500).send({message:err.message || "Some error occurred while retrieving the liker's list."});
+  }
+});
+
 
 // exports.addAVote = (req, res, next) => {
 //   const like = req.body.like;

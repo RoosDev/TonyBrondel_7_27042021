@@ -25,10 +25,10 @@ const multer = require("../middlewares/multer_config");
 
 // Liste des routes pour obtenir quelque chose :
     // Liste de tous les post dans le feed
-    router.get("/", feedCtrl.getAllFeeds);
+    router.get("/", multer, feedCtrl.getAllFeeds);
     // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
     // router.get("/id",  multer, feedCtrl.getOneFeed);
     // Obtention des likes d'un post
-    // router.get("/id/like",  multer, feedCtrl.createFeed);
+    router.get("/:id/like",  multer, feedCtrl.getLikes);
 
 module.exports = router;

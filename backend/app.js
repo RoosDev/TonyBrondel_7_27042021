@@ -1,4 +1,4 @@
-    // import des extensions necessaires
+// import des extensions necessaires
 const express = require("express");
 const helmet = require("helmet");
 const path = require("path");
@@ -44,7 +44,7 @@ app.use(express.json());
 
 // Appel des differents modules de l'app
 app.use("/Public_Images", express.static(path.join(__dirname, "/Public_Images")));
-app.use("/api/Feed", feedRoutes);
+app.use("/api/feed", feedRoutes);
 // app.use("/api/auth", userRoutes);
 
 module.exports = app;
