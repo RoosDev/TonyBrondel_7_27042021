@@ -9,6 +9,10 @@ const dbConnect = require('./config/db.config');
 const feedRoutes = require("./routes/feed_routes.js");
 // const userRoutes = require("./routes/users_routes");
 
+// dbConnect.sequelize.sync({ alter: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
+
   try {
     dbConnect.sequelize.authenticate();
     console.log('Connection has been established successfully.');

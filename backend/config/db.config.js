@@ -34,9 +34,24 @@ const dbConnect = {};
 dbConnect.Sequelize = Sequelize;
 dbConnect.sequelize = sequelize;
 
+
+// Connexion pour le flux des posts
 dbConnect.post_comment_list = require("../models/feed_model")(
   sequelize,
   Sequelize
 );
+
+// Connexion pour les likes des pots
+dbConnect.posts_like = require("../models/posts_like_model")(
+  sequelize,
+  Sequelize
+);
+
+// Connexion pour la liste des likes 
+dbConnect.likes_type = require("../models/likes_model")(
+  sequelize,
+  Sequelize
+);
+
 
 module.exports = dbConnect;
