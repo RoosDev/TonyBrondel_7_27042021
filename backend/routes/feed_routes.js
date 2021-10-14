@@ -27,7 +27,7 @@ const multer = require("../middlewares/multer_config");
     // Liste de tous les post dans le feed
     router.get("/", multer, feedCtrl.getAllFeeds);
     // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
-    // router.get("/:id",  multer, feedCtrl.getOneFeed);
+    router.get("/:id/comment",  multer, feedCtrl.getAllComments);
     // Obtention des likes d'un post
     router.get("/:id/like",  multer, feedCtrl.getLikesPost);
     // Obtention de la liste des différents types de like
