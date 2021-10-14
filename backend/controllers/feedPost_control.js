@@ -39,14 +39,22 @@ exports.PostPost = ( async(req, res, next) => {
   });
   
 
-// exports.getAllComments = ( async(req, res, next) => {
-//   try{
-//     const data = await modelPostCommentList.findAll({where: {reference: req.params.id }, order: [['timecode', 'DESC']] }) 
-//     res.send(data)
-//   }catch(err){
-//     res.status(500).send({message:err.message || "Some error occurred while retrieving the post's list."});
-//   }
-// });
+  // Ajout d'un like sur un post du flux
+  exports.PostLike = ( async(req, res, next) => {
+
+    const theComment = {
+      post_comment_Id: req.params.id, 
+      like_Id: 1,
+      identity_Id: req.body.userId,
+    };
+    try{
+      const data = await modelPostCommentList.create(theComment) 
+      res.send(data)
+    }catch(err){
+      res.status(500).send({message:err.message || "Some error occurred while retrieving the post's list."});
+    }
+  });
+  
 
 // exports.getLikesPost = ( async(req, res, next) => {
 //   try{
