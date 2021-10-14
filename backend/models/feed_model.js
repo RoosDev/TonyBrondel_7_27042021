@@ -6,7 +6,6 @@ module.exports = (sequelize) => {
       content: { type: DataTypes.TEXT, allowNull: true } ,
       image_URL: { type: DataTypes.STRING(255), allowNull: true } ,
       reference: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true } ,
-      timecode: { type: DataTypes.DATE, allowNull: false, required: true } ,
       identity_Id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, required: true } ,
       createdAt:{ type: DataTypes.DATE, allowNull: false, required: true } ,
       updatedAt:{ type: DataTypes.DATE, allowNull: false, required: true } ,

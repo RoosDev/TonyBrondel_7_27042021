@@ -8,7 +8,7 @@ const modelLikesType = dbConnect.likes_type;
 
 exports.getAllFeeds = ( async(req, res, next) => {
   try{
-    const data = await modelPostCommentList.findAll({where: {reference: null }, order: [['timecode', 'DESC']] }) 
+    const data = await modelPostCommentList.findAll({where: {reference: null }, order: [['updatedAt', 'DESC']] }) 
     res.send(data)
   }catch(err){
     res.status(500).send({message:err.message || "Some error occurred while retrieving the post's list."});
@@ -17,7 +17,7 @@ exports.getAllFeeds = ( async(req, res, next) => {
 
 exports.getAllComments = ( async(req, res, next) => {
   try{
-    const data = await modelPostCommentList.findAll({where: {reference: req.params.id }, order: [['timecode', 'DESC']] }) 
+    const data = await modelPostCommentList.findAll({where: {reference: req.params.id }, order: [['updatedAt', 'DESC']] }) 
     res.send(data)
   }catch(err){
     res.status(500).send({message:err.message || "Some error occurred while retrieving the post's list."});

@@ -11,7 +11,6 @@ exports.PostPost = ( async(req, res, next) => {
   const thePost = {
     content: req.body.content, 
     image_URL: req.body.image_URL,
-    timecode: '2000-02-20',
     identity_Id: 1,
   };
   try{
