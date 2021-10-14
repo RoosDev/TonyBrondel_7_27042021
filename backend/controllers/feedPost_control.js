@@ -6,12 +6,13 @@ const modelLikesType = dbConnect.likes_type;
 
 // Ensemble des Controllers pour créer une donnée : POST
 
+  // POST pour un post du feed
 exports.PostPost = ( async(req, res, next) => {
 
   const thePost = {
     content: req.body.content, 
     image_URL: req.body.image_URL,
-    identity_Id: 1,
+    identity_Id: req.params.id,
   };
   try{
     const data = await modelPostCommentList.create(thePost) 
@@ -20,6 +21,23 @@ exports.PostPost = ( async(req, res, next) => {
     res.status(500).send({message:err.message || "Some error occurred while retrieving the post's list."});
   }
 });
+
+  // POST d'un commentaire concernant un post du feed
+  exports.PostComment = ( async(req, res, next) => {
+
+    const theComment = {
+      content: req.body.content, 
+      reference: req.params.id,
+      identity_Id: req.body.userId,
+    };
+    try{
+      const data = await modelPostCommentList.create(theComment) 
+      res.send(data)
+    }catch(err){
+      res.status(500).send({message:err.message || "Some error occurred while retrieving the post's list."});
+    }
+  });
+  
 
 // exports.getAllComments = ( async(req, res, next) => {
 //   try{
