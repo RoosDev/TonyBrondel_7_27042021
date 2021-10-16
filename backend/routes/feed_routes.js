@@ -2,6 +2,7 @@ const router = require("express").Router();
 const feedGetCtrl = require("../controllers/feedGet_control");
 const feedPostCtrl = require("../controllers/feedPost_control");
 const feedUpdateCtrl = require("../controllers/feedUpdate_control");
+const feedDropCtrl = require("../controllers/feedDrop_control");
 // const auth = require("../middleware/auth");
 const multer = require("../middlewares/multer_config");
 
@@ -16,14 +17,12 @@ const multer = require("../middlewares/multer_config");
 // // Liste des routes pour modifier quelque chose :
 //     Modification d'un post dans le feed
     router.put("/:id", multer, feedUpdateCtrl.UpdatePost);
-    // Modification d'un like
-    // router.put("/:id/like",  multer, feedUpdateCtrl.createFeed);
 
 // // Liste des routes pour supprimer quelque chose :
 //     // Suppression d'un post dans le feed
-//     router.delete("/",  multer, feedGetCtrl.createFeed);
+    router.delete("/:id",  multer, feedDropCtrl.deleteOnePost);
 //     // Suppression d'un like
-//     router.delete("/id/like",  multer, feedGetCtrl.createFeed);
+    router.delete("/:id/like",  multer, feedDropCtrl.deleteOneLike);
 
 // // Liste des routes pour obtenir quelque chose :
     // Liste de tous les post dans le feed

@@ -17,18 +17,16 @@ exports.UpdatePost = async (req, res, next) => {
        thePost ,
       { where: { id: req.params.id } }
     );
-    res.send(data)
-    const answerSending;
-    if (answerSending ==1 ){
-      res.send({message: "Modification enregistrée."})
-    }else{
-      res.send({message: "Modification impossible."})
-    };
+    res.send( { data } );
+    data  => {
+      if (data ==1 ){
+        res.statusMessage = "Modification enregistrée"
+      }else{
+        res.statusMessage = "Modification impossible."
+      }}
   } catch (err) {
-    res.status(500).send({
-      message:
-        err.message || "Il semble qu'une erreur se soit glissée sur la route. Nous sommes désolé.",
-    });
+    res.sendStatus(500)
+    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
   }
 };
 
@@ -41,15 +39,10 @@ exports.UpdatePost = async (req, res, next) => {
 //   };
 //   try {
 //     const data = await modelPostCommentList.create(theComment);
-//     res.send(data);
+//     res.send( { data } );
 //   } catch (err) {
-//     res
-//       .status(500)
-//       .send({
-//         message:
-//           err.message ||
-//           "Some error occurred while retrieving the post's list.",
-//       });
+  // res.sendStatus(500)
+  // res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
 //   }
 // };
 
@@ -62,23 +55,19 @@ exports.UpdatePost = async (req, res, next) => {
 //   };
 //   try {
 //     const data = await modelPostsLike.create(theComment);
-//     res.send(data);
+//     res.send( { data } );
 //   } catch (err) {
-//     res
-//       .status(500)
-//       .send({
-//         message:
-//           err.message ||
-//           "Some error occurred while retrieving the post's list.",
-//       });
+  // res.sendStatus(500)
+  // res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
 //   }
 // };
 
 // exports.getLikes = ( async(req, res, next) => {
 //   try{
 //     const data = await modelLikesType.findAll({ where: { } })
-//     res.send(data)
+//     res.send( { data } )
 //   }catch(err){
-//     res.status(500).send({message:err.message || "Some error occurred while retrieving the liker's list."});
+  // res.sendStatus(500)
+  // res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
 //   }
 // });

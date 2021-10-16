@@ -19,6 +19,6 @@ module.exports = (req, res, next) => {
       next();
     }
   } catch (error) {
-    console.log(res.status(401).json({ error: error })); // affiche l erreur dans la console
+    console.log(res.sendStatus(401).json({ error: error })); // affiche l erreur dans la console
   }
 };

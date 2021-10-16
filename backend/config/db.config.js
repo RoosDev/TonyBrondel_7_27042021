@@ -18,7 +18,7 @@ const sequelize = new Sequelize(SQLdb, SQLuser, SQLpass, {
   operatorsAliases: false,
 
   pool: {
-    max: 5,
+    max: 10,
     min: 0,
     acquire: 30000,
     idle: 10000,
@@ -49,6 +49,12 @@ dbConnect.posts_like = require("../models/posts_like_model")(
 
 // Connexion pour la liste des likes 
 dbConnect.likes_type = require("../models/likes_model")(
+  sequelize,
+  Sequelize
+);
+
+// Connexion pour les utilisateurs 
+dbConnect.users = require("../models/user_model")(
   sequelize,
   Sequelize
 );
