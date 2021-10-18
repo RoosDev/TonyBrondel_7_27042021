@@ -1,4 +1,4 @@
-const passSchema = require("../models/Pass_models");
+const passSchema = require("../models/pass_model");
 
 module.exports = (req, res, next) => {
   if (!passSchema.validate(req.body.password)) {

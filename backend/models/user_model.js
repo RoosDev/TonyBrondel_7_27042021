@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
       id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, allowNull: false, primaryKey: true },
       firstname: { type: DataTypes.STRING(50), allowNull: false } ,
       lastname: { type: DataTypes.STRING(50), allowNull: false } ,
-      email_H: { type: DataTypes.STRING(500), allowNull: false } ,
+      email_H: { type: DataTypes.STRING(700), allowNull: false } ,
       email_Crypt: { type: DataTypes.STRING(500), allowNull: false, } ,
       password_H: { type: DataTypes.STRING(500), allowNull: false, required: true } ,
       job: { type: DataTypes.STRING(50), allowNull: true } ,
