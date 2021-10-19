@@ -20,13 +20,12 @@ exports.UpdatePost = async (req, res, next) => {
     res.send( { data } );
     data  => {
       if (data ==1 ){
-        res.statusMessage = "Modification enregistrée"
+        return res.statusMessage = "Modification enregistrée";
       }else{
-        res.statusMessage = "Modification impossible."
+        return res.statusMessage = "Modification impossible.";
       }}
   } catch (err) {
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+    return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list.";
   }
 };
 
@@ -39,10 +38,9 @@ exports.UpdatePost = async (req, res, next) => {
 //   };
 //   try {
 //     const data = await modelPostCommentList.create(theComment);
-//     res.send( { data } );
+//     return res.send( { data } );
 //   } catch (err) {
-  // res.sendStatus(500)
-  // res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+  // return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list.";
 //   }
 // };
 
@@ -55,19 +53,17 @@ exports.UpdatePost = async (req, res, next) => {
 //   };
 //   try {
 //     const data = await modelPostsLike.create(theComment);
-//     res.send( { data } );
+//     return res.send( { data } );
 //   } catch (err) {
-  // res.sendStatus(500)
-  // res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+  //return  res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list.";
 //   }
 // };
 
 // exports.getLikes = ( async(req, res, next) => {
 //   try{
 //     const data = await modelLikesType.findAll({ where: { } })
-//     res.send( { data } )
+//     return res.send( { data } )
 //   }catch(err){
-  // res.sendStatus(500)
-  // res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+  // return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list.";
 //   }
 // });

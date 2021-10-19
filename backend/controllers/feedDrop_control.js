@@ -16,13 +16,12 @@ exports.deleteOnePost = async (req, res, next) => {
     res.send({data});
     data  => {
       if (data ==1 ){
-        res.statusMessage = "Le post a été supprimé."
+        return res.statusMessage = "Le post a été supprimé."
       }else{
-        res.statusMessage = "Suppression impossible."
+        return res.statusMessage = "Suppression impossible."
       }}
   } catch (err) {
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Il semble qu'une erreur se soit glissée sur la route. Nous sommes désolé."
+    return res.sendStatus(500).statusMessage = err.message || "Il semble qu'une erreur se soit glissée sur la route. Nous sommes désolé."
   }
 };
 
@@ -35,13 +34,12 @@ exports.deleteOneLike = async (req, res, next) => {
     res.send({data});
     data  => {
       if (data ==1 ){
-        res.statusMessage = "Le post a été supprimé."
+        return res.statusMessage = "Le post a été supprimé."
       }else{
-        res.statusMessage = "Suppression impossible."
+        return res.statusMessage = "Suppression impossible."
       }}
   } catch (err) {
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Il semble qu'une erreur se soit glissée sur la route. Nous sommes désolé."
+    return res.sendStatus(500).statusMessage = err.message || "Il semble qu'une erreur se soit glissée sur la route. Nous sommes désolé."
   }
 };
 

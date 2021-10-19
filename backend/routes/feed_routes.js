@@ -3,14 +3,14 @@ const feedGetCtrl = require("../controllers/feedGet_control");
 const feedPostCtrl = require("../controllers/feedPost_control");
 const feedUpdateCtrl = require("../controllers/feedUpdate_control");
 const feedDropCtrl = require("../controllers/feedDrop_control");
-// const auth = require("../middleware/auth");
+const auth = require("../middlewares/auth");
 const multer = require("../middlewares/multer_config");
 
 // // Liste des routes pour créer quelque chose :
     // Création d'un post dans le feed
-    router.post("/",  multer, feedPostCtrl.PostPost);
+    router.post("/", multer, feedPostCtrl.PostPost);
     // Création d'un commentaire
-    router.post("/:id/comment",  multer, feedPostCtrl.PostComment);
+    router.post("/:id/comment", multer, feedPostCtrl.PostComment);
     // Ajout d'un like à un post
     router.post("/:id/like",  multer, feedPostCtrl.PostLike);
 

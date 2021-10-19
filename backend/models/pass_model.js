@@ -9,7 +9,7 @@ passSchema
 .is().max(100)                                  // Maximum 100 caractères
 .has().uppercase(1)                             // Doit avoir des majuscules
 .has().lowercase(1)                             // Doit avoir des minuscules
-.has().digits(2)                                // Doit comporter au moins 2 chiffres
+.has().digits(1)                                // Doit comporter au moins 2 chiffres
 .has().symbols(1)                               // Doit contenir un caractère spécial
 .has().not().spaces()                           // Aucun espace
 .is().not().oneOf(['Passw00rd!', 'Password123.', 'P@ssw00rd']); // Blacklist 

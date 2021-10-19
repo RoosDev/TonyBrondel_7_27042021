@@ -15,10 +15,9 @@ exports.PostPost = async (req, res, next) => {
   };
   try {
     const data = await modelPostCommentList.create(thePost);
-    res.send( { data } );
+    return res.send( { data } );
   } catch (err) {
-    res.sendStatus(500)
-    res.statusMessage =  err.message || "Some error occurred while retrieving the post's list."
+    return res.sendStatus(500).statusMessage =  err.message || "Some error occurred while retrieving the post's list."
   }
 };
 
@@ -31,10 +30,9 @@ exports.PostComment = async (req, res, next) => {
   };
   try {
     const data = await modelPostCommentList.create(theComment);
-    res.send( { data } );
+    return res.send( { data } );
   } catch (err) {
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+    return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list."
   }
 };
 
@@ -47,10 +45,9 @@ exports.PostLike = async (req, res, next) => {
   };
   try {
     const data = await modelPostsLike.create(theComment);
-    res.send( { data } );
+    return res.send( { data } );
   } catch (err) {
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+    return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list.";
   }
 };
 
@@ -58,9 +55,8 @@ exports.PostLike = async (req, res, next) => {
 // exports.getLikes = ( async(req, res, next) => {
 //   try{
 //     const data = await modelLikesType.findAll({ where: { } })
-//     res.send( { data } )
+//     return res.send( { data } );
 //   }catch(err){
-  // res.sendStatus(500)
-  // res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+  // return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list.";
 //   }
 // });

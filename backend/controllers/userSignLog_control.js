@@ -9,7 +9,7 @@ const modelUsers = dbConnect.users;
 
 // // Mise en place des variables d'environnement
 const dotenv = require("dotenv");
-// const { sequelize } = require("../config/db.config");
+const { sequelize } = require("../config/db.config");
 dotenv.config();
 const MY_APP_SECRET = process.env.APP_SECRET_KEY;
 const A2_ASSO_DATA_P = process.env.ARGON2_ASSOCIATEDDATA_password;
@@ -36,37 +36,42 @@ exports.signup = async (req, res, next) => {
     //                        TRAITEMENT EN AMONT DES DONNEES AFIN DE LES SECURISER
     // //-----------------------------------------------------------------------------------------------//
 
-    // hash de l email avec CryptoJS :
-    const email_Hash = await CryptoJS.SHA3(email_visible, {
-      outputLength: CRYPT_OutLen,
-    }).toString();
+            // hash de l email avec CryptoJS :
+            const email_Hash = await CryptoJS.SHA3(email_visible, {
+              outputLength: CRYPT_OutLen,
+            }).toString();
 
-    // hash du password avec argon2 :
-    const password_Hash = await argon2.hash(password_visible, {
-      type: argon2.argon2id,
-      timeCost: 36,
-        hashLength: 256,
-        associatedData: Buffer.from(A2_ASSO_DATA_P),
-      });
+            // hash du password avec argon2 :
+            const password_Hash = await argon2.hash(password_visible, {
+              type: argon2.argon2id,
+              timeCost: 36,
+                hashLength: 256,
+                associatedData: Buffer.from(A2_ASSO_DATA_P),
+              });
 
-      // cryptage de l email avec CryptoJS
-      const email_Cryp = await CryptoJS.AES.encrypt(
-        email_visible,
-        CRYPT_PASS
-      ).toString();
+              // cryptage de l email avec CryptoJS
+              const email_Cryp = await CryptoJS.AES.encrypt(
+                email_visible,
+                CRYPT_PASS
+              ).toString();
 
       // //-----------------------------------------------------------------------------------------------//
+    
+    // Vérification de l 'existance de cet email dans la base de donnée utilisateurs
+
       const existOrNot = await modelUsers.findOne({
         where: { email_H: email_Hash },
     });
     res.send(existOrNot);
     if (existOrNot != null) {
+      // Si l'adresse email correspond déja à un compte utilisateur
       console.log(
         "Nouvelle tentative d'inscription avec l'email existant donc l'id est :> " +
           existOrNot.id
       );
-      res.statusMessage =
+      return res.statusMessage =
         "Il semble que nous nous soyons déjà croisé. Avez vous oubliez ?";
+        
     } else {
       ///-------------------------------------------------------/
       // Lancement de la création de l'utilisateur
@@ -81,21 +86,20 @@ exports.signup = async (req, res, next) => {
         division: req.body.division,
         last_Connexion: req.body.last_Connexion,
         role_id: 1,
-        active: 0,
+        active: false,
       };
       try {
         const data = await modelUsers.create(theUser);
-        res.send({ data }).sendStatus(201).json({ "Utilisateur créé.": any });
-        res.statusMessage = "Il y a un petite nouveau parmis nous, Bienvenue !";
+        return res.send({ data }).sendStatus(201).json({ "Utilisateur créé.": any }).statusMessage = "Il y a un petite nouveau parmis nous, Bienvenue !";
+        
       } catch (err) {
-        res.sendStatus(500).json({ "Erreur lors de l'inscription.": any });
-        res.statusMessage =
+        return res.sendStatus(500).json({ "Erreur lors de l'inscription.": any }).statusMessage =
           err.message ||
           "Une erreur s'est produite, nous n'avons pas pus vous enregistrer.";
       }
     }
   } catch (err) {
-    res.statusMessage =
+    return res.statusMessage =
       err.message ||
       "Une erreur s'est produite, veuillez réessayer dans quelques instants.";
   }
@@ -147,19 +151,17 @@ exports.login = async (req, res, next) => {
           );
           console.log("my token => "+ mytoken);
 
-          res.status(200);
-          res.json({ token : mytoken });
+          return res.status(200).json({ token : mytoken });
       }else{
         console.log("erreur de mot de passe");
-        res.status(400).json({ error : "Mot de passe incorrect" });
+        return res.status(400).json({ error : "Mot de passe incorrect" });
       }
     }else{
       console.log( "email inconnu." );
-      res.sendStatus(500);
-      res.statusMessage = "Nous n'arrivons pas à vous trouver. Etes vous inscrit ?";
+      return res.sendStatus(500).statusMessage = "Nous n'arrivons pas à vous trouver. Etes vous inscrit ?";
     }
   } catch (err) {
-    res.statusMessage =
+    return res.statusMessage =
       err.message ||
       "Une erreur s'est produite, veuillez réessayer dans quelques instants.";
   }

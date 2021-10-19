@@ -32,10 +32,9 @@ exports.getOneFeed = ( async(req, res, next) => {
 exports.getAllComments = ( async(req, res, next) => {
   try{
     const data = await modelPostCommentList.findAll({where: {reference: [ req.params.id ] }, order: [['updatedAt', 'DESC']] }) 
-    res.send( { data } )
+    return res.send( { data } );
   }catch(err){
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+    return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list.";
   }
 });
 
@@ -43,10 +42,9 @@ exports.getAllComments = ( async(req, res, next) => {
 exports.getLikesPost = ( async(req, res, next) => {
   try{
     const data = await modelPostsLike.findAll({ where: { post_comment_Id: [ req.params.id ] } }) 
-    res.send( { data } )
+    return res.send( { data } );
   }catch(err){
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+    return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list."
   }
 });
 
@@ -54,9 +52,8 @@ exports.getLikesPost = ( async(req, res, next) => {
 exports.getLikes = ( async(req, res, next) => {
   try{
     const data = await modelLikesType.findAll() 
-    res.send( { data } )
+    return res.send( { data } )
   }catch(err){
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+    return res.sendStatus(500).statusMessage = err.message || "Some error occurred while retrieving the post's list."
   }
 });

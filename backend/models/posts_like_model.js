@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
       id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, allowNull: false, primaryKey: true },
       post_comment_Id: { type: DataTypes .INTEGER.UNSIGNED } ,
       like_Id: { type: DataTypes .INTEGER.UNSIGNED } ,
-      identity_Id: { type: DataTypes .INTEGER.UNSIGNED } ,
+      identity_Id: { type: DataTypes .INTEGER.UNSIGNED, allowNull: true } ,
     });
     return posts_like;
   };
