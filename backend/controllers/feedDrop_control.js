@@ -1,11 +1,7 @@
-const fs = require("fs");
 const dbConnect  = require('../config/db.config');
 const modelPostCommentList = dbConnect.post_comment_list;
 const modelPostsLike = dbConnect.posts_like;
 const modelLikesType = dbConnect.likes_type;
-
-// Ensemble des Controllers pour récupérer les données. GET
-
 
 // Suppression d un post uniquement
 exports.deleteOnePost = async (req, res, next) => {

@@ -1,15 +1,11 @@
-const fs = require("fs");
 const dbConnect = require("../config/db.config");
 const modelUsers = dbConnect.users;
 
-// Ensemble des Controllers pour récupérer les données. GET
-
-
-// Suppression d un post uniquement
+// Suppression d un utilisateur
 exports.deleteOneUser = async (req, res, next) => {
   try {
     const dropUser = await modelUsers.destroy(
-      { where: { id: req.params.id, email_H:req.body.email_H  } }
+      { where: { id: req.params.id, email_H:req.body.email  } }
     );
     res.send({dropUser});
     dropUser  => {
