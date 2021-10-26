@@ -7,8 +7,8 @@ module.exports = (sequelize) => {
       image_URL: { type: DataTypes.STRING(255), allowNull: true } ,
       reference: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true } ,
       identity_Id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true } ,
-      createdAt:{ type: DataTypes.DATE, allowNull: false, required: true } ,
-      updatedAt:{ type: DataTypes.DATE, allowNull: false, required: true } ,
+      createdAt:{ type: DataTypes.DATE, allowNull: true, required: true } ,
+      updatedAt:{ type: DataTypes.DATE, allowNull: true, required: true } ,
     });
     return post_comment_list;
   };

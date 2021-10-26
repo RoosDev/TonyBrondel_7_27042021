@@ -9,7 +9,9 @@ exports.UpdateProfil = async (req, res, next) => {
     lastname: req.body.lastname,
     password_H: req.body.password,
     job: req.body.job,
-    photo_URL: req.body.photo_URL,
+    photo_URL:  `${req.protocol}://${req.get("host")}/Public_Images/Profiles/${
+      req.file.filename
+    }`,
     division: req.body.division,
   };
   try {

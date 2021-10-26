@@ -22,6 +22,8 @@ try {
 } catch (error) {
   console.error("La DB n a pas trouvé le lapin blanc", error);
 }
+// Gestion des headers
+app.use(cors());
 
 // Sécurisation avec le package Helmet
 app.use(helmet());
@@ -30,9 +32,6 @@ app.use(
     action: "deny",
   })
 );
-
-// Gestion des headers
-app.use(cors());
 
 // body parser est directement intégré à express maintenant
 app.use(express.json());

@@ -62,17 +62,17 @@ exports.signup = async (req, res, next) => {
     const existOrNot = await modelUsers.findOne({
       where: { email_H: email_Hash },
     });
-    // res.send(existOrNot);
+    res.send(existOrNot);
     if (existOrNot != null) {
       // Si l'adresse email correspond déja à un compte utilisateur
       console.log(
         "Nouvelle tentative d'inscription avec l'email existant donc l'id est :> " +
           existOrNot.id
       );
-      return res.send({
-        message:
-          "Il semble que nous nous soyons déjà croisé. Avez vous oubliez ?",
-      });
+      // return res.send({
+      //   message:
+      //     "Il semble que nous nous soyons déjà croisé. Avez vous oubliez ?",
+      // });
     } else {
       ///-------------------------------------------------------/
       // Lancement de la création de l'utilisateur
@@ -87,35 +87,35 @@ exports.signup = async (req, res, next) => {
         division: req.body.division,
         last_Connexion: req.body.last_Connexion,
         role_id: 1,
-        active: 0,
+        active: false,
       };
       try {
         const data = await modelUsers.create(theUser);
         return res
           // .send({ data })
           .status(201)
-          .json({
-            message: "Il y a un petit nouveau parmis nous, Bienvenue !",
-          })
+          // .json({
+          //   message: "Il y a un petit nouveau parmis nous, Bienvenue !",
+          // })
           ;
       } catch (err) {
         return res
           .status(500)
-          .json({
-            error:
-              "Une erreur s'est produite, nous n'avons pas pus vous enregistrer.",
-            details: err,
-          })
+          // .json({
+          //   error:
+          //     "Une erreur s'est produite, nous n'avons pas pus vous enregistrer.",
+          //   details: err,
+          // })
           ;
       }
     }
   } catch (err) {
     return res
       .status(500)
-      .json({
-        error:
-          "Erreur 500 : Une erreur s'est produite, veuillez réessayer dans quelques instants.",
-      })
+      // .json({
+      //   error:
+      //     "Une erreur s'est produite, veuillez réessayer dans quelques instants.",
+      // })
     ;
   }
 };
@@ -143,11 +143,9 @@ exports.login = async (req, res, next) => {
 
     // Recherche d'une entrée dans la base en fonction de l'email hashé
     const findForLogin = await modelUsers.findOne({
-      // attributes: {include: ["email_H", "password_H"] },
-      // include: [{ where: { email_H: email_visible }, }],
       where: { email_H: email_HashLogin },
     });
-    // res.send(findForLogin);
+    res.send(findForLogin);
 
     if (findForLogin != null) {
       console.log("on check le pass");
