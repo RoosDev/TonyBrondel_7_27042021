@@ -7,13 +7,13 @@ class FeedDataService {
     return http.get("/feed");
   }
 
-  getOnePost(id) {
-    return http.get(`/feed/${id}`);
-  }
+  // getOnePost(id:number) {
+  //   return http.get(`/feed/${id}`);
+  // }
 
-  getPostComments(id) {
-    return http.get(`/feed/${id}/comment`);
-  }
+  // getPostComments(id:number) {
+  //   return http.get(`/feed/${id}/comment`);
+  // }
 
   // getPostLikes(id) {
   //   return http.get(`/feed/${id}/like`);

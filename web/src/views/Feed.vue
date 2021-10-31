@@ -5,45 +5,56 @@
     </div>
     <div id="feedcontent" class="col-12 col-md-9">
       <SendPost />
-      <PostBlocImg thePost="life_in_elevator.47bee9ab.gif"  theLike:number=152  />
-      <PostBlocText thePost="Ouai mais c'est génial !! on s'éclate trop de ouf!!"  theLike:number=637  />
-      <!-- <PostBlocText v-for="post in feedList" :key="post.id"/> -->
-      <PostBlocImg />
-      <PostBlocImg /> 
+      <div id="testlist" v-for="thePost in feedList" :key="thePost">
+        {{ thePost }}
+        <PostBlocText
+          id="" 
+          thePost="Ouai mais c'est génial !! on s'éclate trop de ouf!!"
+          theLike:number="637"
+        />
+        <PostBlocImg 
+          id="" 
+          thePost="life_in_elevator.47bee9ab.gif" 
+          theLike:number="152"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import Vue from 'vue';
-// import { inject } from 'vue'
+<script lang="ts">
 import Cartridge from '@/components/Cartridge.vue';
 import SendPost from '@/components/SendPost.vue';
 import PostBlocImg from '@/components/PostIBlocImg.vue';
 import PostBlocText from '@/components/PostBlocText.vue';
+import { computed } from 'vue'
+import { store } from '../store/index'
 
-declare function require(path: string): any;
-const FeedDataService = require("../services/FeedData_Service.js");
 
-Vue.createApp({
-  data() {
-    return {
-      feeds: Number ,
-    }
+export default {
+  name: 'Feed',
+  components: {
+    Cartridge,
+    SendPost,
+    PostBlocImg,
+    PostBlocText
   },
-  methods: {
-    allPosts() {
-      FeedDataService.getAllPosts()
-        .then((res:any) => {
-          this.feeds = res.data;
-          console.log(res.data);
-        })
-        .catch((err:any) => {
-          console.log(err);
-        });
-    },
+
+  setup () {
+    const myStore:any = store
+
+    const feedList = computed(() => myStore.state.feedList);
+    console.log("feedList > " + feedList.value);
+    return {
+      feedList
+    };
+  },
+
+  mounted() {
+    const myStore:any = store
+    myStore.dispatch("getPosts");
   }
-});
+}
 </script>
 
 <style lang="scss">

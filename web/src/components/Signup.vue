@@ -1,42 +1,43 @@
 <template>
   <div id="signupBox" class="row align-items-center">
     <div id="signupStart" class="col-12">
-      <button @click="signButton" id="SignupButton">s'inscrire</button>
+      <button id="SignupButton">s'inscrire</button>
     </div>
     <div id="signupZone" class="col-12 d-none">
       <div id="signupTitle">
-        <p><font-awesome-icon :icon="['fas', 'user-plus']" />
-        S'inscrire</p>
+        <p>
+          <font-awesome-icon :icon="['fas', 'user-plus']" />S'inscrire
+        </p>
       </div>
-      <form action="">
+      <form action="" >
         <div id="signupLogin">
-          <label for="login">Votre adresse email : *</label>
-          <input type="email" name="email" id="email" autofocus required />
+          <label for="Email">Votre adresse email : *</label>
+          <input type="email" v-model="email" name="Email" id="Email" autofocus required />
         </div>
         <div id="signupPassword">
-          <label for="password">Votre mot de passe : *</label>
-          <input type="password" name="password" id="password" required />
+          <label for="Password">Votre mot de passe : *</label>
+          <input type="password" v-model="password" name="Password" id="Password" required />
         </div>
         <div id="signupPassword2">
-          <label for="password2">Répétez votre mot de passe : *</label>
-          <input type="password" name="password2" id="password2" required />
+          <label for="Password2">Répétez votre mot de passe : *</label>
+          <input type="password" v-model="password2" name="Password2" id="Password2" required />
         </div>
         <div id="signupFirstName">
           <label for="FirstName">Votre prénom : *</label>
-          <input type="text" name="FirstName" id="FirstName" required />
+          <input type="text" v-model="firstname" name="FirstName" id="FirstName" required />
         </div>
         <div id="signupLastName">
           <label for="LastName">Votre nom de famille : *</label>
-          <input type="text" name="LastName" id="LastName" required />
+          <input type="text" v-model="lastname" name="LastName" id="LastName" required />
         </div>
         <div id="signupJob">
           <label for="Job">Votre poste : *</label>
-          <input type="text" name="Job" id="Job" required />
+          <input type="text" v-model="job" name="Job" id="Job" required />
         </div>
         <div id="signupDivision">
           <label for="Division">Division : *</label>
           <br />
-          <select name="Division" id="selectDivision">
+          <select name="Division" id="selectDivision" v-model="division" >
             <option value="ERR">Sélectionnez la division</option>
             <option value="Achats">Achats</option>
             <option value="Deploiement">Deploiement</option>
@@ -51,7 +52,7 @@
         </div>
         <div id="signupButtonMsg">
           <router-link to="/">
-            <button>S'enregistrer</button>
+            <button id="signupgo">S'enregistrer</button>
           </router-link>
           <div id="alertBox"></div>
         </div>
@@ -60,15 +61,49 @@
   </div>
 </template>
 <script setup lang="ts">
+// declare function require(path: string): any;
+// const SignupService = require("../services/Signup_Service");
 
 function signButton() {
   const signupStart = document.querySelector('#signupStart') as HTMLButtonElement;
   const signupZone = document.querySelector('#signupZone') as HTMLButtonElement;
 
-    signupStart.classList.toggle('d-none');
-    signupZone.classList.toggle('d-none')
-  
+  signupStart.classList.toggle('d-none');
+  signupZone.classList.toggle('d-none')
+
 }
+// const Signup = {
+//   data(){
+//     return {
+//       newUser: {
+//         firstname: '',
+//         lastname: '',
+//         email: '',
+//         password: '',
+//         job: '',
+//         division: '',
+//       },
+//       submitted: false
+//     };
+//   },
+  // methods: {
+  //   saveNewUser(){
+  //     SignupService.create(newUser)
+  //       .then(res => {
+  //         this.newUser.firstname = res.data.Firstname;
+  //         this.newUser.lastname = res.data.Lastname;
+  //         this.newUser.email = res.data.Email;
+  //         this.newUser.password = res.data.Password;
+  //         this.newUser.job = res.data.Job;
+  //         this.newUser.division = res.data.Division;
+  //         this.submitted: true;
+  //       })
+  //       .catch(e => {
+  //         console.log(e);
+  //       })
+  //   },
+  // },
+// }
 
 
 </script>

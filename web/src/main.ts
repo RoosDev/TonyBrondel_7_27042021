@@ -3,7 +3,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
-import store from "./store";
+import { store } from "./store";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -47,6 +47,7 @@ library.add(faUsersCog);
 library.add(faTools);
 library.add(faRss);
 library.add(faTimesCircle);
+
 
 // Création de l'app
 const app = createApp(App);

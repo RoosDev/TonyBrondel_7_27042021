@@ -22,3 +22,4 @@ module.exports = (req, res, next) => {
     console.log(res.sendStatus(401).json({ error: error })); // affiche l erreur dans la console
   }
 };
+// 
