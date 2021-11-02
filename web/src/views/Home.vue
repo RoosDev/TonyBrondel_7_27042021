@@ -7,18 +7,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Cartridge from '@/components/Cartridge.vue';
 import Feed from '@/components/Feed.vue';
 
-
-export default {
-  name: 'Home',
-  components: {
-    Cartridge,
-    Feed,
-  },
-}
 </script>
 
 <style lang="scss">
