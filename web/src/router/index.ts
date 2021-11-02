@@ -10,9 +10,9 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/Feed',
-    name: 'Feed',
-    component: () => import(/* webpackChunkName: "Feed" */ '../views/Feed.vue'),
+    path: '/Home',
+    name: 'Home',
+    component: () => import(/* webpackChunkName: "Feed" */ '../views/Home.vue'),
     props:true,
     meta:{
       title: 'le flux d\'actu.',

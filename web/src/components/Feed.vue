@@ -1,9 +1,4 @@
 <template>
-  <div id="Feed">
-    
-    <div id="profil" class="col-12 col-md-3">
-      <Cartridge />
-    </div>
     <div id="feedcontent" class="col-12 col-md-9">
       <SendPost />
       <div id="postsList" v-for="thePost in feedList" :key="thePost.id">
@@ -25,11 +20,9 @@
 
       </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
-import Cartridge from '@/components/Cartridge.vue';
 import SendPost from '@/components/SendPost.vue';
 import PostBlocImg from '@/components/PostIBlocImg.vue';
 import PostBlocText from '@/components/PostBlocText.vue';
@@ -40,7 +33,6 @@ import { store } from '../store/index';
 export default {
   name: 'Feed',
   components: {
-    Cartridge,
     SendPost,
     PostBlocImg,
     PostBlocText
@@ -64,12 +56,6 @@ export default {
 
 <style lang="scss">
 @import "../scss/variables.scss";
-
-#profil {
-  position: fixed;
-  margin: 0;
-  height: 100%;
-}
 
 #feedcontent {
   position: fixed;
