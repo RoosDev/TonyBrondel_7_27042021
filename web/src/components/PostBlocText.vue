@@ -3,7 +3,7 @@
         <div id="postBloc">
             <div id="timeLikeMenuZone" class="col-12">
                 <span id="timePost" >
-                <p> <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture"> Jean Pranhune - le 4 octobre 2021 à 12h54 </p>
+                <p> <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture"> Jean Pranhune - le {{ theDate }} </p>
                 </span>
                 <span id="likePost" >
                     <p><button><font-awesome-icon :icon="['fas', 'hand-peace']" /></button> {{ theLike }} </p>
@@ -15,27 +15,19 @@
             <div id="PostZone" class="col-md-6">
                 <div id="thePostText" class="col-12">
                     <p>
-                        {{ thePost }} 
+                        {{ theTxtPost }} 
                     </p>
                 </div>
             </div>
             <div id="commentZone" class="col-md-6">
-                <div id="CommentList">
+                <div id="CommentList" :name="theIdPost" >
                     <!-- Ici sont intégrés les commentaires -->
-                    <div id="commentBubble">
+                    <div id="commentBubble" v-for="theComment in commentList" :key="theComment.id">
                       <div id="bubbleText" class="col">
-                        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti doloremque expedita delectus accusantium numquam tempora deserunt, qui optio natus enim, a ducimus, temporibus fugiat suscipit eveniet quis modi doloribus praesentium? </p>
+                        <p> {{ theComment.content }} </p>
                       </div>
                       <div id="bubbleAuthor" class="col">
                         <p> Guy Gratte-Poil -  05/10/2021 à 18h12  </p>
-                      </div>
-                    </div>  
-                    <div id="commentBubble">
-                      <div id="bubbleText" class="col">
-                        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti doloremque expedita delectus accusantium numquam tempora deserunt, qui optio natus enim, a ducimus, temporibus fugiat suscipit eveniet quis modi doloribus praesentium? </p>
-                      </div>
-                      <div id="bubbleAuthor" class="col">
-                        <p> Marcel ésonnorquestre -  05/10/2021 à 18h12  </p>
                       </div>
                     </div>  
                 </div>
@@ -54,12 +46,33 @@
         <div id="postFooter" class="col-6"><p></p></div>
     </div>
 </template>
-<script setup lang="ts">
-  defineProps({
-    thePost: String, 
+<script lang="ts">
+import { computed, onMounted } from 'vue';
+import { store } from '../store/index';
+
+
+export default {
+  name: 'comment',
+  props: {
+    theIdPost: Number,
+    theTxtPost: String,
     theLike: Number,
-    comments: [String],
-  })
+    theAuthor: String,
+    theDate: String,
+
+  },
+  setup(props) {
+    const myStore: any = store;
+    const commentList = computed(() => myStore.state.commentList);
+
+    onMounted(() => {
+      myStore.dispatch("getComments",
+        { 'id': props.theIdPost }
+      );
+    })
+    return { commentList };
+  },
+}
 </script>
 <style lang="scss">
 @import "../scss/variables.scss";
@@ -267,5 +280,4 @@
     margin: 0 auto 0 auto;
   }
 }
-
 </style>

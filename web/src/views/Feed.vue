@@ -1,22 +1,28 @@
 <template>
   <div id="Feed">
+    
     <div id="profil" class="col-12 col-md-3">
       <Cartridge />
     </div>
     <div id="feedcontent" class="col-12 col-md-9">
       <SendPost />
-      <div id="testlist" v-for="thePost in feedList" :key="thePost">
-        {{ thePost }}
+      <div id="postsList" v-for="thePost in feedList" :key="thePost.id">
+        
         <PostBlocText
-          id="" 
-          thePost="Ouai mais c'est génial !! on s'éclate trop de ouf!!"
-          theLike:number="637"
+          v-if="thePost.image_URL === null "
+          :theIdPost= "thePost.id"
+          :theTxtPost= "thePost.content"
+          :theAuthor= "thePost.author"
+          :theDate= "thePost.createdAt"
+          theLike:number = "637"
         />
         <PostBlocImg 
-          id="" 
-          thePost="life_in_elevator.47bee9ab.gif" 
+          v-else-if="thePost.content === null" 
+          :theIdPost= "thePost.id"
+          :thePost= "thePost.image_URL"
           theLike:number="152"
         />
+
       </div>
     </div>
   </div>
@@ -27,8 +33,8 @@ import Cartridge from '@/components/Cartridge.vue';
 import SendPost from '@/components/SendPost.vue';
 import PostBlocImg from '@/components/PostIBlocImg.vue';
 import PostBlocText from '@/components/PostBlocText.vue';
-import { computed } from 'vue'
-import { store } from '../store/index'
+import { computed } from 'vue';
+import { store } from '../store/index';
 
 
 export default {
@@ -40,18 +46,17 @@ export default {
     PostBlocText
   },
 
-  setup () {
-    const myStore:any = store
+  setup() {
+    const myStore: any = store
 
     const feedList = computed(() => myStore.state.feedList);
-    console.log("feedList > " + feedList.value);
     return {
       feedList
     };
   },
 
   mounted() {
-    const myStore:any = store
+    const myStore: any = store
     myStore.dispatch("getPosts");
   }
 }

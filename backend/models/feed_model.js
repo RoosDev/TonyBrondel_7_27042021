@@ -5,8 +5,8 @@ module.exports = (sequelize) => {
       id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, allowNull: false, primaryKey: true },
       content: { type: DataTypes.TEXT, allowNull: true } ,
       image_URL: { type: DataTypes.STRING(255), allowNull: true } ,
-      reference: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true } ,
-      identity_Id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true } ,
+      reference: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true , references:'post_comment_list', referencesKey: 'id' } ,
+      identity_Id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true, references:'users', referencesKey: 'id' } ,
       createdAt:{ type: DataTypes.DATE, allowNull: true, required: true } ,
       updatedAt:{ type: DataTypes.DATE, allowNull: true, required: true } ,
     });
