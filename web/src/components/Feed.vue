@@ -7,9 +7,10 @@
           v-if="thePost.image_URL === null "
           :theIdPost= "thePost.id"
           :theTxtPost= "thePost.content"
-          :theAuthor= "thePost.author"
+          :theAuthor= "thePost.authorPost"
           :theDate= "thePost.createdAt"
-          theLike:number = "637"
+          :theComments= "thePost.comment_list"
+          :theLike= "637"
         />
         <PostBlocImg 
           v-else-if="thePost.content === null" 
@@ -19,6 +20,15 @@
         />
 
       </div>
+    </div>
+    <div class="mt-5">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        first-number
+        last-number
+      ></b-pagination>
     </div>
 </template>
 
@@ -38,6 +48,14 @@ export default {
     PostBlocText
   },
 
+  data() {
+      return {
+        rows: 100,
+        perPage: 10,
+        currentPage: 1,
+      }
+  },
+
   setup() {
     const myStore: any = store
 
@@ -50,8 +68,9 @@ export default {
   mounted() {
     const myStore: any = store
     myStore.dispatch("getPosts");
-  }
+  },
 }
+
 </script>
 
 <style lang="scss">

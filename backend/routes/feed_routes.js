@@ -33,6 +33,8 @@ const multer = require("../middlewares/multer_configPosts");
     router.get("/:id/comment", feedGetCtrl.getAllComments);
     // Obtention des likes d'un post
     router.get("/:id/like", feedGetCtrl.getLikesPost);
+    // Obtention du nombre de like
+    router.get("/countlikes", feedGetCtrl.countLikesPost);
     // Obtention de la liste des différents types de like
     router.get("/likes", feedGetCtrl.getLikes);
 

@@ -25,8 +25,8 @@ class FeedDataService {
 
 //     // les routes pour insérer des données en base :  POST
 
-//   createPost(data) {
-//     return http.post("/feed", data);
+  createPost(data) {
+    return http.post("/feed", data);
 //   }
 
 //   createComment(id,data) {
@@ -52,6 +52,6 @@ class FeedDataService {
 //   deleteLike(id) {
 //     return http.delete(`/feed/${id}/like`);
 //   }
-}
+};
 
 export default new FeedDataService();

@@ -20,7 +20,7 @@ export const store = createStore({
         .get("http://localhost:3001/api/feed")
         .then((thePosts: any) => {
           commit("setFeedList", thePosts.data.data);
-        });
+        })
     },
     async getComments({ commit }: { commit: any }, theIDPost ) {
       await axios

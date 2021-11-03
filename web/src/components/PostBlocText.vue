@@ -3,7 +3,7 @@
         <div id="postBloc">
             <div id="timeLikeMenuZone" class="col-12">
                 <span id="timePost" >
-                <p> <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture"> Jean Pranhune - le {{ theDate }} </p>
+                <p> <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture"> {{postAuthor}} - le {{ theDate }} </p>
                 </span>
                 <span id="likePost" >
                     <p><button><font-awesome-icon :icon="['fas', 'hand-peace']" /></button> {{ theLike }} </p>
@@ -20,14 +20,17 @@
                 </div>
             </div>
             <div id="commentZone" class="col-md-6">
-                <div id="CommentList" :name="theIdPost" >
+                <div id="CommentList" :name="theIdPost" class="col-12">
                     <!-- Ici sont intégrés les commentaires -->
-                    <div id="commentBubble" v-for="theComment in commentList" :key="theComment.id">
-                      <div id="bubbleText" class="col">
+                    <div id="bubbleNoComment" v-if="!theComments[0]">
+                      <p>Il n'y a pas encore de commentaires. Soyez le premier. </p>
+                    </div>
+                    <div id="commentBubble" class="col-12" v-else v-for="theComment in theComments" :key="theComment.reference">
+                      <div id="bubbleText" class="col-12">
                         <p> {{ theComment.content }} </p>
                       </div>
                       <div id="bubbleAuthor" class="col">
-                        <p> Guy Gratte-Poil -  05/10/2021 à 18h12  </p>
+                        <p> Guy Gratte-Poil -  {{ theComment.createdAt }}  </p>
                       </div>
                     </div>  
                 </div>
@@ -52,27 +55,35 @@ import { store } from '../store/index';
 
 
 export default {
-  name: 'comment',
+  name: 'postTxtComment',
   props: {
     theIdPost: Number,
     theTxtPost: String,
     theLike: Number,
-    theAuthor: String,
+    theAuthor: Object,
     theDate: String,
+    theComments: Object,
 
   },
-  setup(props) {
+
+  setup(props:any) {
     const myStore: any = store;
     const commentList = computed(() => myStore.state.commentList);
+    const postAuthor = props.theAuthor.firstname + ' ' + props.theAuthor.lastname
+    
 
-    onMounted(() => {
+
+onMounted(() => {
       myStore.dispatch("getComments",
         { 'id': props.theIdPost }
       );
     })
-    return { commentList };
+    return { commentList, postAuthor };
   },
+
 }
+
+
 </script>
 <style lang="scss">
 @import "../scss/variables.scss";
@@ -180,7 +191,7 @@ export default {
         scrollbar-width: 5px;
         scrollbar-color: $groupo-color1;
 
-        #commentBubble {
+        #commentBubble, #bubbleNoComment {
           width: 95%;
           min-height: 50px;
           margin: 8px auto auto auto;
@@ -196,6 +207,7 @@ export default {
               margin: 10px;
             }
           }
+        
 
           #bubbleAuthor {
             text-align: right;
@@ -207,6 +219,14 @@ export default {
             }
           }
         }
+        #bubbleNoComment p{
+          font-size: 0.9em;
+          text-align: center;
+          font-weight: bold;
+          line-height: 100%;
+          margin-top : 15px;
+        }
+
       }
 
       #CommentSend {
