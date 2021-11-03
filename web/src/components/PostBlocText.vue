@@ -22,7 +22,7 @@
             <div id="commentZone" class="col-md-6">
                 <div id="CommentList" :name="theIdPost" class="col-12">
                     <!-- Ici sont intégrés les commentaires -->
-                    <div id="bubbleNoComment" v-if="!theComments[0]">
+                    <div id="bubbleNoComment" v-if="!theComments?.[0]">
                       <p>Il n'y a pas encore de commentaires. Soyez le premier. </p>
                     </div>
                     <div id="commentBubble" class="col-12" v-else v-for="theComment in theComments" :key="theComment.reference">

@@ -31,6 +31,13 @@ modelPostList.hasMany(modelCommentList, {
     as: "like_list" 
   } )
 
+ //  La liste des commentaires avec identification de l utilisateur auteur
+ modelPostsLike.hasOne(modelLikesType, { 
+      sourceKey: "like_Id", 
+      foreignKey:"id",  
+      as: "LikeType" 
+    } )
+    
     //  La liste des commentaires avec identification de l utilisateur auteur
 modelCommentList.hasOne(modelUsers, { 
   sourceKey: "identity_Id", 
@@ -46,12 +53,14 @@ exports.getAllFeeds = ( async(req, res, next) => {
   try{
     const data = await modelPostList.findAll({
       attributes: ['id', 'content', 'image_URL','createdAt'],
-      include: ["authorPost", "comment_list",   "like_list"], 
-      // include: [{ model: modelUsers }],
+      include: [{ model: modelUsers, as: 'authorPost', attributes:['id', 'firstname', 'lastname', 'job', 'division']},
+                { model: modelCommentList, as: 'comment_list', attributes:['id', 'content', 'createdAt'], include:[{ model: modelUsers, as: 'authorComment', attributes:['id', 'firstname', 'lastname', 'job', 'division']}]},
+                { model: modelPostsLike, as: 'like_list', attributes:['id'], include:[{ model: modelLikesType, as: 'LikeType', attributes:['like_name', 'image_URL']}]},
+               ],
       where: {reference: null }, 
       order: [['updatedAt', 'DESC']] ,
     }) 
-    res.send( { data } )
+    res.send( { data } );
   }catch(err){
     return res.status(500).json({message: "getAllFeeds : Une erreur s'est produite.", details: err});
   }
@@ -59,22 +68,22 @@ exports.getAllFeeds = ( async(req, res, next) => {
 
 // Contage du nombre de like pour un post
 exports.countLikesPost  = ( async(req, res, next) => {
-try{
-  const data = await modelPostsLike.findAll({
-    attributes: {
-      include: [
-          [sequelize.fn('COUNT', sequelize.col('posts_like.id')), 'likesCount']
-      ],
-    },
-    group: ['user.post_comment_Id'],
-    raw: true,
-    where: {post_comment_Id: req.body.postId}
-  })
-  res.send( { data } )
-}catch(err){
-  return res.status(500).json({message: "getAllFeeds : Une erreur s'est produite.", details: err});
-}
-  
+  try{
+
+    const data = await modelPostsLike.findAll({
+      attributes: {
+        include: [
+            [sequelize.fn('COUNT', sequelize.col('id')), 'likesCount']
+        ],
+      },
+      group: ['post_comment_Id'],
+      raw: true,
+      // where: {post_comment_Id: req.body.postId}
+    })
+    res.send( { data } )
+  }catch(err){
+    return res.status(500).json({message: "getAllFeeds : Une erreur s'est produite.", details: err});
+  }
 })
 
 
