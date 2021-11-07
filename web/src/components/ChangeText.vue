@@ -1,6 +1,6 @@
 <template>
   <div id="PostText" class="col-12">
-    <form id="postTextForm" v-on:submit.prevent="sendMyPost">
+    <!-- <form id="postTextForm" v-on:submit.prevent="sendMyPost">
       <div id="PostwriteContent">
         <label for="PostContent">
           <h2>Lâchez nous vos pensées...</h2>
@@ -17,10 +17,10 @@
           placeholder="Saisissez ici votre prose..."
           required
           autofocus
-        ></textarea>
+        >{{ content }}</textarea>
         <button id="sendButton" class="col-9" type="submit" :disabled="!isFormValid">Poster</button>
       </div>
-    </form>
+    </form> -->
     <div id="messageFormSent" class="hidebox" ></div>
   </div>
 </template>
@@ -30,70 +30,64 @@ import { defineComponent } from "vue";
 import axios from "axios";
 
 export default defineComponent({
-  name: "postTextForm",
-  data() {
-    return {
-    errorMessage: '',
-      theNewPost: {
-        content: '',
-        userId: 1
-      }
-    };
-  },
+  name: "changeTextForm",
+  // props: {
+  //   postId: Number,
+  //   theNewPost: {
+  //       content: String,
+  //       userId: 1
+  //     }
+  // },
+  // setup(props) {
 
-  methods: {
-    sendMyPost(){
-      const messageAfterSent = document.querySelector('#messageFormSent')! as HTMLDivElement;
-      const PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
-      const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
+  //   const urlApi = "http://localhost:3001/api/feed/" + props.postId;
 
-      axios.post("http://localhost:3001/api/feed", this.theNewPost)
-        .then((res) =>{ 
-          sendButton.textContent = 'Envoi en-cours...';
-          sendButton.setAttribute("disabled","");
-          setTimeout(() => {
-            messageAfterSent.classList.toggle("hidebox");
-            messageAfterSent.classList.remove("nokSent");
-            messageAfterSent.classList.add("okSent");
-            messageAfterSent.innerHTML= '<p>Message envoyé avec succès.</p>';
-            messageAfterSent.classList.toggle("hidebox");
-            sendButton.textContent = 'Poster';
-            PostContent.value='';
-            sendButton.textContent = 'Envoyé';
-          },3000);
-          setTimeout(() => {
-            messageAfterSent.classList.toggle("hidebox");
-          }, 6000);
-
-          console.log('Post en ligne ;)' + res)})
-        .catch(error => {
-          sendButton.setAttribute("disabled","");
-          messageAfterSent.classList.toggle("hidebox");
-          messageAfterSent.classList.remove("okSent");
-          messageAfterSent.classList.add("nokSent");
-          messageAfterSent.innerHTML= '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-          setTimeout(function(){
-            messageAfterSent.classList.toggle("hidebox");
-          },5000);
-
-          this.errorMessage = error.message;
-          console.error("There was an error!", error);
-        });
-      }
-  },
-  computed: {
-    isFormValid() {
-      if (
-        this.theNewPost.content !== ""
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    
-  },
-
+  //   const sendMyPost = () => {
+  //     const messageAfterSent = document.querySelector('#messageFormSent')! as HTMLDivElement;
+  //     const PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
+  //     const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
+  //     axios.put(urlApi, props.theNewPost)
+  //       .then((res) =>{ 
+  //         sendButton.textContent = 'Modification en-cours...';
+  //         sendButton.setAttribute("disabled","");
+  //         messageAfterSent.classList.toggle("hidebox");
+  //         messageAfterSent.classList.remove("nokSent");
+  //         messageAfterSent.classList.add("okSent");
+  //         messageAfterSent.innerHTML= '<p>Modification enregistrée.</p>';
+  //         setTimeout(function(){
+  //           messageAfterSent.classList.toggle("hidebox");
+  //           sendButton.textContent = 'Poster';
+  //           PostContent.value='';
+  //         },5000);
+  //         console.log('Post en ligne ;)' + res)})
+  //       .catch(error => {
+  //         sendButton.setAttribute("disabled","");
+  //         messageAfterSent.classList.toggle("hidebox");
+  //         messageAfterSent.classList.remove("okSent");
+  //         messageAfterSent.classList.add("nokSent");
+  //         messageAfterSent.innerHTML= '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+  //         setTimeout(function(){
+  //           messageAfterSent.classList.toggle("hidebox");
+  //         },5000);
+  //         console.error("There was an error!", error);
+  //       });
+  //   }
+  
+  //   const isFormValid = () => {
+  //     if (
+  //       props.theNewPost.content !== ""
+  //     ) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   },
+      
+  //   return {
+  //     sendMyPost,
+  //     isFormValid
+  //   }
+  // },
 });
 
 
@@ -157,7 +151,6 @@ export default defineComponent({
     font-weight: bold;
   }
   
-}
   #messageFormSent{
     width: 70%;
     height: 40px;
@@ -183,4 +176,5 @@ export default defineComponent({
 
     }
   }    
+}
 </style>

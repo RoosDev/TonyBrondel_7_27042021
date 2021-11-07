@@ -9,7 +9,6 @@ export const store = createStore({
   state() {
     return {
       feedList: [],
-      commentList: [],
     };
   },
 
@@ -21,13 +20,10 @@ export const store = createStore({
         .then((thePosts: any) => {
           commit("setFeedList", thePosts.data.data);
         })
-    },
-    async getComments({ commit }: { commit: any }, theIDPost ) {
-      await axios
-        .get("http://localhost:3001/api/feed/"+ theIDPost.id +"/comment")
-        .then((theComments: any) => {
-          commit("setCommentList", theComments.data.data);
-        });
+        // .then((theLikes: any) => {
+        //   commit("setCountLikes", theLikes.data.likes);
+        // })
+
     },
 
   },
@@ -37,9 +33,9 @@ export const store = createStore({
     setFeedList(state: any, feedList: any) {
       state.feedList = feedList;
     },
-    setCommentList(state: any, commentList: any) {
-      state.commentList = commentList;
-    },
+    // setCountLikes(state: any, totalLikes: any) {
+    //   state.totalLikes = totalLikes;
+    // },
 
   },
 });

@@ -10,7 +10,7 @@
           :theAuthor= "thePost.authorPost"
           :theDate= "thePost.createdAt"
           :theComments= "thePost.comment_list"
-          :theLike= "637"
+          :theLikes= "thePost.like_list"
         />
         <PostBlocImg 
           v-else-if="thePost.content === null" 
@@ -20,15 +20,6 @@
         />
 
       </div>
-    </div>
-    <div class="mt-5">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        first-number
-        last-number
-      ></b-pagination>
     </div>
 </template>
 
@@ -48,18 +39,12 @@ export default {
     PostBlocText
   },
 
-  data() {
-      return {
-        rows: 100,
-        perPage: 10,
-        currentPage: 1,
-      }
-  },
-
   setup() {
     const myStore: any = store
 
     const feedList = computed(() => myStore.state.feedList);
+    // const countLikes = computed(() => myStore.state.totalLikes);
+    
     return {
       feedList
     };

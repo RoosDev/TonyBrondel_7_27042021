@@ -3,13 +3,17 @@
         <div id="postBloc">
             <div id="timeLikeMenuZone" class="col-12">
                 <span id="timePost" >
-                <p> <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture"> {{postAuthor}} - le {{ theDate }} </p>
+                <p> <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture"> {{ postAuthor }} - le {{ theDate }} </p>
                 </span>
                 <span id="likePost" >
                     <p><button><font-awesome-icon :icon="['fas', 'hand-peace']" /></button> {{ theLike }} </p>
                 </span>
                 <span id="menuPost" >
-                    <button>•••</button>
+                    <button :id="buttonChangeDelete" class="openMenuPost" @click="toggleMenuPost">•••</button>
+                    <div :id="menuDevelopChange" class="menuPostDevelop hidebox">
+                      <button :id="buttonChange" class="menuPost_Change" @click="toggleModal_ChangePost"><p>Modifier</p></button>
+                      <button :id="buttonDelete" class="menuPost_Delete" @click="toggleModal_DeletePost"><p>Supprimer</p></button>
+                    </div>
                 </span>
             </div>
             <div id="PostZone" class="col-md-6">
@@ -23,14 +27,14 @@
                 <div id="CommentList" :name="theIdPost" class="col-12">
                     <!-- Ici sont intégrés les commentaires -->
                     <div id="bubbleNoComment" v-if="!theComments?.[0]">
-                      <p>Il n'y a pas encore de commentaires. Soyez le premier. </p>
+                      <p>Il n'y a pas encore de commentaire. Soyez le premier. </p>
                     </div>
                     <div id="commentBubble" class="col-12" v-else v-for="theComment in theComments" :key="theComment.reference">
                       <div id="bubbleText" class="col-12">
                         <p> {{ theComment.content }} </p>
                       </div>
                       <div id="bubbleAuthor" class="col">
-                        <p> Guy Gratte-Poil -  {{ theComment.createdAt }}  </p>
+                        <p> {{ theComment.authorComment.firstname }} {{ theComment.authorComment.lastname }} -  {{ theComment.createdAt }}  </p>
                       </div>
                     </div>  
                 </div>
@@ -48,37 +52,80 @@
         </div>
         <div id="postFooter" class="col-6"><p></p></div>
     </div>
+    <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
+      <div class="modal-content">
+        <ChangeText :postId="theIdPost" :theNewPost.content="theTxtPost"/>
+      </div>
+    </Modal>
+    <Modal @close="toggleModal_DeletePost" :modalActive="modalActive_DeletePost">
+      <div class="modal-content">
+        <DeletePost :postId="theIdPost"/>
+      </div>
+    </Modal>
+
 </template>
 <script lang="ts">
 import { computed, onMounted } from 'vue';
 import { store } from '../store/index';
+import formatDateMixin from '../mixins/formatDateMixin.js';
+import Modal from '@/components/Modal.vue';
+import ChangeText from '@/components/ChangeText.vue';
+import DeletePost from '@/components/DeletePost.vue';
+import { useModal } from '@/composition/modal';
 
 
 export default {
   name: 'postTxtComment',
+  components: {
+    Modal,
+    ChangeText,
+    DeletePost
+  },
   props: {
     theIdPost: Number,
     theTxtPost: String,
-    theLike: Number,
+    theLike: Object,
     theAuthor: Object,
     theDate: String,
     theComments: Object,
+    theCommentAuthor: Object,
+    theLikes: Object,
 
   },
 
-  setup(props:any) {
+  setup(props: any) {
     const myStore: any = store;
     const commentList = computed(() => myStore.state.commentList);
-    const postAuthor = props.theAuthor.firstname + ' ' + props.theAuthor.lastname
-    
+    const postAuthor = props.theAuthor.firstname + ' ' + props.theAuthor.lastname;
+
+    const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
+    const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
 
 
-onMounted(() => {
-      myStore.dispatch("getComments",
-        { 'id': props.theIdPost }
-      );
-    })
-    return { commentList, postAuthor };
+      // Nom dynamique des id
+      const buttonChangeDelete = 'openMenu_'+props.theIdPost;
+      const menuDevelopChange = 'menuPostDev_'+props.theIdPost;
+      const buttonChange = 'buttonChange_'+props.theIdPost;
+      const buttonDelete = 'buttonDelete_'+props.theIdPost;
+
+    function toggleMenuPost() {
+      const boxMenuPost = document.querySelector('#'+menuDevelopChange)! as HTMLDivElement;  
+      boxMenuPost.classList.toggle("hidebox");
+    }
+
+    return { 
+      commentList, 
+      postAuthor, 
+      toggleMenuPost, 
+      modalActive_ChangePost,
+      toggleModal_ChangePost,
+      modalActive_DeletePost, 
+      toggleModal_DeletePost,
+      buttonChangeDelete,
+      menuDevelopChange,
+      buttonChange,
+      buttonDelete
+    };
   },
 
 }
@@ -121,15 +168,51 @@ onMounted(() => {
         }
       }
 
-      button {
+      .openMenuPost {
         margin: 0 auto 0 150px;
         border: 0 solid $groupo-color1;
         border-radius: 5px;
         background-color: transparent;
 
         &:hover {
-          text-shadow: 5px 5px 2px rgba($groupo-color1, 0.3);
-          margin: 7px auto 8px 147px;
+          text-shadow: 2px 2px 5px rgba($groupo-color2, 1);
+        }
+      }
+
+
+      .menuPostDevelop {
+        // #menuPostDevelop{
+        position: absolute;
+        width: 200px;
+        height: 90px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
+        background-color: #fff;
+        z-index: 100;
+
+        button {
+          display: block;
+          border: 0;
+          background-color: #fff;
+          width: 100%;
+          height: 50%;
+
+          .menuPost_Change {
+          // #menuPost_Change {
+            border-radius: 10px 10px 0 0;
+          }
+         .menuPost_Delete {
+          // #menuPost_Delete {
+            border-radius: 0 0 10px 10px;
+          }
+
+          &:hover {
+            background-color: rgba($groupo-color1, 0.1);
+          }
+          p {
+            font-size: 1.1em;
+            padding: 5px;
+          }
         }
       }
 
@@ -191,7 +274,8 @@ onMounted(() => {
         scrollbar-width: 5px;
         scrollbar-color: $groupo-color1;
 
-        #commentBubble, #bubbleNoComment {
+        #commentBubble,
+        #bubbleNoComment {
           width: 95%;
           min-height: 50px;
           margin: 8px auto auto auto;
@@ -207,7 +291,6 @@ onMounted(() => {
               margin: 10px;
             }
           }
-        
 
           #bubbleAuthor {
             text-align: right;
@@ -219,14 +302,13 @@ onMounted(() => {
             }
           }
         }
-        #bubbleNoComment p{
+        #bubbleNoComment p {
           font-size: 0.9em;
           text-align: center;
           font-weight: bold;
           line-height: 100%;
-          margin-top : 15px;
+          margin-top: 15px;
         }
-
       }
 
       #CommentSend {
@@ -299,5 +381,9 @@ onMounted(() => {
     border-bottom: 1px solid $groupo-color1;
     margin: 0 auto 0 auto;
   }
+}
+
+.hidebox {
+  display: none;
 }
 </style>
