@@ -1,3 +1,4 @@
+const express = require('express');
 const router = require("express").Router();
 const feedGetCtrl = require("../controllers/feedGet_control");
 const feedPostCtrl = require("../controllers/feedPost_control");
@@ -27,6 +28,15 @@ const multer = require("../middlewares/multer_configPosts");
 // // Liste des routes pour obtenir quelque chose :
     // Liste de tous les post dans le feed
     router.get("/", feedGetCtrl.getAllFeeds);
+    // router.get('/', async function(req, res, next) {
+    //     try {
+    //       res.send(await feedGetCtrl.getAllFeeds(req.query.page));
+    //     } catch (err) {
+    //       console.error(`Error while getting feedGetCtrl `, err.message);
+    //       next(err);
+    //     }
+    //   });
+
     // Récupère le détail d'un seul post dans le feed
     router.get("/:id", feedGetCtrl.getOneFeed);
     // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
