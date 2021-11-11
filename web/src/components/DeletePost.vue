@@ -19,15 +19,14 @@ import axios from "axios";
 export default defineComponent({
   name: "deletePost",
   props: {
-    postId: Number
+    postId: Number,
   },
-  setup(props, context) {
+  setup(props) {
 
     const urlApi = "http://localhost:3001/api/feed/" + props.postId;
-    console.log("urlApi ::>> " + urlApi);
     const deleteMyPost = () => {
-      const messageAfterDelete = document.querySelector('#messageFormDelete')! as HTMLDivElement;
-      const sendButton = document.querySelector('#confirmDelete')! as HTMLButtonElement;
+      const messageAfterDelete = document.querySelector('#messageFormDelete') as HTMLDivElement;
+      const sendButton = document.querySelector('#confirmDelete') as HTMLButtonElement;
 
       axios.delete(urlApi)
         .then((res) => {

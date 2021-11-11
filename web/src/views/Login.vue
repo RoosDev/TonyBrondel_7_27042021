@@ -3,7 +3,7 @@
     <!-- <div id='darkSide' class='col-12'> -->
       <div id="connectZone" class="col-md-6">
         <div id='connectZone__Login' class='col-md-5'>
-        <Connection />
+        <Log />
         </div>
         <div id='connectZone__Boarder' class='col-md-2'>
         <p></p> 
@@ -19,12 +19,12 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Signup from '@/components/Signup.vue';
-import Connection from '@/components/Connection.vue';
+import Log from '@/components/Log.vue';
 
 @Options({
   components: {
     Signup,
-    Connection,
+    Log,
   },
 })
 export default class Login extends Vue { }

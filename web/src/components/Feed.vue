@@ -40,7 +40,7 @@ export default {
   },
 
   setup() {
-    const myStore: any = store
+    const myStore: any = store;
 
     const feedList = computed(() => myStore.state.feedList);
     // const countLikes = computed(() => myStore.state.totalLikes);
@@ -54,7 +54,7 @@ export default {
     const myStore: any = store
     myStore.dispatch("getPosts");
   },
-}
+};
 
 </script>
 

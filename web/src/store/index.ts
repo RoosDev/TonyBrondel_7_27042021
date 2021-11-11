@@ -1,6 +1,7 @@
 // Imports
 import { createStore } from "vuex";
 import axios from "axios";
+import { auth } from "./authModule";
 
 //Create Store :
 
@@ -38,4 +39,11 @@ export const store = createStore({
     // },
 
   },
+
+// import du module d authentification dans Vuex
+  modules: {
+    auth,
+  },
+  
 });
+

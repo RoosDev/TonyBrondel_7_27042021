@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
 const dbConnect = require("../config/db.config");
 const modelUsers = dbConnect.users;
+const modelUserRole = dbConnect.role;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -42,19 +43,13 @@ exports.signup = async (req, res, next) => {
     }).toString();
 
     // hash du password avec argon2 :
-    const password_Hash = await argon2.hash(password_visible, {
-      type: argon2.argon2id,
-      timeCost: 36,
-      hashLength: 256,
-      associatedData: Buffer.from(A2_ASSO_DATA_P),
-    });
+    const password_Hash = await argon2.hash(password_visible);
 
     // cryptage de l email avec CryptoJS
     const email_Cryp = await CryptoJS.AES.encrypt(
       email_visible,
       CRYPT_PASS
     ).toString();
-
     // //-----------------------------------------------------------------------------------------------//
 
     // Vérification de l 'existance de cet email dans la base de donnée utilisateurs
@@ -86,13 +81,13 @@ exports.signup = async (req, res, next) => {
         photo_URL: null,
         division: req.body.division,
         last_Connexion: req.body.last_Connexion,
-        role_id: 1,
-        active: 0,
+        role_Id: 1,
+        active: 1,
       };
       try {
         const data = await modelUsers.create(theUser);
         return res
-          // .send({ data })
+          .send({ data })
           .status(201)
           .json({
             message: "Il y a un petit nouveau parmis nous, Bienvenue !",
@@ -127,15 +122,15 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     // Récupération des valeur utilisateur
-    const email_login = req.body.email;
-    const password_login = req.body.password;
+    const emailLogin = req.body.email;
+    const passwordLogin = req.body.password;
 
     // //-----------------------------------------------------------------------------------------------//
     //                        TRAITEMENT EN AMONT DES DONNEES
     // //-----------------------------------------------------------------------------------------------//
 
     // hash de l email avec cryptoJS :
-    const email_HashLogin = await CryptoJS.SHA3(email_login, {
+    const email_HashLogin = await CryptoJS.SHA3(emailLogin, {
       outputLength: CRYPT_OutLen,
     }).toString();
 
@@ -143,46 +138,74 @@ exports.login = async (req, res, next) => {
 
     // Recherche d'une entrée dans la base en fonction de l'email hashé
     const findForLogin = await modelUsers.findOne({
-      // attributes: {include: ["email_H", "password_H"] },
-      // include: [{ where: { email_H: email_visible }, }],
+      attributes: ['id', 'email_H', 'email_Crypt', 'password_H','role_Id'],
+      // include: [
+      //   { model: modelUserRole, as: 'userRole', attributes:['id', 'role_Name']},
+      //  ],
       where: { email_H: email_HashLogin },
-    });
-    // res.send(findForLogin);
-
-    if (findForLogin != null) {
-      console.log("on check le pass");
-
-      // Lancement de la vérification du mot de passe
-
-      const checkPassword = await argon2.verify(
+    })
+    .then(async findForLogin => {
+      if (findForLogin != null) {
+        console.log("On vous a trouvé, on check le pass");
+      } else {
+        console.log("email inconnu.");
+        return res.status(404).send({ 
+          message: "Nous n'arrivons pas à vous trouver. Etes vous inscrit ?"});
+      }
+  
+        // Lancement de la vérification du mot de passe
+      console.log('password_H     >>> ' + findForLogin.password_H);
+      console.log('passwordLogin >>> ' + passwordLogin);
+      let checkPassword = await argon2.verify( 
         findForLogin.password_H,
-        password_login
-      );
-      if (checkPassword) {
+        passwordLogin
+      );  
+      console.log('check pass : >>' ,  checkPassword);
+      if ( checkPassword){
+
+      // if ( (argon2.verify(findForLogin.password_H, req.body.password ))){
         console.log("ok on est logggggééééé !!!!");
-        const mytoken = await jwt.sign(
-          {
-            id: findForLogin.id,
-            email: findForLogin.email_Hash,
-            firstname: findForLogin.firstname,
-            lastname: findForLogin.lastname,
-          },
+        // Génération du token à envoyer
+        let accessToken = jwt.sign(
+          { email: findForLogin.email_Crypt, },
           MY_APP_SECRET,
           { expiresIn: "24h" },
           { algorithm: "RS256" }
         );
-        console.log("my token => " + mytoken);
+        console.log("my token => " + accessToken);
 
-        return res.status(200).json({ token: mytoken });
-      } else {
+        // Récupératiion du niveau de role de l'utilisateur
+        // let authorities = [];
+        const roleId = findForLogin.role_Id;
+          console.log('role ID >> ' + roleId);
+          console.log('findForLogin >> ' + (findForLogin));
+        // const roles = modelUsers.findAll({
+        //   attributes: ['id', 'role_Id'],
+        //   include: [
+        //             { model: modelUserRole, as: 'userRole', attributes:['id', 'role_Name']},
+        //            ],
+        //   where: {role_Id: roleId}, 
+        // })
+        // .then(
+          // console.log('roles >> ' + roles),
+        // authorities.push("ROLE_" + roles.name.toUpperCase())
+        // )
+        
+        // console.log("authorities : >> " + authorities);
+        return res.status(200).send({
+          id: findForLogin.id,
+          email: findForLogin.email_Crypt,
+          roles: findForLogin.role_Id,
+          token: accessToken
+        })
+      }else {
         console.log("erreur de mot de passe");
-        return res.status(400).json({ error: "Mot de passe incorrect" });
-      }
-    } else {
-      console.log("email inconnu.");
-      return (res.sendStatus(500).statusMessage =
-        "Nous n'arrivons pas à vous trouver. Etes vous inscrit ?");
-    }
+        return res.status(401).send({
+          accessToken: null,
+          message: "Mot de passe incorrect" });
+      } 
+
+    })    
   } catch (err) {
     return (res.statusMessage =
       err.message ||

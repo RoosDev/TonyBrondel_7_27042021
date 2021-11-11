@@ -29,6 +29,15 @@ const routes: Array<RouteRecordRaw> = [
 
   },
   {
+    path: '/login',
+    name: 'Log',
+    component: () => import('../components/Log.vue'),
+    meta:{
+      title: 'Connectez vous',
+    }
+
+  },
+  {
     name: 'NotFound',
     path: '/:pathMatch(.*)',
     component: () => import( '../components/NotFound.vue'),
@@ -45,9 +54,25 @@ const router = createRouter({
   routes
 })
 
+// router.beforeEach((to, from, next) => {
+//   const publicPages = ['/', '/signup', '/login'];
+//   const authRequired = !publicPages.includes(to.path);
+//   const loggedIn = localStorage.getItem('user');
+
+//   // trying to access a restricted page + not logged in
+//   // redirect to login page
+//   if (authRequired && !loggedIn) {
+//     next('/');
+//   } else {
+//     next();
+//   }
+// });
+
 router.afterEach((to, from) => {
   console.log(from,to);
   document.title = `Groupomania - ${to.meta.title}`;
 });
+
+
 
 export default router

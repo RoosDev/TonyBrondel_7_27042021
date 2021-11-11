@@ -4,7 +4,8 @@ const feedGetCtrl = require("../controllers/feedGet_control");
 const feedPostCtrl = require("../controllers/feedPost_control");
 const feedUpdateCtrl = require("../controllers/feedUpdate_control");
 const feedDropCtrl = require("../controllers/feedDrop_control");
-const auth = require("../middlewares/auth");
+// const auth = require("../middlewares/auth");
+const { authJwt } = require("../middlewares");
 const multer = require("../middlewares/multer_configPosts");
 
 // // Liste des routes pour créer quelque chose :
@@ -38,14 +39,14 @@ const multer = require("../middlewares/multer_configPosts");
     //   });
 
     // Récupère le détail d'un seul post dans le feed
-    router.get("/:id", feedGetCtrl.getOneFeed);
+    router.get("/:id",  feedGetCtrl.getOneFeed);
     // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
-    router.get("/:id/comment", feedGetCtrl.getAllComments);
+    router.get("/:id/comment",  feedGetCtrl.getAllComments);
     // Obtention des likes d'un post
     router.get("/:id/like", feedGetCtrl.getLikesPost);
     // Obtention du nombre de like
     router.get("/countlikes", feedGetCtrl.countLikesPost);
     // Obtention de la liste des différents types de like
-    router.get("/likes", feedGetCtrl.getLikes);
+    router.get("/likes",  feedGetCtrl.getLikes);
 
 module.exports = router;

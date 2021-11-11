@@ -38,13 +38,13 @@
                       </div>
                     </div>  
                 </div>
-                <div id="CommentSend">
-                    <form class="row align-items-center">
-                        <div id="textareaZone" class="col-10" >
-                            <textarea name="sendPost" id="sendPost" cols="60" rows="2" placeholder="Saisissez votre commentaire ici" autocapitalize="sentences" ></textarea>
+                <div :id="divCommentSend" class="CommentSend">
+                    <form class="row align-items-center" v-on:submit.prevent="sendMyComment" >
+                        <div :id="divTextareaZone" class="textareaZone col-10" >
+                            <textarea :id="textareaSendPost" name="sendPost" class="sendPost" cols="60" rows="2" placeholder="Saisissez votre commentaire ici" autocapitalize="sentences" ></textarea>
                         </div>
                         <div id="buttonSendZone" class="col-2">
-                            <button type="submit" > <font-awesome-icon id="paperPlaneIcon" :icon="['fas', 'paper-plane']" /> </button>
+                            <button type="submit"  :disabled="!isCommentValid" > <font-awesome-icon id="paperPlaneIcon" :icon="['fas', 'paper-plane']" /> </button>
                         </div>
                     </form>
                 </div>
@@ -54,7 +54,7 @@
     </div>
     <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
       <div class="modal-content">
-        <ChangeText :postId="theIdPost" :theNewPost.content="theTxtPost"/>
+        <ChangeText :postId="theIdPost" :oldContent="theTxtPost"/>
       </div>
     </Modal>
     <Modal @close="toggleModal_DeletePost" :modalActive="modalActive_DeletePost">
@@ -65,16 +65,16 @@
 
 </template>
 <script lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { store } from '../store/index';
-import formatDateMixin from '../mixins/formatDateMixin.js';
+// import formatDateMixin from '../mixins/formatDateMixin.js';
 import Modal from '@/components/Modal.vue';
 import ChangeText from '@/components/ChangeText.vue';
 import DeletePost from '@/components/DeletePost.vue';
 import { useModal } from '@/composition/modal';
 
 
-export default {
+export default defineComponent({
   name: 'postTxtComment',
   components: {
     Modal,
@@ -93,23 +93,28 @@ export default {
 
   },
 
-  setup(props: any) {
+  setup(props) {
     const myStore: any = store;
     const commentList = computed(() => myStore.state.commentList);
-    const postAuthor = props.theAuthor.firstname + ' ' + props.theAuthor.lastname;
+    const postAuthor:string = props.theAuthor?.firstname + ' ' + props.theAuthor?.lastname;
 
     const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
     const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
 
 
-      // Nom dynamique des id
-      const buttonChangeDelete = 'openMenu_'+props.theIdPost;
-      const menuDevelopChange = 'menuPostDev_'+props.theIdPost;
-      const buttonChange = 'buttonChange_'+props.theIdPost;
-      const buttonDelete = 'buttonDelete_'+props.theIdPost;
+      // Nom dynamique des id pour le modifier / supprimer les posts
+      const buttonChangeDelete = 'openMenu_' + props.theIdPost;
+      const menuDevelopChange = 'menuPostDev_' + props.theIdPost;
+      const buttonChange = 'buttonChange_' + props.theIdPost;
+      const buttonDelete = 'buttonDelete_' + props.theIdPost;
+
+      // Nom dynamique des id pour les commentaires
+      const divCommentSend = 'CommentSend_' + props.theIdPost;
+      const divTextareaZone = 'textareaZone_' + props.theIdPost;
+      const textareaSendPost = 'sendPost_' + props.theIdPost;
 
     function toggleMenuPost() {
-      const boxMenuPost = document.querySelector('#'+menuDevelopChange)! as HTMLDivElement;  
+      const boxMenuPost = document.querySelector('#'+menuDevelopChange) as HTMLDivElement;  
       boxMenuPost.classList.toggle("hidebox");
     }
 
@@ -124,11 +129,14 @@ export default {
       buttonChangeDelete,
       menuDevelopChange,
       buttonChange,
-      buttonDelete
+      buttonDelete,
+      divCommentSend,
+      divTextareaZone,
+      textareaSendPost
     };
   },
 
-}
+});
 
 
 </script>
@@ -311,19 +319,19 @@ export default {
         }
       }
 
-      #CommentSend {
+      .CommentSend {
         height: 60px;
         margin: 0 auto 5px auto;
         border-top: 1px solid $groupo-color3;
         align-self: baseline;
         padding-top: 10px;
 
-        #textareaZone {
+        .textareaZone {
           height: 50px;
           border-radius: 10px 0 0 10px;
           background-color: $groupo-colorLight3;
 
-          textarea {
+          .sendPost {
             background-color: transparent;
             margin: 5px auto 0 auto;
             font-size: 0.8em;

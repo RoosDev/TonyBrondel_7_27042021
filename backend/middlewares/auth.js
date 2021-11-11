@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
 
     // on vérifie : si on a un userId dans la requete et qu'il est différent du userId décodé présent dans le Token
     if (req.body.userId && req.body.userId != userIdDecode) {
-      throw "User ID non valable";
+      throw "Email non valable";
     } else {
       next();
     }

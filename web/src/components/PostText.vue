@@ -13,7 +13,7 @@
           v-model="theNewPost.content"
           autocapitalize="sentence"
           form="postTextForm"
-          maxlength="650"
+          maxlength="500"
           placeholder="Saisissez ici votre prose..."
           required
           autofocus
@@ -44,7 +44,7 @@ export default defineComponent({
   methods: {
     sendMyPost(){
       const messageAfterSent = document.querySelector('#messageFormSent')! as HTMLDivElement;
-      const PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
+      let PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
       const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
 
       axios.post("http://localhost:3001/api/feed", this.theNewPost)

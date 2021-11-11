@@ -39,7 +39,7 @@ dbConnect.post_comment_list = require("../models/feed_model")(
   sequelize,
   Sequelize
 );
-// Connexion pour le flux des posts
+// Connexion pour le flux des commentaires
 dbConnect.comment_list = require("../models/feed_model")(sequelize, Sequelize);
 
 // Connexion pour les likes des posts
@@ -53,5 +53,16 @@ dbConnect.likes_type = require("../models/likes_model")(sequelize, Sequelize);
 
 // Connexion pour les utilisateurs
 dbConnect.users = require("../models/user_model")(sequelize, Sequelize);
+
+// Connexion pour les roles utilisateurs
+dbConnect.role = require("../models/userRoles_model")(sequelize, Sequelize);
+
+dbConnect.users.belongsToMany(dbConnect.role, {
+  through: "users",
+  foreignKey: "role_Id",
+  otherKey: "id",
+});
+
+dbConnect.ROLES = ["user", "manager", "admin"];
 
 module.exports = dbConnect;

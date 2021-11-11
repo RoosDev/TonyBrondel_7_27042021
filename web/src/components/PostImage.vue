@@ -30,9 +30,9 @@ export default defineComponent({
 
   methods: {
     sendMyPost(){
-      const messageAfterSent = document.querySelector('#messageFormSent')! as HTMLDivElement;
-      const PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
-      const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
+      const messageAfterSent = document.querySelector('#messageFormSent') as HTMLDivElement;
+      const PostContent = document.querySelector('#PostContent') as HTMLTextAreaElement;
+      const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
 
       axios.post("http://localhost:3001/api/feed", this.theNewPost)
         .then((res) =>{ 

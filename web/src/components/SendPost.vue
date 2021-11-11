@@ -16,7 +16,7 @@
     </div>
   </div>
     <Modal @close="toggleModal_Txt" :modalActive="modalActive_Txt">
-      <div class="modal-content">
+      <div class="modal-content"> 
         <PostText />
       </div>
     </Modal>
@@ -37,11 +37,11 @@ export default {
   components: {
     Modal,
     PostText,
-    PostImage,
+    PostImage
   },
   setup() {
-    const [modalActive_Txt, toggleModal_Txt] = useModal()
-    const [modalActive_Img, toggleModal_Img] = useModal()
+    const [modalActive_Txt, toggleModal_Txt] = useModal();
+    const [modalActive_Img, toggleModal_Img] = useModal();
     return { modalActive_Txt, toggleModal_Txt, modalActive_Img, toggleModal_Img };
   },
 };

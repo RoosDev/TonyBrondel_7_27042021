@@ -10,8 +10,7 @@ const app = express();
 
 // Définition des routes
 const feedRoutes = require("./routes/feed_routes");
-const usersRoutes = require("./routes/users_routes");
-
+const usersRoutes = require('./routes/users_routes');
 // dbConnect.sequelize.sync({ alter: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
@@ -35,13 +34,21 @@ app.use(
 
 // body parser est directement intégré à express maintenant
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Appel des differents modules de l'app
 app.use(
   "/Public_Images",
   express.static(path.join(__dirname, "/Public_Images"))
 );
-app.use("/api/feed", feedRoutes);
+app.use(function(req, res, next) {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
 app.use("/api/auth", usersRoutes);
+app.use("/api/feed", feedRoutes);
 
 module.exports = app;
