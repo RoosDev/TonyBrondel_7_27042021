@@ -1,33 +1,30 @@
 <template>
-  <div id="darkSide" class='col-12'>
-    <!-- <div id='darkSide' class='col-12'> -->
-      <div id="connectZone" class="col-md-6">
-        <div id='connectZone__Login' class='col-md-5'>
+  <div id="darkSide" class="col-12">
+    <div id="connectZone" class="row col-12 col-md-6">
+      <div id="connectZone__Login" class="col-12 col-md-5">
         <Log />
-        </div>
-        <div id='connectZone__Boarder' class='col-md-2'>
-        <p></p> 
-        </div>
-        <div id='connectZone__Signup' class='col-md-5'>
-        <Signup />
-        </div>
       </div>
-    <!-- </div> -->
+      <div id="connectZone__Boarder" class="col-0 col-md-2">
+        <p></p>
+      </div>
+      <div id="connectZone__Signup" class="col-12 col-md-5">
+        <Signup />
+        <!-- <Signup v-model="message"  @displayMessage="msgReceived" /> -->
+      </div>
+    </div>
+    <!-- <div id="logAndSignMessage" class="row col-12 col-md-5">
+      <p>
+        {{message}}
+        {{ msg }}
+      </p>
+    </div> -->
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+<script setup lang="ts">
 import Signup from '@/components/Signup.vue';
 import Log from '@/components/Log.vue';
 
-@Options({
-  components: {
-    Signup,
-    Log,
-  },
-})
-export default class Login extends Vue { }
 </script>
 <style scoped lang='scss'>
 @import "../scss/variables.scss";
@@ -36,8 +33,8 @@ export default class Login extends Vue { }
   position: fixed;
   height: 100%;
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
+  flex-flow: column wrap;
+  justify-content: center;
   align-items: center;
   background-color: $groupo-color2;
   background-image: url("../assets/Groupomania_Acces.jpg");
@@ -52,10 +49,10 @@ export default class Login extends Vue { }
   position: relative;
   min-height: 400px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: space-around;
   align-items: center;
-  margin: auto;
+  margin: auto auto 5 auto;
   background-color: rgba($groupo-colorLight1, 0.6);
   box-shadow: -5px 0 20px $groupo-colorLight1;
   border-radius: 15px;
@@ -75,12 +72,28 @@ export default class Login extends Vue { }
 
   #connectZone__Boarder {
     width: 5px;
-    height: 405px;
+    min-height: 405px;
     border-right: 1px solid $groupo-color1;
     border-left: 1px solid $groupo-color1;
     transform: rotate(5deg);
     filter: drop-shadow(5px 0 5px $groupo-color1);
     border-radius: 10px;
+  }
+}
+
+#logAndSignMessage {
+  margin: auto;
+  align-items: center;
+  text-align: center;
+  height: 35px;
+  background-color: rgba($groupo-colorLight1, 0.6);
+  box-shadow: 5px 0 20px $groupo-colorLight1;
+  border-radius: 0 0 10px 10px;
+  z-index: 5;
+  p {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 2px;
   }
 }
 </style>

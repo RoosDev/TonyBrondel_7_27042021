@@ -3,9 +3,10 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
-import { store } from "./store";
+import store from "./store";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
 
 
 // initialisation des imports pour Font Awesome
@@ -24,6 +25,9 @@ import {
   faTools,
   faRss,
   faTimesCircle,
+  faCheckCircle,
+  faKey, 
+  faUserEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -47,6 +51,9 @@ library.add(faUsersCog);
 library.add(faTools);
 library.add(faRss);
 library.add(faTimesCircle);
+library.add(faCheckCircle);
+library.add(faKey);
+library.add(faUserEdit);
 
 
 // Création de l'app

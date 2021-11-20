@@ -10,7 +10,6 @@ const modelUserRole = dbConnect.role;
 
 // // Mise en place des variables d'environnement
 const dotenv = require("dotenv");
-const { sequelize } = require("../config/db.config");
 dotenv.config();
 const MY_APP_SECRET = process.env.APP_SECRET_KEY;
 const A2_ASSO_DATA_P = process.env.ARGON2_ASSOCIATEDDATA_password;
@@ -32,7 +31,7 @@ exports.signup = async (req, res, next) => {
     // Récupération des valeur utilisateur
     const email_visible = req.body.email;
     const password_visible = req.body.password;
-
+    console.log("C est parti on lance l enregistrement en base");
     // //-----------------------------------------------------------------------------------------------//
     //                        TRAITEMENT EN AMONT DES DONNEES AFIN DE LES SECURISER
     // //-----------------------------------------------------------------------------------------------//
@@ -43,7 +42,12 @@ exports.signup = async (req, res, next) => {
     }).toString();
 
     // hash du password avec argon2 :
-    const password_Hash = await argon2.hash(password_visible);
+    const password_Hash = await argon2.hash(password_visible, {
+      type: argon2.argon2id,
+      timeCost: 36,
+        hashLength: 256,
+        associatedData: Buffer.from(A2_ASSO_DATA_P),
+      });
 
     // cryptage de l email avec CryptoJS
     const email_Cryp = await CryptoJS.AES.encrypt(
@@ -58,19 +62,12 @@ exports.signup = async (req, res, next) => {
       where: { email_H: email_Hash },
     });
     // res.send(existOrNot);
-    if (existOrNot != null) {
-      // Si l'adresse email correspond déja à un compte utilisateur
-      console.log(
-        "Nouvelle tentative d'inscription avec l'email existant donc l'id est :> " +
-          existOrNot.id
-      );
-      return res.send({
-        message:
-          "Il semble que nous nous soyons déjà croisé. Avez vous oubliez ?",
-      });
-    } else {
+    console.log('recherche de l existance de l email ...')
+    if (existOrNot === null) {
+      console.log('Cet email n existe pas, lancement de l inscription ...')
       ///-------------------------------------------------------/
-      // Lancement de la création de l'utilisateur
+      /// Lancement de la création de l'utilisateur
+      ///-------------------------------------------------------/
       const theUser = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -80,34 +77,38 @@ exports.signup = async (req, res, next) => {
         job: req.body.job,
         photo_URL: null,
         division: req.body.division,
-        last_Connexion: req.body.last_Connexion,
+        last_Connexion: Date.now(),
         role_Id: 1,
         active: 1,
       };
       try {
         const data = await modelUsers.create(theUser);
+        console.log('Utilisateur créé. ');
+        
         return res
           .send({ data })
-          .status(201)
-          .json({
-            message: "Il y a un petit nouveau parmis nous, Bienvenue !",
-          })
-          ;
+          .status(201);
       } catch (err) {
         return res
           .status(500)
-          .json({
+          .send({
             error:
-              "Une erreur s'est produite, nous n'avons pas pus vous enregistrer.",
+              "Une erreur s'est produite, nous n'avons pas pu vous enregistrer.",
             details: err,
           })
           ;
       }
+    }else{
+      console.log('Email trouvé, pas besoin de s inscrire')
+      return err.status(409).send({
+        message:
+          "Il semble que nous nous soyons déjà croisé. Avez vous oublié ?",
+      });
     }
   } catch (err) {
     return res
       .status(500)
-      .json({
+      .send({
         error:
           "Erreur 500 : Une erreur s'est produite, veuillez réessayer dans quelques instants.",
       })
@@ -138,10 +139,6 @@ exports.login = async (req, res, next) => {
 
     // Recherche d'une entrée dans la base en fonction de l'email hashé
     const findForLogin = await modelUsers.findOne({
-      attributes: ['id', 'email_H', 'email_Crypt', 'password_H','role_Id'],
-      // include: [
-      //   { model: modelUserRole, as: 'userRole', attributes:['id', 'role_Name']},
-      //  ],
       where: { email_H: email_HashLogin },
     })
     .then(async findForLogin => {
@@ -154,13 +151,10 @@ exports.login = async (req, res, next) => {
       }
   
         // Lancement de la vérification du mot de passe
-      console.log('password_H     >>> ' + findForLogin.password_H);
-      console.log('passwordLogin >>> ' + passwordLogin);
       let checkPassword = await argon2.verify( 
         findForLogin.password_H,
         passwordLogin
       );  
-      console.log('check pass : >>' ,  checkPassword);
       if ( checkPassword){
 
       // if ( (argon2.verify(findForLogin.password_H, req.body.password ))){
@@ -172,33 +166,32 @@ exports.login = async (req, res, next) => {
           { expiresIn: "24h" },
           { algorithm: "RS256" }
         );
-        console.log("my token => " + accessToken);
+        let RoleToken = jwt.sign(
+          { email: findForLogin.role_Id, },
+          MY_APP_SECRET,
+          { expiresIn: "24h" },
+          { algorithm: "RS256" }
+        );
 
         // Récupératiion du niveau de role de l'utilisateur
         // let authorities = [];
-        const roleId = findForLogin.role_Id;
-          console.log('role ID >> ' + roleId);
-          console.log('findForLogin >> ' + (findForLogin));
-        // const roles = modelUsers.findAll({
-        //   attributes: ['id', 'role_Id'],
-        //   include: [
-        //             { model: modelUserRole, as: 'userRole', attributes:['id', 'role_Name']},
-        //            ],
-        //   where: {role_Id: roleId}, 
+        // const roleId = findForLogin.role_Id;
+        //   console.log('role ID >> ' , roleId);
+
+        // const rolesName = modelUserRole.findOne({
+        //   where: {id: roleId}, 
         // })
         // .then(
-          // console.log('roles >> ' + roles),
-        // authorities.push("ROLE_" + roles.name.toUpperCase())
-        // )
-        
-        // console.log("authorities : >> " + authorities);
+        //   console.log('roles >> ' , rolesName),
+        //   authorities.push("ROLE_" + rolesName.name.toUpperCase()),
+        //   console.log("authorities : >> " , authorities)
+        // );
         return res.status(200).send({
           id: findForLogin.id,
-          email: findForLogin.email_Crypt,
-          roles: findForLogin.role_Id,
-          token: accessToken
-        })
-      }else {
+          accessToken: accessToken, 
+          roleToken: RoleToken
+        }).message('Bienvenue !');
+      } else {
         console.log("erreur de mot de passe");
         return res.status(401).send({
           accessToken: null,

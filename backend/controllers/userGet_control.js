@@ -10,8 +10,8 @@ exports.getAllProfiles = ( async(req, res, next) => {
     const data = await modelUsers.findAll({where: {active: true }, order: [['lastname', 'ASC']] }) 
     res.send( { data } )
   }catch(err){
-    res.sendStatus(500)
-    res.statusMessage = err.message || "Some error occurred while retrieving the post's list."
+    res.sendStatus(500, {message : "Some error occurred while retrieving the post's list.", err
+    })
   }
 });
 

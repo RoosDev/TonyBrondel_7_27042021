@@ -3,6 +3,11 @@ const ROLES = dbConnect.ROLES;
 const User = dbConnect.users;
 const CryptoJS = require("crypto-js");
 
+// // Mise en place des variables d'environnement
+const dotenv = require("dotenv");
+dotenv.config();
+const CRYPT_PASS = process.env.Crypto_Passphrase;
+
 
 checkDuplicateEmail = (req, res, next) => {
 

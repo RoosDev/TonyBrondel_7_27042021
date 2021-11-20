@@ -10,43 +10,34 @@ const multer = require("../middlewares/multer_configPosts");
 
 // // Liste des routes pour créer quelque chose :
     // Création d'un post dans le feed
-    router.post("/", multer, feedPostCtrl.PostPost);
+    router.post("/", [authJwt.verifyToken], multer, feedPostCtrl.PostPost);
     // Création d'un commentaire
-    router.post("/:id/comment", feedPostCtrl.PostComment);
+    router.post("/:id/comment", [authJwt.verifyToken], feedPostCtrl.PostComment);
     // Ajout d'un like à un post
-    router.post("/:id/like", feedPostCtrl.PostLike);
+    router.post("/:id/like", [authJwt.verifyToken], feedPostCtrl.PostLike);
 
 // // Liste des routes pour modifier quelque chose :
 //     Modification d'un post dans le feed
-    router.put("/:id", multer, feedUpdateCtrl.UpdatePost);
+    router.put("/:id", [authJwt.verifyToken], multer, feedUpdateCtrl.UpdatePost);
 
 // // Liste des routes pour supprimer quelque chose :
 //     // Suppression d'un post dans le feed
-    router.delete("/:id", feedDropCtrl.deleteOnePost);
+    router.delete("/:id", [authJwt.verifyToken], feedDropCtrl.deleteOnePost);
 //     // Suppression d'un like
-    router.delete("/:id/like", feedDropCtrl.deleteOneLike);
+    router.delete("/:id/like", [authJwt.verifyToken], feedDropCtrl.deleteOneLike);
 
 // // Liste des routes pour obtenir quelque chose :
     // Liste de tous les post dans le feed
-    router.get("/", feedGetCtrl.getAllFeeds);
-    // router.get('/', async function(req, res, next) {
-    //     try {
-    //       res.send(await feedGetCtrl.getAllFeeds(req.query.page));
-    //     } catch (err) {
-    //       console.error(`Error while getting feedGetCtrl `, err.message);
-    //       next(err);
-    //     }
-    //   });
-
+    router.get("/", [authJwt.verifyToken], feedGetCtrl.getAllFeeds);
     // Récupère le détail d'un seul post dans le feed
-    router.get("/:id",  feedGetCtrl.getOneFeed);
+    router.get("/:id", [authJwt.verifyToken], feedGetCtrl.getOneFeed);
     // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
-    router.get("/:id/comment",  feedGetCtrl.getAllComments);
+    router.get("/:id/comment", [authJwt.verifyToken], feedGetCtrl.getAllComments);
     // Obtention des likes d'un post
-    router.get("/:id/like", feedGetCtrl.getLikesPost);
+    router.get("/:id/like", [authJwt.verifyToken], feedGetCtrl.getLikesPost);
     // Obtention du nombre de like
-    router.get("/countlikes", feedGetCtrl.countLikesPost);
+    router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
     // Obtention de la liste des différents types de like
-    router.get("/likes",  feedGetCtrl.getLikes);
+    router.get("/likes", [authJwt.verifyToken], feedGetCtrl.getLikes);
 
 module.exports = router;

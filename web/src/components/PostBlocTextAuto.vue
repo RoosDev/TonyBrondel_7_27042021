@@ -11,8 +11,8 @@
                 <span id="menuPost" >
                     <button :id="buttonChangeDelete" class="openMenuPost" @click="toggleMenuPost">•••</button>
                     <div :id="menuDevelopChange" class="menuPostDevelop hidebox">
-                      <button :id="buttonChange" class="menuPost_Change" @click="toggleModal_ChangePost(); toggleMenuPost()"><p>Modifier</p></button>
-                      <button :id="buttonDelete" class="menuPost_Delete" @click="toggleModal_DeletePost(); toggleMenuPost()"><p>Supprimer</p></button>
+                      <button :id="buttonChange" class="menuPost_Change" @click="toggleModal_ChangePost"><p>Modifier</p></button>
+                      <button :id="buttonDelete" class="menuPost_Delete" @click="toggleModal_DeletePost"><p>Supprimer</p></button>
                     </div>
                 </span>
             </div>
@@ -24,21 +24,47 @@
                 </div>
             </div>
             <div id="commentZone" class="col-md-6">
-
-              <CommentZone 
-                :theIdPost= "theIdPost"
-                :theComments= "theComments"
-                :theCommentAuthor= "theCommentAuthor"
-                :key="theComments.id"
-              />
-
+                <div id="CommentList" :name="theIdPost" :key="theComments" class="col-12">
+                    <!-- Ici sont intégrés les commentaires -->
+                    <div id="bubbleNoComment" v-if="!theComments?.[0]">
+                      <p>Il n'y a pas encore de commentaire. Soyez le premier. </p>
+                    </div>
+                    <div id="commentBubble" class="col-12" v-else v-for="theComment in theComments" :key="theComment.reference">
+                      <div id="bubbleText" class="col-12">
+                        <p> {{ theComment.content }} </p>
+                      </div>
+                      <div id="bubbleAuthor" class="col">
+                        <p> {{ theComment.authorComment.firstname }} {{ theComment.authorComment.lastname }} -  {{ theComment.createdAt }}  </p>
+                      </div>
+                    </div>  
+                </div>
+                <div :id="divCommentSend" class="CommentSend">
+                    <form class="row align-items-center" v-on:submit.prevent="sendMyComment" >
+                        <div :id="divTextareaZone" class="textareaZone col-10" >
+                            <textarea 
+                              name="sendTxtComment" 
+                              :id="textareaSendPost" 
+                              class="sendPost" 
+                              cols="60" 
+                              rows="2" 
+                              v-model="theNewComment.content"
+                              maxlength="350"
+                              placeholder="Saisissez votre commentaire ici (max.: 350 caractères)" 
+                              autocapitalize="sentences"
+                            ></textarea>
+                        </div>
+                        <div id="buttonSendZone" class="col-2">
+                            <button type="submit"  :disabled="!isCommentValid" > <font-awesome-icon id="paperPlaneIcon" :icon="['fas', 'paper-plane']" /> </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div id="postFooter" class="col-6"><p></p></div>
     </div>
     <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
       <div class="modal-content">
-        <ChangeText :postId="theIdPost" :content="theTxtPost"/>
+        <ChangeText :postId="theIdPost" :oldContent="theTxtPost"/>
       </div>
     </Modal>
     <Modal @close="toggleModal_DeletePost" :modalActive="modalActive_DeletePost">
@@ -49,25 +75,30 @@
 
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { computed, defineComponent } from 'vue';
+import store from '../store/index';
+// import formatDateMixin from '../mixins/formatDateMixin.js';
 import Modal from '@/components/Modal.vue';
-import CommentZone from '@/components/CommentZone.vue';
 import ChangeText from '@/components/ChangeText.vue';
 import DeletePost from '@/components/DeletePost.vue';
 import { useModal } from '@/composition/modal';
+import axios from "axios";
+
 
 export default defineComponent({
   name: 'postTxtComment',
   components: {
     Modal,
     ChangeText,
-    DeletePost,
-    CommentZone
+    DeletePost
   },
   data() {
     return {
       errorMessage: '',
-      commentRefresh: 0,
+      theNewComment: {
+        content: '',
+        userId: 1
+      }
     };
   },
   props: {
@@ -76,15 +107,22 @@ export default defineComponent({
     theLike: Object,
     theAuthor: Object,
     theDate: String,
-    theComments: Object,
     theCommentAuthor: Object,
-    theLikes: Object
+    theLikes: Object,
 
   },
 
   setup(props) {
+    const myStore: any = store;
+    const commentList = computed(() => 
+      myStore.dispatch('getComments', { idPost: props.theIdPost }),
+      myStore.state.commentList);
+    // console.log('comment list : >>' , commentList.value);
+
+
+
     const postAuthor: string = props.theAuthor?.firstname + ' ' + props.theAuthor?.lastname;
-    const theComments = reactive(props.theComments!);
+
     const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
     const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
 
@@ -95,6 +133,12 @@ export default defineComponent({
     const buttonChange = 'buttonChange_' + props.theIdPost;
     const buttonDelete = 'buttonDelete_' + props.theIdPost;
 
+    // Nom dynamique des id pour les commentaires
+    const divCommentSend = 'CommentSend_' + props.theIdPost;
+    const divTextareaZone = 'textareaComment_' + props.theIdPost;
+    const textareaSendPost = 'sendTxtComment_' + props.theIdPost;
+    const buttonSendComment = 'sendComment_' + props.theIdPost;
+
     // Fonction d'affichage du menu Modifier/ supprimer le post
     function toggleMenuPost() {
       const boxMenuPost = document.querySelector('#' + menuDevelopChange) as HTMLDivElement;
@@ -102,6 +146,7 @@ export default defineComponent({
     }
 
     return {
+      commentList,
       postAuthor,
       toggleMenuPost,
       modalActive_ChangePost,
@@ -111,8 +156,45 @@ export default defineComponent({
       buttonChangeDelete,
       menuDevelopChange,
       buttonChange,
-      buttonDelete
+      buttonDelete,
+      divCommentSend,
+      divTextareaZone,
+      buttonSendComment,
+      textareaSendPost
     };
+  },
+
+  methods: {
+    sendMyComment() {
+      axios.post("http://localhost:3001/api/feed/" + this.theIdPost + "/comment", this.theNewComment)
+        .then((res) => {
+          // sendCommentButton.innerHTML = '<p>...</p>';
+          // // sendCommentButton.setAttribute("disabled", "");
+          // setTimeout(() => {
+          //   commentContent.value = '';
+          //   sendCommentButton.innerHTML = '<p>Envoyé</p>';
+          // }, 3000);
+
+          // console.log('Post en ligne ;)' , res)
+        })
+        .catch(error => {
+          // sendCommentButton.setAttribute("disabled", "");
+          this.errorMessage = error.message;
+          console.error("There was an error!", error);
+        });
+    }
+  },
+  computed: {
+    isCommentValid() {
+      if (
+        this.theNewComment.content !== ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    
   },
 
 

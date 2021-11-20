@@ -8,18 +8,18 @@ const modelLikesType = dbConnect.likes_type;
 
 // Mise à jour d'un post du feed
 exports.UpdatePost = async (req, res, next) => {
-  const postObject = req.file // utilisation d'un opérateur ternaire pour voir si l'objet existe ou non
-    ? {
-        ...JSON.parse(req.body.sauce),
-        image_URL: `${req.protocol}://${req.get("host")}/Public_Images/Posts/${
-          req.file.filename
-        }`,
-      }
-    : { ...req.body };
+  // const postObject = req.file // utilisation d'un opérateur ternaire pour voir si l'objet existe ou non
+  //   ? {
+  //       ...JSON.parse(req.body.sauce),
+  //       image_URL: `${req.protocol}://${req.get("host")}/Public_Images/Posts/${
+  //         req.file.filename
+  //       }`,
+  //     }
+  //   : { ...req.body };
   
   const thePost = {
     content: req.body.content,
-    image_URL: postObject,
+    // image_URL: postObject,
   };
   try {
     const data = await modelPostCommentList.update(

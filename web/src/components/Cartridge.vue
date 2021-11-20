@@ -14,20 +14,31 @@
 
         <div id="cartridge_Bottom">
             <nav class="row align-items-center col-md-6">
-                <p class="col-md-6"><font-awesome-icon :icon="['fas', 'rss']" id="fontawesome-icon" /><br/>Feed</p>
-                <p class="col-md-6"><font-awesome-icon :icon="['fas', 'users-cog']" id="fontawesome-icon" /><br/>Mon profil</p>
+                <p class="col-md-6"><router-link to="/Home"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg><br/>Feed</router-link></p>
+                <p class="col-md-6"><router-link to="/Profile"><font-awesome-icon :icon="['fas', 'users-cog']" id="fontawesome-icon" /><br/>Mon profil</router-link></p>
                 <p class="col-md-6"><font-awesome-icon :icon="['fas', 'tools']" id="fontawesome-icon" /><br/>Administration</p>
-                <p class="col-md-6"><router-link to="/"><font-awesome-icon :icon="['fas', 'sign-out-alt']" id="fontawesome-icon" /><br/>Déconnexion</router-link></p>
+                <p class="col-md-6"><a @click.prevent="logOut"><font-awesome-icon :icon="['fas', 'sign-out-alt']" id="fontawesome-icon" /><br/>Déconnexion</a></p>
             </nav>
         </div>
     </div>
 </template>
 
-<script lang="ts">
-import { Vue } from 'vue-class-component'
+<script setup lang="ts">
+// import { Vue } from 'vue-class-component'
+import store from '../store/index';
+import { useRouter } from "vue-router";
+
+const myStore: any = store;
+const myRouter: any = useRouter();
 
 // export { name: 'App'}
-export default class Cartridge extends Vue {}
+// export default class Cartridge extends Vue {}
+
+ const logOut = () => {
+      myStore.dispatch('auth/logout');
+      myRouter.push('/');
+    }
+
 </script>
 
 
@@ -37,7 +48,7 @@ export default class Cartridge extends Vue {}
 #cartridge {
   background-color: $groupo-colorLight2;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   margin: 0;
   padding: 0;
   top: 0;
@@ -104,5 +115,9 @@ export default class Cartridge extends Vue {}
       }
     }
   }
+}
+
+svg {
+  font-size: 1.6em;
 }
 </style>

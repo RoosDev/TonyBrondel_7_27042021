@@ -1,60 +1,41 @@
 <template>
-    <div id="feedcontent" class="col-12 col-md-9">
-      <SendPost />
-      <div id="postsList" v-for="thePost in feedList" :key="thePost.id">
-        
-        <PostBlocText
-          v-if="thePost.image_URL === null "
-          :theIdPost= "thePost.id"
-          :theTxtPost= "thePost.content"
-          :theAuthor= "thePost.authorPost"
-          :theDate= "thePost.createdAt"
-          :theComments= "thePost.comment_list"
-          :theLikes= "thePost.like_list"
-        />
-        <PostBlocImg 
-          v-else-if="thePost.content === null" 
-          :theIdPost= "thePost.id"
-          :thePost= "thePost.image_URL"
-          theLike:number="152"
-        />
-
-      </div>
+  <div id="feedcontent" class="col-12 col-md-9">
+    <SendPost />
+    <div id="postsList" v-for="thePost in feedList" :key="thePost.id">
+       <PostBlocText
+        v-if="thePost.image_URL === null"
+        :theIdPost="thePost.id"
+        :theTxtPost="thePost.content"
+        :theAuthor="thePost.authorPost"
+        :theDate="thePost.createdAt"
+        :theComments="thePost.comment_list"
+        :theLikes="thePost.like_list"
+      /> 
+      <PostBlocImg
+        v-else-if="thePost.content === null"
+        :theIdPost="thePost.id"
+        :thePost="thePost.image_URL"
+        theLike:number="152"
+      /> 
     </div>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import SendPost from '@/components/SendPost.vue';
 import PostBlocImg from '@/components/PostIBlocImg.vue';
 import PostBlocText from '@/components/PostBlocText.vue';
-import { computed } from 'vue';
-import { store } from '../store/index';
+import { computed, onMounted } from 'vue';
+import store from '../store/index';
 
+const myStore: any = store;
 
-export default {
-  name: 'Feed',
-  components: {
-    SendPost,
-    PostBlocImg,
-    PostBlocText
-  },
+const feedList = computed(() => myStore.state.feedList);
 
-  setup() {
-    const myStore: any = store;
-
-    const feedList = computed(() => myStore.state.feedList);
-    // const countLikes = computed(() => myStore.state.totalLikes);
-    
-    return {
-      feedList
-    };
-  },
-
-  mounted() {
-    const myStore: any = store
-    myStore.dispatch("getPosts");
-  },
-};
+onMounted(() => {
+  myStore.dispatch("getPosts")
+  console.log('Le Store est monté.')
+})
 
 </script>
 

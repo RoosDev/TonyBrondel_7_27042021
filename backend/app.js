@@ -11,6 +11,8 @@ const app = express();
 // Définition des routes
 const feedRoutes = require("./routes/feed_routes");
 const usersRoutes = require('./routes/users_routes');
+
+// Synchronisation des models et de la base (DEV ONLY)
 // dbConnect.sequelize.sync({ alter: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
@@ -22,7 +24,15 @@ try {
   console.error("La DB n a pas trouvé le lapin blanc", error);
 }
 // Gestion des headers
+// const corsOptions = {
+//   origin: true,
+//   allowedHeaders: ['Access-Control-Allow-Headers', 'Content-Type', 'Authorization'],
+//   methods: ['GET', 'PUT', 'POST', 'DELETE'], 
+// }
+
 app.use(cors());
+
+
 
 // Sécurisation avec le package Helmet
 app.use(helmet());
@@ -41,13 +51,13 @@ app.use(
   "/Public_Images",
   express.static(path.join(__dirname, "/Public_Images"))
 );
-app.use(function(req, res, next) {
-  res.header(
-    "Access-Control-Allow-Headers",
-    "x-access-token, Origin, Content-Type, Accept"
-  );
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "x-access-token, Origin, Content-Type, Accept"
+//   );
+//   next();
+// });
 app.use("/api/auth", usersRoutes);
 app.use("/api/feed", feedRoutes);
 

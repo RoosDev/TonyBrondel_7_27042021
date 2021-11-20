@@ -20,6 +20,17 @@ const routes: Array<RouteRecordRaw> = [
 
   },
   {
+    path: '/Profile',
+    name: 'Profile',
+    component: () => import(/* webpackChunkName: "Feed" */ '../views/Profile.vue'),
+    props:true,
+    meta:{
+      title: 'Profil',
+    }
+
+  },
+
+  {
     path: '/signup',
     name: 'Signup',
     component: () => import('../components/Signup.vue'),
@@ -54,22 +65,22 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   const publicPages = ['/', '/signup', '/login'];
-//   const authRequired = !publicPages.includes(to.path);
-//   const loggedIn = localStorage.getItem('user');
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/', '/signup', '/login'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
 
-//   // trying to access a restricted page + not logged in
-//   // redirect to login page
-//   if (authRequired && !loggedIn) {
-//     next('/');
-//   } else {
-//     next();
-//   }
-// });
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !loggedIn) {
+    next('/');
+  } else {
+    next();
+  }
+});
 
 router.afterEach((to, from) => {
-  console.log(from,to);
+  // console.log(from,to);
   document.title = `Groupomania - ${to.meta.title}`;
 });
 

@@ -14,74 +14,97 @@
           autocapitalize="sentence"
           form="postTextForm"
           maxlength="500"
-          placeholder="Saisissez ici votre prose..."
+          placeholder="Saisissez ici votre prose... (max: 500 caractères)"
           required
           autofocus
         ></textarea>
         <button id="sendButton" class="col-9" type="submit" :disabled="!isFormValid">Poster</button>
       </div>
     </form>
-    <div id="messageFormSent" class="hidebox" ></div>
+    <div id="messageFormSent" class="hidebox"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+const myRouter: any = useRouter();
+
+// Récupération du Token présent en LocalStorage
+const user = JSON.parse(localStorage.getItem("user")!);
 
 export default defineComponent({
   name: "postTextForm",
   data() {
     return {
-    errorMessage: '',
+      errorMessage: '',
       theNewPost: {
         content: '',
         userId: 1
       }
     };
   },
+// interface theNewPost {
+//   content: string
+//   userId: number
+// }
+// const props = defineProps({
+//   errorMessage: String,
+//   theNewPost: { type: Object as () => theNewPost, required: true },
+
+// });
 
   methods: {
-    sendMyPost(){
+    // envoi du Post
+    sendMyPost() {
+      // Déclaration des variables
       const messageAfterSent = document.querySelector('#messageFormSent')! as HTMLDivElement;
       let PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
       const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
 
-      axios.post("http://localhost:3001/api/feed", this.theNewPost)
-        .then((res) =>{ 
+      // Démarrage de la requête d'envoi du Post en DB via Axios
+      axios.post("http://localhost:3001/api/feed", this.theNewPost,{
+          headers: { "x-access-token": user.accessToken },})
+
+          // Actions à mener lors du clic sur le bouton envoi
+        .then((res) => {
           sendButton.textContent = 'Envoi en-cours...';
-          sendButton.setAttribute("disabled","");
+          sendButton.setAttribute("disabled", "");
           setTimeout(() => {
             messageAfterSent.classList.toggle("hidebox");
             messageAfterSent.classList.remove("nokSent");
             messageAfterSent.classList.add("okSent");
-            messageAfterSent.innerHTML= '<p>Message envoyé avec succès.</p>';
+            messageAfterSent.innerHTML = '<p>Message envoyé avec succès.</p>';
             messageAfterSent.classList.toggle("hidebox");
             sendButton.textContent = 'Poster';
-            PostContent.value='';
+            PostContent.value = '';
             sendButton.textContent = 'Envoyé';
-          },3000);
+          }, 2500);
           setTimeout(() => {
             messageAfterSent.classList.toggle("hidebox");
-          }, 6000);
+            // myRouter.go();
+          }, 5000);
 
-          console.log('Post en ligne ;)' + res)})
+          console.log('Post en ligne ;)' + res)
+        })
         .catch(error => {
-          sendButton.setAttribute("disabled","");
+          sendButton.setAttribute("disabled", "");
           messageAfterSent.classList.toggle("hidebox");
           messageAfterSent.classList.remove("okSent");
           messageAfterSent.classList.add("nokSent");
-          messageAfterSent.innerHTML= '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-          setTimeout(function(){
+          messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+          setTimeout(function () {
             messageAfterSent.classList.toggle("hidebox");
-          },5000);
+          }, 5000);
 
           this.errorMessage = error.message;
           console.error("There was an error!", error);
         });
-      }
+    }
   },
   computed: {
+    // Vérifiation si le post est valid pour activer le bouton d'envoi
     isFormValid() {
       if (
         this.theNewPost.content !== ""
@@ -91,7 +114,6 @@ export default defineComponent({
         return false;
       }
     },
-    
   },
 
 });
@@ -156,31 +178,28 @@ export default defineComponent({
     text-decoration: underline;
     font-weight: bold;
   }
-  
 }
-  #messageFormSent{
-    width: 70%;
-    height: 40px;
-    border-radius: 15px;
-    p{
-      text-align: center;
-      font-weight: bold;
-      margin-top: 7px;
-      margin-bottom: 10px;
-    }
+#messageFormSent {
+  width: 70%;
+  height: 40px;
+  border-radius: 15px;
+  p {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 7px;
+    margin-bottom: 10px;
   }
-  .okSent{
-    background-color: #c8ffc8;
-    p {
+}
+.okSent {
+  background-color: #c8ffc8;
+  p {
     color: #006500;
-
-    }
-  }    
-  .nokSent{
-    background-color: #ffc8c8;
-    p {
+  }
+}
+.nokSent {
+  background-color: #ffc8c8;
+  p {
     color: #650000;
-
-    }
-  }    
+  }
+}
 </style>

@@ -95,7 +95,7 @@ exports.getAllFeeds = ( async(req, res, next) => {
     // }
     res.send( { data } );
   }catch(err){
-    return res.status(500).json({message: "getAllFeeds : Une erreur s'est produite.", details: err});
+    return res.sendStatus(500, {message: "getAllFeeds : Une erreur s'est produite.", details: err});
   }
 });
 

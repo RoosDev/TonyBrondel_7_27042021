@@ -10,90 +10,84 @@
           id="PutContent"
           cols="65"
           rows="6"
+          :value="content"
           autocapitalize="sentence"
           form="putTextForm"
           maxlength="500"
           placeholder="Saisissez ici votre prose..."
-          required
-          autofocus
-          :value="oldContent"
         ></textarea>
-        <button id="sendButton" class="col-9" type="submit" :disabled="!isPutValid">Poster</button>
+        <button
+          id="sendButton"
+          class="col-9"
+          type="submit"
+          :disabled="!isPutValid"
+        >Enregistrer les modifications</button>
       </div>
     </form>
-    <div id="msgFormSent" class="hidebox" ></div>
+    <div id="msgFormSent" class="hidebox"></div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import axios from "axios";
+import { useRouter } from "vue-router";
 
-export default defineComponent({
-  name: "changeTextForm",
-  props: {
-    postId: Number,
-    oldContent: String,
-    content: String,
-    userId: Number
-  },
-  setup(props) {
+const props = defineProps<{
+  postId: number,
+  content: string
+}>()
 
-    const urlApi = "http://localhost:3001/api/feed/" + props.postId;
+const urlApi = "http://localhost:3001/api/feed/" + props.postId;
+const myRouter: any = useRouter();
 
-    const theNewPost= {
-      content : props.oldContent,
-      userId: 1
-    };
+const sendMyPut = () => {
+  const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
+  const PutContent = document.querySelector('#PutContent') as HTMLTextAreaElement;
+  const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
 
-    const sendMyPut = () => {
-      const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
-      const PutContent = document.querySelector('#PutContent') as HTMLTextAreaElement;
-      const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
-      axios.put(urlApi, theNewPost)
-        .then((res) =>{ 
-          sendButton.textContent = 'Modification en-cours...';
-          sendButton.setAttribute("disabled","");
-          messageAfterSent.classList.toggle("hidebox");
-          messageAfterSent.classList.remove("nokSent");
-          messageAfterSent.classList.add("okSent");
-          messageAfterSent.innerHTML= '<p>Modification enregistrée.</p>';
-          setTimeout(function(){
-            messageAfterSent.classList.toggle("hidebox");
-            sendButton.textContent = 'Poster';
-            PutContent.value='';
-          },5000);
-          console.log('Post en ligne ;)' + res)})
-        .catch(error => {
-          sendButton.setAttribute("disabled","");
-          messageAfterSent.classList.toggle("hidebox");
-          messageAfterSent.classList.remove("okSent");
-          messageAfterSent.classList.add("nokSent");
-          messageAfterSent.innerHTML= '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-          setTimeout(function(){
-            messageAfterSent.classList.toggle("hidebox");
-          },5000);
-          console.error("There was an error!", error);
-        });
-    }
-  
-    const isPutValid = () => {
-      if (
-        props.content !== ""
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-      
-    return {
-      sendMyPut,
-      isPutValid
-    }
-  },
-});
+  const theChangedPost = {
+    content: PutContent.value,
+    userId: 1,
+  };
+  axios.put(urlApi, theChangedPost)
+    .then((res) => {
+      sendButton.textContent = 'Modification en-cours...';
+      sendButton.setAttribute("disabled", "");
+      messageAfterSent.classList.toggle("hidebox");
+      messageAfterSent.classList.remove("nokSent");
+      messageAfterSent.classList.add("okSent");
+      messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
+      setTimeout(function () {
+        messageAfterSent.classList.toggle("hidebox");
+        sendButton.textContent = 'Poster';
+        // PutContent.value = '';
+      }, 3000);
+      console.log('Post en ligne ;)', res)
+      myRouter.go();
 
+    })
+    .catch(error => {
+      sendButton.setAttribute("disabled", "");
+      messageAfterSent.classList.toggle("hidebox");
+      messageAfterSent.classList.remove("okSent");
+      messageAfterSent.classList.add("nokSent");
+      messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      setTimeout(function () {
+        messageAfterSent.classList.toggle("hidebox");
+      }, 5000);
+      console.error("There was an error!", error);
+    });
+}
+
+const isPutValid = () => {
+  if (
+    props.content !== ""
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 </script>
 <style lang="scss">
@@ -154,31 +148,29 @@ export default defineComponent({
     text-decoration: underline;
     font-weight: bold;
   }
-  
-  #msgFormSent{
+
+  #msgFormSent {
     width: 70%;
     height: 40px;
     border-radius: 15px;
-    p{
+    p {
       text-align: center;
       font-weight: bold;
       margin-top: 7px;
       margin-bottom: 10px;
     }
   }
-  .okSent{
+  .okSent {
     background-color: #c8ffc8;
     p {
-    color: #006500;
-
+      color: #006500;
     }
-  }    
-  .nokSent{
+  }
+  .nokSent {
     background-color: #ffc8c8;
     p {
-    color: #650000;
-
+      color: #650000;
     }
-  }    
+  }
 }
 </style>

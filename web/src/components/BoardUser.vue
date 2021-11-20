@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { onMounted } from "vue";
-import UserService from "../services/userService";
+import UserService from "../services/user.service";
 
 export default {
   name: "User",

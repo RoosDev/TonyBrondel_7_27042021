@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userSignLogCtrl = require("../controllers/auth_control");
+const userSignLogCtrl = require("../controllers/userSignLog_control");
 // const userRoleCtrl = require("../controllers/userRoles_control")
 const userGetCtrl = require("../controllers/userGet_control.js");
 const userUpdateCtrl = require("../controllers/userUpdate_control.js");
@@ -12,28 +12,31 @@ const { authJwt, verifySignUp } = require("../middlewares");
 // // Liste des routes pour créer quelque chose :
 
     // Création d'un nouvel utilisateur 
-    router.post("/signup",[
+    // router.post("/signup", passValidation, userSignLogCtrl.signup);
+      router.post("/signup",
+      [
         verifySignUp.checkDuplicateEmail,
         verifySignUp.checkRolesExisted
-      ], passValidation, userSignLogCtrl.signup);
+      ], 
+      passValidation, userSignLogCtrl.signup);
     
     // Connexion d'un utilisateur
     router.post("/login", userSignLogCtrl.login);
 
+    // Modification d'un profil utilisateur
+    router.put("/profile/:id", [authJwt.verifyToken], userUpdateCtrl.UpdateProfil);
+
     // Liste de tous les utilisateurs
-    router.get("/profiles", [authJwt.verifyToken], userGetCtrl.getAllProfiles);
+    router.get("/profile", [authJwt.verifyToken], userGetCtrl.getAllProfiles);
 
     // Données de profil d'un utilisateur
-    router.get("/profiles/:id", [authJwt.verifyToken], userGetCtrl.getOneProfile);
+    router.get("/profile/:id",  [authJwt.verifyToken], userGetCtrl.getOneProfile);
     
-    // Modification d'un profil utilisateur
-    router.put("/myprofile/:id", [authJwt.verifyToken], userUpdateCtrl.UpdateProfil);
+    // // Modification du role de l'utilisateur
+    // router.put("/roleprofile/:id", [authJwt.verifyToken, authJwt.isManager], userUpdateCtrl.UpdateRole);
 
-    // Modification du role de l'utilisateur
-    router.put("/roleprofile/:id", [authJwt.verifyToken], userUpdateCtrl.UpdateRole);
-
-    // Supprression d'un utilisateur
-    router.delete("/getout/:id",  [authJwt.verifyToken], userDropCtrl.deleteOneUser);
+    // // Suppression d'un utilisateur
+    // router.delete("/getout/:id", [authJwt.verifyToken, authJwt.isAdmin], [authJwt.verifyToken], userDropCtrl.deleteOneUser);
 
 
 module.exports = router;
