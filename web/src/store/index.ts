@@ -31,7 +31,6 @@ const store = createStore({
     },
     async getUser({ commit }: { commit: any }, userId) {
       const myId=userId.id;
-      console.log("my user",userId)
       await axios
         .get("http://localhost:3001/api/auth/profile/"+myId ,{
           headers: { "x-access-token": user.accessToken!, "x-role-token": user.roleToken! },})

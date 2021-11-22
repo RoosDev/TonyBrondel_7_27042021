@@ -81,8 +81,8 @@ const sendMyNewPass = (user) => {
 
   if (user.password == user.password2) {
 
-    myStore.dispatch("auth/changePass", user).then(
-      (data) => {
+    myStore.dispatch("auth/changePass", user)
+    .then((data) => {
         console.log('data >>> ', data)
       },
         sendButton.textContent = 'envoi en-cours ...',
@@ -97,8 +97,8 @@ const sendMyNewPass = (user) => {
       }, 1500),
       setTimeout(() => {
         messageAfterSent.classList.toggle("hidebox");
-        myStore.dispatch('auth/logout');
-        myRouter.push('/');
+        // myStore.dispatch('auth/logout');
+        // myRouter.push('/');
       }, 3500),
       console.log('Mot de passe ok ;)')
 
@@ -123,6 +123,7 @@ const sendMyNewPass = (user) => {
 
     setTimeout(() => {
       messageAfterSent.classList.toggle("hidebox");
+      // myRouter.go();
     }, 4000)
   }
 

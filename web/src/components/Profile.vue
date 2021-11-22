@@ -4,7 +4,7 @@
       <h2 class="col-9">Mon profil</h2>
       <div id="blockButton" class="col-3">
         <div id="navProfile" class="col-12">
-          <button id="changeProfile">
+          <button id="changeProfile" @click="toggleModal_EditProfil">
             <font-awesome-icon :icon="['fas', 'user-edit']" id="fontawesome-icon" />
           </button>
           <button id="changePassword" @click="toggleModal_Password">
@@ -36,6 +36,17 @@
       </div>
     </div>
   </div>
+  <Modal @close="toggleModal_EditProfil" :modalActive="modalActive_EditProfil">
+    <div class="modal-content">
+      <ChangeProfile
+        :firstname="myUser.firstname"
+        :lastname="myUser.lastname"
+        :email="myUser.email"
+        :job="myUser.job"
+        :division="myUser.division"
+      />
+    </div>
+  </Modal>
 
   <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
     <div class="modal-content">
@@ -48,6 +59,7 @@
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
 import ChangePass from '@/components/ChangePass.vue';
+import ChangeProfile from '@/components/ChangeProfile.vue';
 import { computed, onMounted } from "vue";
 import store from '../store/index';
 import { useRouter } from "vue-router";
@@ -69,7 +81,7 @@ onMounted(() => {
   myStore.dispatch("getUser", { id: currentUser.value.id })
 
 })
-const [modalActive_Txt, toggleModal_Txt] = useModal();
+const [modalActive_EditProfil, toggleModal_EditProfil] = useModal();
 const [modalActive_Password, toggleModal_Password] = useModal();
 
 
