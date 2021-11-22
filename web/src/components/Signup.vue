@@ -69,15 +69,15 @@
       </Form>
     </div>
     <div id="signupEnd" class="col-12 d-none">
-      <!-- <div id="iconSendSignup" class="col-12"> -->
+      <div id="iconSendSignup" class="col-12">
       <div
         id="alertBox"
         v-if="msg"
         class="alert"
         role="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
-      >youhou !!! {{ msg }}</div>
-      <!-- </div> -->
+        >Bienvenue, <br />Vous pouvez vous connecter à présent.</div>
+      </div>
     </div>
   </div>
 </template>
@@ -157,7 +157,7 @@ let signupEnd = document.querySelector('#signupEnd') as HTMLButtonElement;
 
 // Fonction d'envoi des données d'inscription
 const handleRegister = (user) => {
-// let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElement;
+let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElement;
 
   myStore.dispatch("auth/register", user).then(
     (data) => {
@@ -167,9 +167,9 @@ const handleRegister = (user) => {
       loading = false;
       console.log('inscription ok !!')
     },
-    // setTimeout(() => {
-    //   iconSendSignup.innerHTML = `<font-awesome-icon id="checkCircleIcon" class="styleButtonAwesome" :icon="['fas', 'check-circle']" />`;
-    // }, 3000),
+    setTimeout(() => {
+      iconSendSignup.innerHTML = `<svg class="w-6 h-6 svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
+    }, 3000),
 
     (error) => {
       msg =
@@ -299,6 +299,10 @@ const handleRegister = (user) => {
   text-align: center;
 }
 
+.svg{
+  color: $groupo-color1;
+  // font-size: 4.0em;
+}
 .rotate{
   animation: rotation 500ms;
   animation-iteration-count: 100;

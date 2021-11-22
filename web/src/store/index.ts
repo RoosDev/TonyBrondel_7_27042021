@@ -12,6 +12,7 @@ const store = createStore({
   state() {
     return {
       feedList: [],
+      userDetail: []
     };
   },
 
@@ -28,20 +29,15 @@ const store = createStore({
         //   commit("setCountLikes", theLikes.data.likes);
         // })
     },
-    async getUser({ commit }: { commit: any }, id) {
-      const userId=id.id;
+    async getUser({ commit }: { commit: any }, userId) {
+      const myId=userId.id;
       console.log("my user",userId)
       await axios
-        .get("http://localhost:3001/api/auth/profile/"+userId ,{
-          headers: { "x-access-token": user.accessToken, "x-role-token": user.roleToken },})
+        .get("http://localhost:3001/api/auth/profile/"+myId ,{
+          headers: { "x-access-token": user.accessToken!, "x-role-token": user.roleToken! },})
         .then((theUser: any) => {
-          console.log('id recu >>' , id)
           commit("setUserDetail", theUser.data.data);
-          console.log('theuser >>' , theUser.data.data);
         })
-        // .then((theLikes: any) => {
-        //   commit("setCountLikes", theLikes.data.likes);
-        // })
     },
 
   //   async getComments({ commit }: { commit: any }, {idPost})  {
@@ -69,7 +65,6 @@ const store = createStore({
 
     setUserDetail(state: any, userDetail: any) {
       state.userDetail = userDetail;
-      console.log('user detail hot >> ',userDetail);
     },
 
   },

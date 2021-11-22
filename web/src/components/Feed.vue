@@ -34,7 +34,6 @@ const feedList = computed(() => myStore.state.feedList);
 
 onMounted(() => {
   myStore.dispatch("getPosts")
-  console.log('Le Store est monté.')
 })
 
 </script>

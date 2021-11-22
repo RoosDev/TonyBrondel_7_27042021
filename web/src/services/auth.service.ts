@@ -34,6 +34,13 @@ class AuthService {
       division: user.division,
     });
   }
+  changePass(user) {
+    console.log('mon url : >> ' +API_URL + "profile/"+ user.id)
+    return axios.put(API_URL + "profile/"+ user.id, {
+      password: user.password,
+    });
+  }
+
 }
 
 export default new AuthService();

@@ -65,7 +65,7 @@ export default defineComponent({
 
       // Démarrage de la requête d'envoi du Post en DB via Axios
       axios.post("http://localhost:3001/api/feed", this.theNewPost,{
-          headers: { "x-access-token": user.accessToken },})
+          headers: { "x-access-token": user.accessToken!, "x-role-token": user.roleToken! },})
 
           // Actions à mener lors du clic sur le bouton envoi
         .then((res) => {

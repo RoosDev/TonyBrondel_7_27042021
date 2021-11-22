@@ -10,7 +10,7 @@ const MY_APP_SECRET = process.env.APP_SECRET_KEY;
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   let tokenRole = req.headers["x-role-token"];
-  if (!token || !tokenRole) {
+  if ( !token && !tokenRole ) {
     return res.status(403).send({
       message: "Pas de Token ... Pas d'accès",
     });

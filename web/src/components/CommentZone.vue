@@ -48,7 +48,6 @@ import {  defineComponent } from 'vue';
 import axios from "axios";
 import { useRouter } from "vue-router";
 
-const myRouter: any = useRouter();
 
 export default defineComponent({
   name: 'postTxtComment',
@@ -86,10 +85,13 @@ export default defineComponent({
   methods: {
     
     sendMyComment() {
+      const user = JSON.parse(localStorage.getItem("user")!);
       let commentContent = document.querySelector(`#textareaComment_${this.theIdPost}`) as HTMLTextAreaElement;
       const sendCommentButton = document.querySelector(`#sendComment_${this.theIdPost}`) as HTMLDivElement;
+      const myRouter: any = useRouter();
 
-      axios.post("http://localhost:3001/api/feed/" + this.theIdPost + "/comment", this.theNewComment)
+      axios.post("http://localhost:3001/api/feed/" + this.theIdPost + "/comment", this.theNewComment,{
+          headers: { "x-access-token": user.accessToken!, "x-role-token": user.roleToken! },})
         .then(() => {
           sendCommentButton.innerHTML = `<svg class="w-6 h-6 rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
           sendCommentButton.setAttribute("disabled", "");

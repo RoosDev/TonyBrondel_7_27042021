@@ -7,7 +7,7 @@
           <button id="changeProfile">
             <font-awesome-icon :icon="['fas', 'user-edit']" id="fontawesome-icon" />
           </button>
-          <button id="changePassword">
+          <button id="changePassword" @click="toggleModal_Password">
             <font-awesome-icon :icon="['fas', 'key']" id="fontawesome-icon" />
           </button>
         </div>
@@ -23,22 +23,32 @@
         </div>
         <div id="profilText_Email">
           <span id="emailTitle" class="identityTitle">Adresse email :</span>
-          <span id="emailContent"></span>
+          <span id="emailContent">{{ myUser.email }}</span>
         </div>
         <div id="profilText_Job">
           <span id="jobTitle" class="identityTitle">Poste :</span>
-          <span id="jobContent"></span>
+          <span id="jobContent">{{ myUser.job }}</span>
         </div>
         <div id="profilText_Division">
           <span id="divisionTitle" class="identityTitle col-3">Division :</span>
-          <span id="divisionContent" class="col-9"></span>
+          <span id="divisionContent" class="col-9">{{ myUser.division }}</span>
         </div>
       </div>
     </div>
   </div>
+
+      <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
+      <div class="modal-content">
+        <ChangePass/>
+      </div>
+    </Modal>
+
 </template>
 
 <script setup lang="ts">
+import Modal from '@/components/Modal.vue';
+import { useModal } from '@/composition/modal';
+import ChangePass from'@/components/ChangePass.vue';
 import { computed, onMounted } from "vue";
 import store from '../store/index';
 import { useRouter } from "vue-router";
@@ -46,26 +56,29 @@ import { useRouter } from "vue-router";
 const myStore: any = store;
 const myRouter: any = useRouter();
 
+// Check du token avant redirection
+const currentUser = computed(() => myStore.state.auth.user);
+if (!currentUser.value) {
+  myRouter.push('/login');
+}
+
+//Connexion au store pour récupération des informations
   const userDetail = computed(() => myStore.state.userDetail);
+  const myUser = userDetail.value;
+  const myName = myUser.firstname + ' ' + myUser.lastname;
+  console.log('userDetail  value>> ', userDetail);
+  // console.log('userDetail  firstname >> ', myUser.firstname);
+  console.log('myName >> ', myName);
 
 // Vérification de l'authentification de l'utilisateur
 onMounted(() => {
-  const currentUser = computed(() => myStore.state.auth.user);
-  if (!currentUser.value) {
-    myRouter.push('/login');
-  } else {
-    // Connexion au Store de l'application
-    const user = JSON.parse(localStorage.getItem("user")!);
-    const userId = user.id
-    myStore.dispatch("getUser", { id: userId })
-    console.log('Le Store est monté.')
-  }
+  // Connexion au Store de l'application
+  myStore.dispatch("getUser", { id: currentUser.value.id })
+  
 })
-    const myUser = userDetail.value;
-    const myName = myUser.firstname + ' ' + myUser.lastname;
-    console.log('userDetail  value>> ', userDetail.value);
-    // console.log('userDetail  firstn >> ', myUser.firstname);
-    console.log('myName >> ', myName);
+const [modalActive_Txt, toggleModal_Txt] = useModal();
+const [modalActive_Password, toggleModal_Password] = useModal();
+
 
 
 </script>
@@ -151,10 +164,11 @@ onMounted(() => {
 
   #profilText {
     margin: 40px;
+    font-size: 1.2em;
 
     .identityTitle {
-      font-size: 1.2em;
       font-weight: bold;
+      margin-right: 25px;
     }
   }
   #profilTextName {
