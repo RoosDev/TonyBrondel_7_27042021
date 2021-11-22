@@ -35,9 +35,20 @@ class AuthService {
     });
   }
   changePass(user) {
-    console.log('mon url : >> ' +API_URL + "profile/"+ user.id)
-    return axios.put(API_URL + "profile/"+ user.id, {
+    console.log('mon url : >> ' +API_URL + "myprofile/pass/"+ user.id)
+    console.log('user send >> ', user)
+    const myHead = JSON.parse(localStorage.getItem("user")!);
+    console.log('myHead >> ', myHead)
+
+    return axios.put(API_URL + "myprofile/pass/"+ user.id, {
+      id: user.id,
+      email:user.hidemail,
       password: user.password,
+    }, {
+      headers: { 
+        "x-access-token": myHead.accessToken!, 
+        "x-role-token": myHead.roleToken! 
+      },
     });
   }
 

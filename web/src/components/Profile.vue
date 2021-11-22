@@ -7,9 +7,9 @@
           <button id="changeProfile">
             <font-awesome-icon :icon="['fas', 'user-edit']" id="fontawesome-icon" />
           </button>
-          <!-- <button id="changePassword" @click="toggleModal_Password"> -->
+          <button id="changePassword" @click="toggleModal_Password">
             <font-awesome-icon :icon="['fas', 'key']" id="fontawesome-icon" />
-          <!-- </button> -->
+          </button>
         </div>
       </div>
     </div>
@@ -37,18 +37,17 @@
     </div>
   </div>
 
-      <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
-      <div class="modal-content">
-        <ChangePass/>
-      </div>
-    </Modal>
-
+  <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
+    <div class="modal-content">
+      <ChangePass :email="myUser.email" />
+    </div>
+  </Modal>
 </template>
 
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
-import ChangePass from'@/components/ChangePass.vue';
+import ChangePass from '@/components/ChangePass.vue';
 import { computed, onMounted } from "vue";
 import store from '../store/index';
 import { useRouter } from "vue-router";
@@ -56,25 +55,19 @@ import { useRouter } from "vue-router";
 const myStore: any = store;
 const myRouter: any = useRouter();
 
-// Check du token avant redirection
+// initialisation du token
 const currentUser = computed(() => myStore.state.auth.user);
-if (!currentUser.value) {
-  myRouter.push('/login');
-}
 
 //Connexion au store pour récupération des informations
-  const userDetail = computed(() => myStore.state.userDetail);
-  const myUser = userDetail.value;
-  const myName = myUser.firstname + ' ' + myUser.lastname;
-  console.log('userDetail  value>> ', userDetail);
-  // console.log('userDetail  firstname >> ', myUser.firstname);
-  console.log('myName >> ', myName);
+const userDetail = computed(() => myStore.state.userDetail);
+const myUser = userDetail.value;
+const myName = myUser.firstname + ' ' + myUser.lastname;
 
 // Vérification de l'authentification de l'utilisateur
 onMounted(() => {
   // Connexion au Store de l'application
   myStore.dispatch("getUser", { id: currentUser.value.id })
-  
+
 })
 const [modalActive_Txt, toggleModal_Txt] = useModal();
 const [modalActive_Password, toggleModal_Password] = useModal();

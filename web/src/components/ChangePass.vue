@@ -6,14 +6,29 @@
         <p>
           <em>Critères: minimum 6 caractères dont au moins 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.</em>
         </p>
+        <Field name="id" type="hidden" :value="currentUser.id" />
+        <Field name="hidemail" type="hidden" :value="email" />
+
         <div id="divPass1">
           <label for="password">Votre nouveau mot de passe :</label>
-          <Field name="password" type="password" autocomplete="new-password" class="form-control" />
+          <Field
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            class="form-control inputPass"
+            v-model="password"
+          />
         </div>
         <ErrorMessage name="password" class="error-feedback" />
-        <div id="divPass1">
-          <label for="password2">Votre nouveau mot de passe :</label>
-          <Field name="password2" type="password" autocomplete="new-password" class="form-control" />
+        <div id="divPass2">
+          <label for="password2">Répéter le mot de passe :</label>
+          <Field
+            name="password2"
+            type="password"
+            autocomplete="new-password"
+            class="form-control inputPass2"
+            v-model="password2"
+          />
         </div>
         <ErrorMessage name="password2" class="error-feedback" />
         <div id="divSendButton">
@@ -21,12 +36,11 @@
         </div>
       </div>
     </Form>
-    <div id="messageFormSent" class="hidebox"></div>
+    <div id="msgFormSent" class="hidebox"></div>
   </div>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
-import axios from "axios";
 import store from '../store/index';
 import { useRouter } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -48,63 +62,48 @@ const schemaChangePass = yup.object().shape({
     .max(40, "Max 40 caractères!"),
 });
 
+const props = defineProps<{
+  email: string
+}>()
 
-const props = defineProps({
-  password: String,
-  password2: String
-})
+const password = '';
+const password2 = '';
 
 // Check du token avant redirection
 const currentUser = computed(() => myStore.state.auth.user);
-if (!currentUser.value) {
-  myRouter.push('/login');
-}
 
 // Fonction d'enregistrement du nouveau mot de passe
 const sendMyNewPass = (user) => {
   const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
-  const imputPass = document.querySelector('input') as HTMLInputElement;
+  const inputPass = document.querySelector('.inputPass') as HTMLInputElement;
+  const inputPass2 = document.querySelector('.inputPass2') as HTMLInputElement;
   const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
 
-  console.log('passw1 >>  > ', props.password);
-  console.log('passw2 >>  > ', props.password2);
-  console.log('equal == >>  > ', props.password == props.password2);
-  console.log('equal === >>  > ', props.password === props.password2);
+  if (user.password == user.password2) {
 
-
-  if (props.password == props.password2) {
-    const urlApi = "http://localhost:3001/api/auth/profile/" + currentUser.value.id;
-    console.log('id >> ', currentUser.value.id)
-    const newPassword = props.password2;
-
-
-    // axios.put(urlApi, newPassword)
-    //   .then((res) => {
-
-    myStore.dispatch("auth/register", user).then(
+    myStore.dispatch("auth/changePass", user).then(
       (data) => {
         console.log('data >>> ', data)
       },
+        sendButton.textContent = 'envoi en-cours ...',
       setTimeout(() => {
-        messageAfterSent.classList.toggle("hidebox");
         messageAfterSent.classList.remove("nokSent");
         messageAfterSent.classList.add("okSent");
-        messageAfterSent.innerHTML = '<p>Nouveau mot de passe enregistré.</p>';
+        messageAfterSent.innerHTML = '<p>Nouveau mot de passe enregistré <br /> Déconnexion en-cours...</p>';
         messageAfterSent.classList.toggle("hidebox");
-        sendButton.textContent = 'Enregistrer';
-        imputPass.value = '';
+        inputPass.value = '';
+        inputPass2.value = '';
         sendButton.textContent = 'Envoyé';
-      }, 2500),
+      }, 1500),
       setTimeout(() => {
         messageAfterSent.classList.toggle("hidebox");
-        // myRouter.go();
-      }, 5000),
-
+        myStore.dispatch('auth/logout');
+        myRouter.push('/');
+      }, 3500),
       console.log('Mot de passe ok ;)')
 
     ),
-      (err) => {
-        sendButton.setAttribute("disabled", "");
+      (error) => {
         messageAfterSent.classList.toggle("hidebox");
         messageAfterSent.classList.remove("okSent");
         messageAfterSent.classList.add("nokSent");
@@ -112,21 +111,31 @@ const sendMyNewPass = (user) => {
         setTimeout(function () {
           messageAfterSent.classList.toggle("hidebox");
         }, 5000);
-        console.error("There was an error!", err);
+        console.error("There was an error!", error);
       }
+  } else {
+    messageAfterSent.classList.remove("okSent");
+    messageAfterSent.classList.add("nokSent");
+    messageAfterSent.classList.toggle("hidebox");
+    messageAfterSent.innerHTML = '<p>Erreur de mot de passe.</p>';
+    inputPass.value = '';
+    inputPass2.value = '';
 
-
+    setTimeout(() => {
+      messageAfterSent.classList.toggle("hidebox");
+    }, 4000)
   }
 
 }
-const isFormValid = computed(() => {
-  if (
-    props.password !== "" && props.password2 !== "" && props.password2 == props.password
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+
+const isFormValid = computed((user) => {
+  // if (
+  //   user.password !== "" && user.password2 !== "" && user.password2 == user.password
+  // ) {
+  return true;
+  // } else {
+  //   return false;
+  // }
 })
 
 </script>
@@ -192,6 +201,32 @@ form {
         }
       }
     }
+  }
+}
+#msgFormSent {
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  height: 50px;
+  border-radius: 15px;
+  p {
+    font-size: 1.0em;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 7px;
+    margin-bottom: 10px;
+  }
+}
+.okSent {
+  background-color: #c8ffc8;
+  p {
+    color: #006500;
+  }
+}
+.nokSent {
+  background-color: #ffc8c8;
+  p {
+    color: #650000;
   }
 }
 </style>

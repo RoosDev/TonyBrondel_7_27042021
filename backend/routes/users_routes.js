@@ -26,6 +26,9 @@ const { authJwt, verifySignUp } = require("../middlewares");
     // Modification d'un profil utilisateur
     router.put("/profile/:id", [authJwt.verifyToken], userUpdateCtrl.UpdateProfil);
 
+    // Modification d'un profil utilisateur
+    router.put("/myprofile/pass/:id", [authJwt.verifyToken], userUpdateCtrl.UpdatePassword);
+
     // Liste de tous les utilisateurs
     router.get("/profile", [authJwt.verifyToken], userGetCtrl.getAllProfiles);
 

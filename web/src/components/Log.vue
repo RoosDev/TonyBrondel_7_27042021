@@ -60,7 +60,7 @@ const loggedIn = computed(() => myStore.state.auth.status.loggedIn);
 if (loggedIn.value) {
   setTimeout(() => {
     myRouter.push('/Home');
-  }, 3000);
+  }, 1000);
 }
 
 const schema = yup.object().shape({
@@ -76,7 +76,7 @@ const handleLogin = (user) => {
     () => {
       setTimeout(() => {
         myRouter.push('/Home');
-      }, 3000);
+      }, 1000);
     },
     (error) => {
       loading = false;
