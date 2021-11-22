@@ -43,7 +43,7 @@
           </div>
           <ErrorMessage name="job" class="error-feedback" />
           <div id="signupdivision">
-            <label for="division">division : *</label>
+            <label for="division">Votre division : *</label>
             <br />
             <Field id="selectdivision" name="division" as="select">
               <option value="ERR" disabled>Sélectionnez la division</option>

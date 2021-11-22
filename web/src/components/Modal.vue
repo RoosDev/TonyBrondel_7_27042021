@@ -14,7 +14,7 @@
 <script lang="ts">
 
 export default {
-  props: ["modalActive", "modalActive_Txt", "modalActive_Img", "modalActive_DeletePost"],
+  props: ["modalActive", "modalActive_Txt", "modalActive_Img", "modalActive_DeletePost", "modalActive_EditProfile", "modalActive_Password" ],
   setup(props:any, { emit }:any ) {
     const close = () => {
       emit("close");

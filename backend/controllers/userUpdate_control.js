@@ -18,10 +18,8 @@ exports.UpdateProfil = async (req, res, next) => {
   const theProfil = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
+    email: req.body.email,
     job: req.body.job,
-    photo_URL: `${req.protocol}://${req.get("host")}/Public_Images/Profiles/${
-      req.file.filename
-    }`,
     division: req.body.division,
   };
   try {
@@ -38,7 +36,7 @@ exports.UpdateProfil = async (req, res, next) => {
     };
   } catch (err) {
     return (res.sendStatus(500).statusMessage =
-      err.message || "Some error occurred while retrieving the post's list.");
+      err.message || "Une erreur s'est produite, veuillez réessayer.");
   }
 };
 
