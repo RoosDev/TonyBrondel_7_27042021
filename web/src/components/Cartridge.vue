@@ -14,10 +14,23 @@
 
         <div id="cartridge_Bottom">
             <nav class="row align-items-center col-md-6">
-                <p class="col-md-6"><router-link to="/Home"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg><br/>Feed</router-link></p>
-                <p class="col-md-6"><router-link to="/Profile"><font-awesome-icon :icon="['fas', 'users-cog']" id="fontawesome-icon" /><br/>Mon profil</router-link></p>
-                <p class="col-md-6"><font-awesome-icon :icon="['fas', 'tools']" id="fontawesome-icon" /><br/>Administration</p>
-                <p class="col-md-6"><a @click.prevent="logOut"><font-awesome-icon :icon="['fas', 'sign-out-alt']" id="fontawesome-icon" /><br/>Déconnexion</a></p>
+                <router-link to="/Home" class="col-md-6 navLink">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                  </svg><br/>Feed</router-link>
+                <router-link to="/Profile" class="col-md-6 navLink">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                  </svg>
+                  <br/>Mon profil</router-link>
+                <router-link to="/Admin" class="col-md-6 navLink">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+                  </svg><br/>Administration</router-link>
+                <a @click.prevent="logOut" class="col-md-6 navLink">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg><br/>Déconnexion</a>
             </nav>
         </div>
     </div>
@@ -103,21 +116,39 @@ const myRouter: any = useRouter();
       margin-left: auto;
       margin-top: 80px;
 
-      p {
-        font-size: 0.9em;
-        margin-top: 10px;
-        margin-bottom: 30px;
-        text-align: center;
 
-        #fontawesome-icon {
-          font-size: 1.6em;
+      .router-link-active {
+        color: orange;
+      }
+
+      .router-link-exact-active {
+        color: crimson;
+      }
+
+      .navLink {
+        font-size: 1.2em;
+        
+      }
+      svg{
+        padding: 0;
+
+        path {
+          margin: 0;
         }
       }
+
+      // p {
+      //   font-size: 0.9em;
+      //   margin-top: 10px;
+      //   margin-bottom: 30px;
+      //   text-align: center;
+
+      //   #fontawesome-icon {
+      //     font-size: 1.6em;
+      //   }
+      // }
     }
   }
 }
 
-svg {
-  font-size: 1.6em;
-}
 </style>

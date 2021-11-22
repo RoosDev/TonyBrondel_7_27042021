@@ -7,9 +7,9 @@
           <button id="changeProfile">
             <font-awesome-icon :icon="['fas', 'user-edit']" id="fontawesome-icon" />
           </button>
-          <button id="changePassword" @click="toggleModal_Password">
+          <!-- <button id="changePassword" @click="toggleModal_Password"> -->
             <font-awesome-icon :icon="['fas', 'key']" id="fontawesome-icon" />
-          </button>
+          <!-- </button> -->
         </div>
       </div>
     </div>

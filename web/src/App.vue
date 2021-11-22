@@ -1,11 +1,30 @@
 <template>
-  <router-view/>
+  <router-view />
+  <div id="cartridge" class="col-12 col-md-3">
+    <router-view class="cartridge col-12 col-md-3" name="navMenu"></router-view>
+  </div>
+  <div id="divPage" class="col-12 col-md-9">
+    <router-view name="thePage"></router-view>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted } from "vue";
+import store from './store/index';
+import { useRouter } from "vue-router";
+
+const myRouter: any = useRouter();
+const myStore: any = store;
+
+// Vérification de l'authentification de l'utilisateur
+const currentUser = computed(() => myStore.state.auth.user);
+onMounted(() => {
+  if (!currentUser.value) {
+    myRouter.push('/');
+  }
+})
 
 </script>
-
 <style lang="scss">
 @import "./scss/variables.scss";
 
@@ -39,5 +58,21 @@
     background: $groupo-color1;
   }
 }
+template {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100vh;
 
+  #cartridge {
+    height: 100vh;
+  }
+
+  #divPage {
+    position: fixed;
+    margin: 0;
+    height: 100%;
+  }
+}
 </style>

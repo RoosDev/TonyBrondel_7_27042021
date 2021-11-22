@@ -1,10 +1,18 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import Login from '../views/Login.vue'
+import Home from '../views/Cartridge.vue';
+import Cartridge from '../views/Cartridge.vue';
+import theFeed from '../views/FeedView.vue';
+import theProfile from '../views/Profile.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Login',
-    component: () => import('../views/Login.vue'), 
+    // component: () => import('../views/Login.vue'), 
+    components: {
+      default: Login,
+    },
     meta:{
       title: 'Se connecter',
     }
@@ -12,7 +20,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/Home',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "Feed" */ '../views/Home.vue'),
+    components: {
+      navMenu: Cartridge,
+      thePage: theFeed,
+    },
     props:true,
     meta:{
       title: 'le flux d\'actu.',
@@ -22,7 +33,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/Profile',
     name: 'Profile',
-    component: () => import(/* webpackChunkName: "Feed" */ '../views/Profile.vue'),
+    components: {
+      navMenu: Cartridge,
+      thePage: theProfile,
+    },
     props:true,
     meta:{
       title: 'Profil',
@@ -30,24 +44,24 @@ const routes: Array<RouteRecordRaw> = [
 
   },
 
-  {
-    path: '/signup',
-    name: 'Signup',
-    component: () => import('../components/Signup.vue'),
-    meta:{
-      title: 'Inscrivez-vous',
-    }
+  // {
+  //   path: '/signup',
+  //   name: 'Signup',
+  //   component: () => import('../components/Signup.vue'),
+  //   meta:{
+  //     title: 'Inscrivez-vous',
+  //   }
 
-  },
-  {
-    path: '/login',
-    name: 'Log',
-    component: () => import('../components/Log.vue'),
-    meta:{
-      title: 'Connectez vous',
-    }
+  // },
+  // {
+  //   path: '/login',
+  //   name: 'Log',
+  //   component: () => import('../components/Log.vue'),
+  //   meta:{
+  //     title: 'Connectez vous',
+  //   }
 
-  },
+  // },
   {
     name: 'NotFound',
     path: '/:pathMatch(.*)',
