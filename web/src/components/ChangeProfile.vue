@@ -34,7 +34,7 @@
           <br />
           <Field id="selectdivision" as="select" name="division">
             <option value="ERR" disabled>Sélectionnez la division</option>
-            <option value="Achats" selected>Achats</option>
+            <option value="Achats">Achats</option>
             <option value="Deploiement">Deploiement</option>
             <option value="Direction">Direction</option>
             <option value="Finance" selected>Finance</option>

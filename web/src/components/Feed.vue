@@ -2,20 +2,21 @@
   <div id="feedcontent" class="col-12 col-md-9">
     <SendPost />
     <div id="postsList" v-for="thePost in feedList" :key="thePost.id">
-       <PostBlocText
+       <PostBlocText 
         v-if="thePost.image_URL === null"
         :theIdPost="thePost.id"
         :theTxtPost="thePost.content"
         :theAuthor="thePost.authorPost"
         :theDate="thePost.createdAt"
         :theComments="thePost.comment_list"
-        :theLikes="thePost.like_list"
       /> 
       <PostBlocImg
         v-else-if="thePost.content === null"
         :theIdPost="thePost.id"
-        :thePost="thePost.image_URL"
-        theLike:number="152"
+        :theTxtPost="thePost.image_URL"
+        :theAuthor="thePost.authorPost"
+        :theDate="thePost.createdAt"
+        :theComments="thePost.comment_list"
       /> 
     </div>
   </div>
@@ -28,11 +29,14 @@ import PostBlocText from '@/components/PostBlocText.vue';
 import { computed, onMounted } from 'vue';
 import store from '../store/index';
 
+// initialisation du store
 const myStore: any = store;
 
+//Connexion au store pour récupération des informations
 const feedList = computed(() => myStore.state.feedList);
 
 onMounted(() => {
+  // Connexion au Store de l'application
   myStore.dispatch("getPosts")
 })
 

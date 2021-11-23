@@ -1,123 +1,113 @@
-<template lang="fr">
-    <div id="fullBloc" class="col-md-10">
-        <div id="postBloc">
-            <div id="timeLikeMenuZone" class="col-12">
-                <span id="timePost" >
-                <p> <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture"> {{ postAuthor }} - le {{ theDate }} </p>
-                </span>
-                <span id="likePost" >
-                    <p><button><font-awesome-icon :icon="['fas', 'hand-peace']" /></button> {{ theLike }} </p>
-                </span>
-                <span id="menuPost" >
-                    <button :id="buttonChangeDelete" class="openMenuPost" @click="toggleMenuPost">•••</button>
-                    <div :id="menuDevelopChange" class="menuPostDevelop hidebox">
-                      <button :id="buttonChange" class="menuPost_Change" @click="toggleModal_ChangePost(); toggleMenuPost()"><p>Modifier</p></button>
-                      <button :id="buttonDelete" class="menuPost_Delete" @click="toggleModal_DeletePost(); toggleMenuPost()"><p>Supprimer</p></button>
-                    </div>
-                </span>
-            </div>
-            <div id="PostZone" class="col-md-6">
-                <div id="thePostText" class="col-12">
-                    <p>
-                        {{ theTxtPost }} 
-                    </p>
-                </div>
-            </div>
-            <div id="commentZone" class="col-md-6">
-
-              <CommentZone 
-                :theIdPost= "theIdPost"
-                :theComments= "theComments"
-                :theCommentAuthor= "theCommentAuthor"
-                :key="theComments.id"
-              />
-
-            </div>
+<template>
+  <div id="fullBloc" class="col-md-10">
+    <div id="postBloc">
+      <div id="timeLikeMenuZone" class="col-12">
+        <span id="timePost">
+          <p>
+            <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture" />
+            {{ postAuthor }} - le {{ formatDatePost(theDate) }}
+          </p>
+        </span>
+        <span id="likePost">
+          <!-- <p>
+            <button>
+              <font-awesome-icon :icon="['fas', 'hand-peace']" />
+            </button>
+            {{ theLike }}
+          </p> -->
+        </span>
+        <span id="menuPost">
+          <button :id="buttonChangeDelete" class="openMenuPost" @click="toggleMenuPost()">•••</button>
+          <div :id="menuDevelopChange" class="menuPostDevelop hidebox">
+            <button
+              :id="buttonChange"
+              class="menuPost_Change"
+              @click="toggleModal_ChangePost; toggleMenuPost()"
+            >
+              <p>Modifier</p>
+            </button>
+            <button
+              :id="buttonDelete"
+              class="menuPost_Delete"
+              @click="toggleModal_DeletePost; toggleMenuPost()"
+            >
+              <p>Supprimer</p>
+            </button>
+          </div>
+        </span>
+      </div>
+      <div id="PostZone" class="col-md-6">
+        <div id="thePostText" class="col-12">
+          <p>{{ theTxtPost }}</p>
         </div>
-        <div id="postFooter" class="col-6"><p></p></div>
+      </div>
+      <div id="commentZone" class="col-md-6">
+        <CommentZone
+          :theIdPost="props.theIdPost"
+          :theComments="props.theComments"
+          :key="props.theComments.id"
+        />
+      </div>
     </div>
-    <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
-      <div class="modal-content">
-        <ChangeText :postId="theIdPost" :content="theTxtPost"/>
-      </div>
-    </Modal>
-    <Modal @close="toggleModal_DeletePost" :modalActive="modalActive_DeletePost">
-      <div class="modal-content">
-        <DeletePost :postId="theIdPost"/>
-      </div>
-    </Modal>
-
+    <div id="postFooter" class="col-6">
+      <p></p>
+    </div>
+  </div>
+  <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
+    <div class="modal-content">
+      <ChangeText :postId="theIdPost" :content="theTxtPost" />
+    </div>
+  </Modal>
+  <Modal @close="toggleModal_DeletePost" :modalActive="modalActive_DeletePost">
+    <div class="modal-content">
+      <DeletePost :postId="theIdPost" />
+    </div>
+  </Modal>
 </template>
-<script lang="ts">
-import { defineComponent, reactive } from 'vue';
-import Modal from '@/components/Modal.vue';
+<script setup lang="ts">
+import { reactive } from 'vue';
 import CommentZone from '@/components/CommentZone.vue';
 import ChangeText from '@/components/ChangeText.vue';
 import DeletePost from '@/components/DeletePost.vue';
+import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
+import moment from 'moment';
 
-export default defineComponent({
-  name: 'postTxtComment',
-  components: {
-    Modal,
-    ChangeText,
-    DeletePost,
-    CommentZone
-  },
-  data() {
-    return {
-      errorMessage: '',
-      commentRefresh: 0,
-    };
-  },
-  props: {
-    theIdPost: Number,
-    theTxtPost: String,
-    theLike: Object,
-    theAuthor: Object,
-    theDate: String,
-    theComments: Object,
-    theCommentAuthor: Object,
-    theLikes: Object
+const props = defineProps<{
+  theIdPost: number,
+  theTxtPost: string,
+  theAuthor: { string },
+  theDate: string,
+  theComments: { string }}>()
 
-  },
+const postDate = props.theDate!;
 
-  setup(props) {
-    const postAuthor: string = props.theAuthor?.firstname + ' ' + props.theAuthor?.lastname;
-    const theComments = reactive(props.theComments!);
-    const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
-    const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
+// Fonction de mise en forme de la date du post
+const formatDatePost = (postDate) => {
+  moment.locale("fr")
+  return moment(postDate).format('lll')
+}
+
+const authorFirstname = props.theAuthor.firstname!;
+const authorLastname = props.theAuthor.lastname!;
+
+const postAuthor: string = authorFirstname + ' ' + authorLastname;
+const theComments = reactive(props.theComments!);
+const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
+const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
 
 
-    // Nom dynamique des id pour le modifier / supprimer les posts
-    const buttonChangeDelete = 'openMenu_' + props.theIdPost;
-    const menuDevelopChange = 'menuPostDev_' + props.theIdPost;
-    const buttonChange = 'buttonChange_' + props.theIdPost;
-    const buttonDelete = 'buttonDelete_' + props.theIdPost;
+// Nom dynamique des id pour le modifier / supprimer les posts
+const buttonChangeDelete = 'openMenu_' + props.theIdPost;
+const menuDevelopChange = 'menuPostDev_' + props.theIdPost;
+const buttonChange = 'buttonChange_' + props.theIdPost;
+const buttonDelete = 'buttonDelete_' + props.theIdPost;
 
-    // Fonction d'affichage du menu Modifier/ supprimer le post
-    function toggleMenuPost() {
-      const boxMenuPost = document.querySelector('#' + menuDevelopChange) as HTMLDivElement;
-      boxMenuPost.classList.toggle("hidebox");
-    }
-
-    return {
-      postAuthor,
-      toggleMenuPost,
-      modalActive_ChangePost,
-      toggleModal_ChangePost,
-      modalActive_DeletePost,
-      toggleModal_DeletePost,
-      buttonChangeDelete,
-      menuDevelopChange,
-      buttonChange,
-      buttonDelete
-    };
-  },
-
-
-});
-
+// Fonction d'affichage du menu Modifier/ supprimer le post
+const toggleMenuPost = () => {
+  const boxMenuPost = document.querySelector('#' + menuDevelopChange) as HTMLDivElement;
+  boxMenuPost.classList.toggle("hidebox");
+}
 
 </script>
 <style lang="scss">

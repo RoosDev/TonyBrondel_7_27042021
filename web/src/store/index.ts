@@ -12,42 +12,66 @@ const store = createStore({
   state() {
     return {
       feedList: [],
-      userDetail: []
+      userDetail: [],
     };
   },
 
   // Define Actions
   actions: {
+    // Récupération de tous les posts
     async getPosts({ commit }: { commit: any }) {
       await axios
-        .get("http://localhost:3001/api/feed" ,{
-          headers: { "x-access-token": user.accessToken, "x-role-token": user.roleToken },})
+        .get("http://localhost:3001/api/feed", {
+          headers: {
+            "x-access-token": user.accessToken,
+            "x-role-token": user.roleToken,
+          },
+        })
         .then((thePosts: any) => {
           commit("setFeedList", thePosts.data.data);
-        })
-        // .then((theLikes: any) => {
-        //   commit("setCountLikes", theLikes.data.likes);
-        // })
+        });
+      // .then((theLikes: any) => {
+      //   commit("setCountLikes", theLikes.data.likes);
+      // })
     },
+
+    // Récupération d'un seul utilisateur
     async getUser({ commit }: { commit: any }, userId) {
-      const myId=userId.id;
+      const myId = userId.id;
       await axios
-        .get("http://localhost:3001/api/auth/profile/"+myId ,{
-          headers: { "x-access-token": user.accessToken!, "x-role-token": user.roleToken! },})
+        .get("http://localhost:3001/api/auth/profile/" + myId, {
+          headers: {
+            "x-access-token": user.accessToken!,
+            "x-role-token": user.roleToken!,
+          },
+        })
         .then((theUser: any) => {
           commit("setUserDetail", theUser.data.data);
-        })
+        });
     },
 
-  //   async getComments({ commit }: { commit: any }, {idPost})  {
-  //     await axios
-  //       .get("http://localhost:3001/api/feed/"+idPost+"/comments")
-  //       .then((theComments: any) => {
-  //         console.log('url :>> ', "http://localhost:3001/api/feed/"+idPost+"/comments")
-  //         commit("setCommentList", theComments.data.data);
-  //       })
-  //   },
+    // Récupération de tous les utilisateurs
+    async getUsers({ commit }: { commit: any }) {
+      await axios
+        .get("http://localhost:3001/api/auth/profile/", {
+          headers: {
+            "x-access-token": user.accessToken!,
+            "x-role-token": user.roleToken!,
+          },
+        })
+        .then((theUsers: any) => {
+          commit("setUsers", theUsers.data.data);
+        });
+    },
 
+    //   async getComments({ commit }: { commit: any }, {idPost})  {
+    //     await axios
+    //       .get("http://localhost:3001/api/feed/"+idPost+"/comments")
+    //       .then((theComments: any) => {
+    //         console.log('url :>> ', "http://localhost:3001/api/feed/"+idPost+"/comments")
+    //         commit("setCommentList", theComments.data.data);
+    //       })
+    //   },
   },
 
   // Define mutations
@@ -55,9 +79,6 @@ const store = createStore({
     setFeedList(state: any, feedList: any) {
       state.feedList = feedList;
     },
-    // setCommentList(state: any, commentList: any) {
-    //   state.commentList = commentList;
-    // },
     // setCountLikes(state: any, totalLikes: any) {
     //   state.totalLikes = totalLikes;
     // },
@@ -66,13 +87,15 @@ const store = createStore({
       state.userDetail = userDetail;
     },
 
+    setUsers(state: any, usersList: any) {
+      state.usersList = usersList;
+    },
   },
 
-// import du module d authentification dans Vuex
+  // import du module d authentification dans Vuex
   modules: {
     auth,
   },
-  
 });
 
 export default store;

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:3001/api/auth/";
+const APP_URL = "http://localhost:3001/api/feed/";
 
 class AuthService {
   login(user) {
@@ -52,7 +53,18 @@ class AuthService {
     });
   }
 
-
+  updateRole(user) {
+    const myHead = JSON.parse(localStorage.getItem("user")!);
+    return axios.put(API_URL + "profile/role/"+ user.idToChange, {
+      idToChange: user.idToChange,
+      role: user.role,
+    }, {
+      headers: { 
+        "x-access-token": myHead.accessToken!, 
+        "x-role-token": myHead.roleToken! 
+      },
+    });
+  }
 
   changePass(user) {
     const myHead = JSON.parse(localStorage.getItem("user")!);
@@ -61,6 +73,19 @@ class AuthService {
       id: user.id,
       email:user.hidemail,
       password: user.password,
+    }, {
+      headers: { 
+        "x-access-token": myHead.accessToken!, 
+        "x-role-token": myHead.roleToken! 
+      },
+    });
+  }
+
+  addComment(comment) {
+    const myHead = JSON.parse(localStorage.getItem("user")!);
+    return axios.put(APP_URL + comment.id + "/comment", {
+      id: myHead.id,
+      content:comment.theNewComment.content,
     }, {
       headers: { 
         "x-access-token": myHead.accessToken!, 

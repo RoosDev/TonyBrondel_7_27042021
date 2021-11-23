@@ -28,6 +28,7 @@ import {
   faCheckCircle,
   faKey, 
   faUserEdit,
+  faUniversalAccess,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -54,6 +55,7 @@ library.add(faTimesCircle);
 library.add(faCheckCircle);
 library.add(faKey);
 library.add(faUserEdit);
+library.add(faUniversalAccess);
 
 
 // Création de l'app

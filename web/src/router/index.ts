@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Login from '../views/Login.vue'
-import Home from '../views/Cartridge.vue';
 import Cartridge from '../views/Cartridge.vue';
 import theFeed from '../views/FeedView.vue';
 import theProfile from '../views/Profile.vue';
+import theAdmin from '../views/Admin.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +40,19 @@ const routes: Array<RouteRecordRaw> = [
     props:true,
     meta:{
       title: 'Profil',
+    }
+
+  },
+  {
+    path: '/Admin',
+    name: 'Admin',
+    components: {
+      navMenu: Cartridge,
+      thePage: theAdmin,
+    },
+    props:true,
+    meta:{
+      title: 'Administration des utilisteurs',
     }
 
   },
@@ -80,7 +93,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/signup', '/login'];
+  const publicPages = ['/'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 

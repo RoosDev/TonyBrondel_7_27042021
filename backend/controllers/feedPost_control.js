@@ -33,9 +33,14 @@ exports.PostComment = async (req, res, next) => {
     identity_Id: req.body.userId,
   };
   try {
-    console.log("envoi ::>>  "+ theComment);
+    if(theComment.content != undefined  &&
+        theComment.content != ''  &&
+        theComment.reference != undefined  &&
+        theComment.reference != '' &&
+        theComment.identity_Id != undefined  &&
+        theComment.identity_Id != ''){
     await modelPostCommentList.create(theComment)
-    return res.status(201).json({message: "Le commentaire est enregistré." } )
+    return res.status(201).json({message: "Le commentaire est enregistré." } )}
   } catch (err) {
     return res.status(500).json({error: "Une erreur s'est produite, le commentaire n'est pas enregistré.", details: err})
   }

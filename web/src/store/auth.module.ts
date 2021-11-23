@@ -61,7 +61,31 @@ export const auth = {
         }
       );
     },
-  },
+    changeRole({ commit }, user) {
+      return AuthService.updateRole(user).then(
+        (response) => {
+          commit("registerSuccess");
+          return Promise.resolve(response.data);
+        },
+        (error) => {
+          commit("registerFailure");
+          return Promise.reject(error);
+        }
+      );
+    },
+    addComment({ commit }, user) {
+        return AuthService.addComment(user).then(
+          (response) => {
+            commit("registerSuccess");
+            return Promise.resolve(response.data);
+          },
+          (error) => {
+            commit("registerFailure");
+            return Promise.reject(error);
+          }
+        );
+      },
+    },
   mutations: {
     loginSuccess(state, user) {
       state.status.loggedIn = true;

@@ -13,7 +13,9 @@ const A2_ASSO_DATA_P = process.env.ARGON2_ASSOCIATEDDATA_password;
 //--------------------------------------------------------------------------------------------------
 
 
-// Mise à jour d'un profil utilisateur
+//*******************************************************************//
+//                Mise à jour du profil utilisateur                  //
+//*******************************************************************//
 exports.UpdateProfil = async (req, res, next) => {
   const theProfil = {
     firstname: req.body.firstname,
@@ -39,6 +41,40 @@ exports.UpdateProfil = async (req, res, next) => {
       err.message || "Une erreur s'est produite, veuillez réessayer.");
   }
 };
+
+//*******************************************************************//
+//                  Mise à jour du Role utilisateur                  //
+//*******************************************************************//
+
+exports.updateRole = async (req, res, next) => {
+  const theRole = {
+    role_Id: req.body.role,
+  };
+  try {
+    console.log('id:>>> ', req.body.idToChange)
+    const data = await modelUsers.update(theRole, {
+      where: { id: req.body.idToChange },
+    });
+    console.log('data:>>> ', data);
+    res.send({ data });
+
+    (data) => {
+      if (data == 1) {
+        return (res.statusMessage = "Modification enregistrée");
+      } else {
+        return (res.statusMessage = "Modification impossible.");
+      }
+    };
+  } catch (err) {
+    return (res.sendStatus(500).statusMessage =
+      err.message || "Une erreur s'est produite, veuillez réessayer.");
+  }
+};
+
+//*******************************************************************//
+//            Mise à jour du mot de passe utilisateur                //
+//*******************************************************************//
+
 
 exports.UpdatePassword = async (req, res, next) => {
   // //-----------------------------------------------------------------------------------------------//

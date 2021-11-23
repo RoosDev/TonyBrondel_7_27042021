@@ -80,11 +80,11 @@ export default defineComponent({
             sendButton.textContent = 'Poster';
             PostContent.value = '';
             sendButton.textContent = 'Envoyé';
-          }, 2500);
+          }, 1500);
           setTimeout(() => {
             messageAfterSent.classList.toggle("hidebox");
-            // myRouter.go();
-          }, 5000);
+            myRouter.go();
+          }, 4000);
 
           console.log('Post en ligne ;)' + res)
         })

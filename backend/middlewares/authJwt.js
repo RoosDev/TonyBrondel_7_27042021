@@ -23,7 +23,6 @@ verifyToken = (req, res, next) => {
       });
     }
     req.email = decoded.email;
-    console.log("decoded email 1 >> " + decoded.email);
     next();
   });
   return req.email;
@@ -63,7 +62,7 @@ isAdmin = async (req, res, next) => {
 
 isManager = (req, res, next) => {
   let tokenRole = req.headers["x-role-token"];
-  console.log("req email in admin: ", req.email);
+  console.log("req email in manager: ", req.email);
   jwt.verify(tokenRole, MY_APP_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).send({
