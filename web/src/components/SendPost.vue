@@ -29,7 +29,7 @@
 <script lang="ts">
 import Modal from '@/components/Modal.vue';
 import PostText from '@/components/PostText.vue';
-import PostImage from '@/components/PostImage.vue';
+import PostImage from '@/components/UploadEngine.vue';
 import { useModal } from '@/composition/modal';
 
 export default {

@@ -23,6 +23,9 @@ try {
 } catch (error) {
   console.error("La DB n a pas trouvé le lapin blanc", error);
 }
+
+
+// global.__basedir = __dirname;
 // Gestion des headers
 // const corsOptions = {
 //   origin: true,

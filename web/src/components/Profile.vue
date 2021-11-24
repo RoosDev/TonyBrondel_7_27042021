@@ -1,7 +1,7 @@
 <template>
   <div id="profilePage" class="col-9">
     <div id="headProfile" class="col-12 col-md-9">
-      <h2 class="col-9">Mon profil</h2>
+      <h2 class="h2profil col-9">Mon profil</h2>
       <div id="blockButton" class="col-3">
         <div id="navProfile" class="col-12">
           <button id="changeProfile" @click="toggleModal_EditProfil">
@@ -105,11 +105,13 @@ const [modalActive_Password, toggleModal_Password] = useModal();
     justify-content: space-between;
     align-items: center;
 
-    h2 {
+    .h2profil {
       font-size: 2.5em;
       font-weight: bold;
       text-decoration: underline;
       color: $groupo-color1;
+      margin-left: 0;
+      text-align: left;
     }
 
     #navProfile {

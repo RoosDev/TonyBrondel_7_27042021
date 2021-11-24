@@ -66,11 +66,11 @@
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
+import Modal from '@/components/Modal.vue';
+import { useModal } from '@/composition/modal';
 import CommentZone from '@/components/CommentZone.vue';
 import ChangeText from '@/components/ChangeText.vue';
 import DeletePost from '@/components/DeletePost.vue';
-import Modal from '@/components/Modal.vue';
-import { useModal } from '@/composition/modal';
 import moment from 'moment';
 
 const props = defineProps<{

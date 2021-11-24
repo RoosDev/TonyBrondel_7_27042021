@@ -102,7 +102,7 @@ export default defineComponent({
           }, 2000);
           setTimeout(() => {
             myRouter.go();
-          }, 4000);
+          }, 3000);
           console.log('Commentaire enregistré ;)' )
         })
         .catch(error => {

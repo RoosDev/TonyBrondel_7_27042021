@@ -1,43 +1,49 @@
-const express = require('express');
+const express = require("express");
 const router = require("express").Router();
 const feedGetCtrl = require("../controllers/feedGet_control");
 const feedPostCtrl = require("../controllers/feedPost_control");
 const feedUpdateCtrl = require("../controllers/feedUpdate_control");
 const feedDropCtrl = require("../controllers/feedDrop_control");
-// const auth = require("../middlewares/auth");
+const feedUploadCtrl = require("../controllers/feedUpload_control");
+const feedUploadGetCtrl = require("../controllers/feedUploadGet_Control");
 const { authJwt } = require("../middlewares");
 const multer = require("../middlewares/multer_configPosts");
 
 // // Liste des routes pour créer quelque chose :
-    // Création d'un post dans le feed
-    router.post("/", [authJwt.verifyToken], multer, feedPostCtrl.PostPost);
-    // Création d'un commentaire
-    router.post("/:id/comment", [authJwt.verifyToken], feedPostCtrl.PostComment);
-    // Ajout d'un like à un post
-    router.post("/:id/like", [authJwt.verifyToken], feedPostCtrl.PostLike);
+// Création d'un post dans le feed
+router.post("/", [authJwt.verifyToken], feedPostCtrl.PostPost);
+// Création d'un commentaire
+router.post("/:id/comment", [authJwt.verifyToken], feedPostCtrl.PostComment);
+// Ajout d'un like à un post
+router.post("/:id/like", [authJwt.verifyToken], feedPostCtrl.PostLike);
 
 // // Liste des routes pour modifier quelque chose :
 //     Modification d'un post dans le feed
-    router.put("/:id", [authJwt.verifyToken], multer, feedUpdateCtrl.UpdatePost);
+router.put("/:id", [authJwt.verifyToken], feedUpdateCtrl.UpdatePost);
 
 // // Liste des routes pour supprimer quelque chose :
 //     // Suppression d'un post dans le feed
-    router.delete("/:id", [authJwt.verifyToken], feedDropCtrl.deleteOnePost);
+router.delete("/:id", [authJwt.verifyToken], feedDropCtrl.deleteOnePost);
 //     // Suppression d'un like
-    router.delete("/:id/like", [authJwt.verifyToken], feedDropCtrl.deleteOneLike);
+router.delete("/:id/like", [authJwt.verifyToken], feedDropCtrl.deleteOneLike);
 
 // // Liste des routes pour obtenir quelque chose :
-    // Liste de tous les post dans le feed
-    router.get("/", [authJwt.verifyToken], feedGetCtrl.getAllFeeds);
-    // Récupère le détail d'un seul post dans le feed
-    router.get("/:id", [authJwt.verifyToken], feedGetCtrl.getOneFeed);
-    // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
-    router.get("/:id/comment", [authJwt.verifyToken], feedGetCtrl.getAllComments);
-    // Obtention des likes d'un post
-    router.get("/:id/like", [authJwt.verifyToken], feedGetCtrl.getLikesPost);
-    // Obtention du nombre de like
-    router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
-    // Obtention de la liste des différents types de like
-    router.get("/likes", [authJwt.verifyToken], feedGetCtrl.getLikes);
+// Liste de tous les post dans le feed
+router.get("/", [authJwt.verifyToken], feedGetCtrl.getAllFeeds);
+// Récupère le détail d'un seul post dans le feed
+router.get("/:id", [authJwt.verifyToken], feedGetCtrl.getOneFeed);
+// Détail d'un post dans le feed et Liste de tous les commentaires d'un post
+router.get("/:id/comment", [authJwt.verifyToken], feedGetCtrl.getAllComments);
+// Obtention des likes d'un post
+router.get("/:id/like", [authJwt.verifyToken], feedGetCtrl.getLikesPost);
+// Obtention du nombre de like
+router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
+// Obtention de la liste des différents types de like
+router.get("/likes", [authJwt.verifyToken], feedGetCtrl.getLikes);
+
+// // Liste des routes pour uploader un post :
+router.post("/upload", multer.single("file"), feedUploadCtrl.uploadFiles);
+
+router.get("/upload", feedUploadGetCtrl.getHome);
 
 module.exports = router;

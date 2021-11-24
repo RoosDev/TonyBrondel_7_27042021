@@ -126,7 +126,7 @@ const sendMyNewProfile = (user) => {
           setTimeout(() => {
             msgProfileAfterSent.classList.toggle("hidebox");
             myRouter.go('');
-          }, 3500),
+          }, 4000),
           console.log('Profil à jour ;)', data)
       },
 
@@ -137,7 +137,7 @@ const sendMyNewProfile = (user) => {
         msgProfileAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
         setTimeout(function () {
           msgProfileAfterSent.classList.toggle("hidebox");
-        }, 5000);
+        }, 4000);
         console.error("There was an error!", error);
       }
     )

@@ -97,9 +97,9 @@ const sendMyNewPass = (user) => {
       }, 1500),
       setTimeout(() => {
         messageAfterSent.classList.toggle("hidebox");
-        // myStore.dispatch('auth/logout');
-        // myRouter.push('/');
-      }, 3500),
+        myStore.dispatch('auth/logout');
+        myRouter.push('/');
+      }, 3000),
       console.log('Mot de passe ok ;)')
 
     ),
@@ -110,7 +110,7 @@ const sendMyNewPass = (user) => {
         messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
         setTimeout(function () {
           messageAfterSent.classList.toggle("hidebox");
-        }, 5000);
+        }, 4000);
         console.error("There was an error!", error);
       }
   } else {
@@ -123,7 +123,7 @@ const sendMyNewPass = (user) => {
 
     setTimeout(() => {
       messageAfterSent.classList.toggle("hidebox");
-      // myRouter.go();
+      myRouter.go();
     }, 4000)
   }
 
@@ -131,7 +131,7 @@ const sendMyNewPass = (user) => {
 
 const isFormValid = computed((user) => {
   // if (
-  //   user.password !== "" && user.password2 !== "" && user.password2 == user.password
+  //   user.password != "" && user.password2 != "" && (user.password2 == user.password)
   // ) {
   return true;
   // } else {

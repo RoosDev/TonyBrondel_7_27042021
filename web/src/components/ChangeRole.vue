@@ -7,7 +7,7 @@
     >
       <div id="changeRoleContent">
         <h2>Modification du niveau de responsabilité</h2>
-        <p>Utilisateur concerné : <br /><em>{{ name }} -  {{ email }} </em></p>
+        <p class="pbold">Utilisateur concerné : <br /><em>{{ name }} -  {{ email }} </em></p>
         <div id="divrole">
         <Field name="idToChange" type="hidden" :value="idToChange" />
 
@@ -58,10 +58,6 @@ const props = defineProps<{
   email: string,
 }>()
 
-
-// Check du token avant redirection
-const currentUser = computed(() => myStore.state.auth.user);
-
 // Fonction d'enregistrement du nouveau mot de passe
 const sendNewRole = (user) => {
   const msgRoleAfterSent = document.querySelector('#msgRoleSent') as HTMLDivElement;
@@ -80,7 +76,7 @@ const sendNewRole = (user) => {
           setTimeout(() => {
             msgRoleAfterSent.classList.toggle("hidebox");
             myRouter.go('');
-          }, 3500),
+          }, 3000),
           console.log('Rôle à jour ;)', data)
       },
 
@@ -91,7 +87,7 @@ const sendNewRole = (user) => {
         msgRoleAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
         setTimeout(function () {
           msgRoleAfterSent.classList.toggle("hidebox");
-        }, 5000);
+        }, 3500);
         console.error("There was an error!", error);
       }
     )
@@ -118,7 +114,7 @@ const isFormProfilValid = computed((user) => {
     margin: 15px;
   }
 
-  p {
+  .pbold {
     font-size: 1.4em;
     font-weight: bold;
     text-align: center;

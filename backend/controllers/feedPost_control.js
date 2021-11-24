@@ -10,7 +10,6 @@ exports.PostPost = async (req, res, next) => {
   const thePost = {
     content: req.body.content,
     image_URL: null,
-    //  `${req.protocol}://${req.get("host")}/Public_Images/Posts/${ req.file.filename }`,
     reference: null,
     identity_Id: req.body.userId,
   };
