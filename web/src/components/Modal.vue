@@ -17,6 +17,7 @@ export default {
   props: [ "modalActive", "modalActive_Txt", "modalActive_Img", 
            "modalActive_EditProfile", "modalActive_Password", 
            "modalActive_DeletePost", "modalActive_ChangePost", 
+           "modalActive_DeleteImg", "modalActive_ChangeImg", 
            "modalActive_Role" ],
   setup(props:any, { emit }:any ) {
     const close = () => {

@@ -1,21 +1,30 @@
-import http from "../http-common";
+import axios from "axios";
 
 class UploadFilesService {
   upload(file, onUploadProgress) {
+    const myHead = JSON.parse(localStorage.getItem("user")!);
     const formData = new FormData();
 
     formData.append("file", file);
 
-    return http.post("/upload", formData, {
+    return axios.post("http://localhost:3001/api/feed/upload", formData, {
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "multipart/form-data",
+        "x-access-token": myHead.accessToken,
+        "x-role-token": myHead.roleToken,
       },
-      onUploadProgress
+      onUploadProgress,
     });
   }
 
   getFiles() {
-    return http.get("/feed/upload");
+    const myHead = JSON.parse(localStorage.getItem("user")!);
+    return axios.get("http://localhost:3001/api/feed/upload", {
+      headers: {
+        "x-access-token": myHead.accessToken,
+        "x-role-token": myHead.roleToken,
+      },
+    });
   }
 }
 

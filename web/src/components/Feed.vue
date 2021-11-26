@@ -26,14 +26,13 @@
 import SendPost from '@/components/SendPost.vue';
 import PostBlocImg from '@/components/PostIBlocImg.vue';
 import PostBlocText from '@/components/PostBlocText.vue';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, onBeforeUpdate } from 'vue';
 import store from '../store/index';
 
 // initialisation du store
 const myStore: any = store;
-
 //Connexion au store pour récupération des informations
-const feedList = computed(() => myStore.state.feedList);
+let feedList = computed(() => myStore.state.feedList);
 
 onMounted(() => {
   // Connexion au Store de l'application

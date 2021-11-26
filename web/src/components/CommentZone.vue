@@ -26,7 +26,7 @@
           name="sendTxtComment"
           :id="textareaSendPost"
           class="sendPost"
-          cols="60"
+          cols="70"
           rows="2"
           v-model="theNewComment.content"
           maxlength="350"
@@ -35,112 +35,107 @@
         ></textarea>
       </div>
       <div :id="buttonSendComment" class="buttonSendZone col-2">
-        <button type="submit" :disabled="!isCommentValid">
-          <font-awesome-icon id="paperPlaneIcon"  class="styleButtonAwesome" :icon="['fas', 'paper-plane']" />
+        <button class="buttonForm" type="submit">
+          <font-awesome-icon
+            id="paperPlaneIcon"
+            class="styleButtonAwesome"
+            :icon="['fas', 'paper-plane']"
+          />
         </button>
       </div>
     </form>
   </div>
 </template>
-<script lang="ts">
-import {  defineComponent } from 'vue';
-// import formatDateMixin from '../mixins/formatDateMixin.js';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
 import axios from "axios";
 import { useRouter } from "vue-router";
 import moment from 'moment';
 
+const myRouter: any = useRouter();
 const user = JSON.parse(localStorage.getItem('user')!);
+const myId = user.id;
 
-export default defineComponent({
-  name: 'postTxtComment',
-  data() {
-    return {
-      errorMessage: '',
-      theNewComment: {
-        content: '',
-        userId: user.id
-      }
-    };
-  },
-  props: {
-    theIdPost: Number,
-    theComments: Object
-  },
-  setup(props) {
+const props = defineProps<{
+  theIdPost: number,
+  theComments: { any },
+}>();
+// Définition des variables
+let content = '';
+let errorMessage = ref('');
+// Définition de l'ID utilisateur (avec le localstorage)
+const meTheUser = JSON.parse(localStorage.getItem("user")!);
+const userId = meTheUser.id;
+
+// Nouvel objet à envoyer en base
+let theNewComment = {
+  content: content,
+  userId: userId
+};
 
 // Nom dynamique des id pour les commentaires
-    const divCommentSend = 'CommentSend_' + props.theIdPost;
-    const divTextareaZone = 'textareaComment_' + props.theIdPost;
-    const textareaSendPost = 'sendTxtComment_' + props.theIdPost;
-    const buttonSendComment = 'sendComment_' + props.theIdPost;
+const divCommentSend = 'CommentSend_' + props.theIdPost;
+const divTextareaZone = 'textareaComment_' + props.theIdPost;
+const textareaSendPost = 'sendTxtComment_' + props.theIdPost;
+const buttonSendComment = 'sendComment_' + props.theIdPost;
 
 
-    return {
-      divCommentSend,
-      divTextareaZone,
-      buttonSendComment,
-      textareaSendPost
-    };
-  },
+// Fonction d'envoi du commentaire avec action / animation lié à l'envoi
+const sendMyComment = () => {
+  const user = JSON.parse(localStorage.getItem("user")!);
+  let commentContent = document.querySelector(`#textareaComment_${props.theIdPost}`) as HTMLTextAreaElement;
+  const sendCommentButton = document.querySelector(`#sendComment_${props.theIdPost}`) as HTMLDivElement;
 
-  methods: {
-    
-    sendMyComment() {
-      const user = JSON.parse(localStorage.getItem("user")!);
-      let commentContent = document.querySelector(`#textareaComment_${this.theIdPost}`) as HTMLTextAreaElement;
-      const sendCommentButton = document.querySelector(`#sendComment_${this.theIdPost}`) as HTMLDivElement;
-
-      axios.post("http://localhost:3001/api/feed/" + this.theIdPost + "/comment", this.theNewComment,{
-        headers: { "x-access-token": user.accessToken!, "x-role-token": user.roleToken!, "id": user.id! },})
-        .then(() => {
-          const myRouter: any = useRouter();
-          sendCommentButton.innerHTML = `<svg class="w-6 h-6 rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
-          sendCommentButton.setAttribute("disabled", "");
-          setTimeout(() => {
-            commentContent.value = '';
-            sendCommentButton.innerHTML = `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
-          }, 2000);
-          setTimeout(() => {
-            myRouter.go();
-          }, 3000);
-          console.log('Commentaire enregistré ;)' )
-        })
-        .catch(error => {
-          // sendCommentButton.setAttribute("disabled", "");
-          this.errorMessage = error.message;
-          console.error("There was an error!", error);
-        });
-    }, 
-    // Fonction de mise en forme de la date du post
-    formatDatePost (postDate) {
-      moment.locale("fr")
-      return moment(postDate).format('lll')
-    }
-
-
-
-  },
-  computed: {
-    isCommentValid() {
-      if (
-        this.theNewComment.content !== ""
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+  //Envoi de la requete via vuex et axios
+  axios.post("http://localhost:3001/api/feed/" + props.theIdPost + "/comment", theNewComment, {
+    headers: {
+      "x-access-token": user.accessToken!,
+      "x-role-token": user.roleToken!,
+      "id": myId!
     },
-    
-  },
+  })
+    .then(() => {
+      // const myRouter: any = useRouter();
+      sendCommentButton.innerHTML = `<svg class="w-6 h-6 rotate svgComment" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
+      sendCommentButton.setAttribute("disabled", "");
+      setTimeout(() => {
+        commentContent.value = '';
+        sendCommentButton.innerHTML = `<svg class="w-6 h-6 svgComment" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
+      }, 1500);
+      setTimeout(() => {
+        myRouter.go('');
+      }, 2500);
+      console.log('Commentaire enregistré ;)')
+    })
+    .catch(error => {
+      errorMessage.value = error.message;
+      sendCommentButton.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+      console.error("There was an error!", error);
+    });
+};
+
+// Fonction de mise en forme de la date du post
+const formatDatePost = (postDate) => {
+  moment.locale("fr")
+  return moment(postDate).format('lll')
+}
 
 
-});
+// const isCommentValid = computed(() => {
+//   if (
+//     theNewComment.content !== ""
+//   ) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// });
+
 
 
 </script>
 <style lang="scss">
 @import "../scss/variables.scss";
-
 
 #commentZone {
   height: 100%;
@@ -236,29 +231,28 @@ export default defineComponent({
       background-color: $groupo-colorLight3;
       line-height: 100%;
 
-      button, svg{
+      .buttonForm,
+      .svgComment {
+        border: 0;
+        background-color: transparent;
+        margin: auto;
+        color: $groupo-color1;
         border: 0;
         background-color: transparent;
         margin: auto;
         color: $groupo-color1;
 
         .styleButtonAwesome {
-          // margin-top: 20px;
-          // margin-left: -25px;
           margin: auto;
           font-size: 2.7em;
           z-index: 5;
-          // transition: all 400ms;
+        }
+        &:hover {
+          .styleButtonAwesome {
+            font-size: 3.5em;
+          }
         }
       }
-
-      // &:hover {
-      //   #paperPlaneIcon {
-      //     margin-top: -20px;
-      //     margin-left: +25px;
-      //     font-size: 0.2em;
-      //   }
-      // }
     }
   }
 }
@@ -266,7 +260,7 @@ export default defineComponent({
   display: none;
 }
 
-.rotate{
+.rotate {
   animation: rotation 500ms;
   animation-iteration-count: 10;
 }

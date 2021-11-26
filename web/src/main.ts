@@ -11,24 +11,24 @@ import VueAxios from 'vue-axios'
 
 // initialisation des imports pour Font Awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
-import {
-  faSpinner,
-  faPaperPlane,
-  faHandPeace,
-  faSignOutAlt,
-  faShieldAlt,
-  faUserPlus,
-  faImage,
-  faEdit,
-  faUsersCog,
-  faTools,
-  faRss,
-  faTimesCircle,
+import { 
   faCheckCircle,
+  faEdit,
+  faHandPeace,
+  faImage,
   faKey, 
-  faUserEdit,
+  faPaperPlane,
+  faRss,
+  faShieldAlt,
+  faSignOutAlt,
+  faSpinner,
+  faTimesCircle,
+  faTools,
   faUniversalAccess,
+  faUserEdit,
+  faUsersCog,
+  faUserPlus,
+  faUserSecret ,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -38,24 +38,23 @@ import "bootstrap";
 import "bootstrap/dist/js/bootstrap.js";
 
 // intégration des icones font awesome à la librairy
-library.add(faUserSecret);
-library.add(faSpinner);
-library.add(faPaperPlane);
-library.add(faHandPeace);
-library.add(faSignOutAlt);
-library.add(faShieldAlt);
-library.add(faUserPlus);
-library.add(faImage);
-library.add(faEdit);
-library.add(faEdit);
-library.add(faUsersCog);
-library.add(faTools);
-library.add(faRss);
-library.add(faTimesCircle);
 library.add(faCheckCircle);
+library.add(faEdit);
+library.add(faHandPeace);
+library.add(faImage);
 library.add(faKey);
-library.add(faUserEdit);
+library.add(faPaperPlane);
+library.add(faRss);
+library.add(faShieldAlt);
+library.add(faSignOutAlt);
+library.add(faSpinner);
+library.add(faTimesCircle);
+library.add(faTools);
 library.add(faUniversalAccess);
+library.add(faUserEdit);
+library.add(faUsersCog);
+library.add(faUserPlus);
+library.add(faUserSecret);
 
 
 // Création de l'app

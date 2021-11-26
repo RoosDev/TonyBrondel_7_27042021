@@ -27,7 +27,6 @@
             id="sendRoleButton"
             class="col-9"
             type="submit"
-            :disabled="!isFormProfilValid"
           >Enregistrer</button>
         </div>
       </div>
@@ -36,7 +35,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue';
 import store from '../store/index';
 import { useRouter } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -78,7 +76,7 @@ const sendNewRole = (user) => {
             myRouter.go('');
           }, 3000),
           console.log('Rôle à jour ;)', data)
-      },
+      }),
 
       (error) => {
         msgRoleAfterSent.classList.toggle("hidebox");
@@ -90,18 +88,17 @@ const sendNewRole = (user) => {
         }, 3500);
         console.error("There was an error!", error);
       }
-    )
 }
 
-const isFormProfilValid = computed((user) => {
+// const isFormProfilValid = computed((user) => {
   // if (
-  //   user.email !== "" || user.firstname !== "" || user.lastname !== "" || user.job !== "" || user.division!== ""
+  //   props.role !== "" 
   // ) {
-  return true;
+  // return true;
   // } else {
   //   return false;
   // }
-})
+// })
 
 </script>
 <style lang="scss">

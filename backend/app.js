@@ -25,7 +25,7 @@ try {
 }
 
 
-// global.__basedir = __dirname;
+global.__basedir = __dirname;
 // Gestion des headers
 // const corsOptions = {
 //   origin: true,

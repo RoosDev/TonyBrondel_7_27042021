@@ -3,12 +3,10 @@ import { createStore } from "vuex";
 import axios from "axios";
 import { auth } from "./auth.module";
 
-const user = JSON.parse(localStorage.getItem("user")!);
 
 //Create Store :
 
 const store = createStore({
-  // Define state
   state() {
     return {
       feedList: [],
@@ -20,6 +18,7 @@ const store = createStore({
   actions: {
     // Récupération de tous les posts
     async getPosts({ commit }: { commit: any }) {
+      const user = JSON.parse(localStorage.getItem("user")!);
       await axios
         .get("http://localhost:3001/api/feed", {
           headers: {
@@ -30,19 +29,17 @@ const store = createStore({
         .then((thePosts: any) => {
           commit("setFeedList", thePosts.data.data);
         });
-      // .then((theLikes: any) => {
-      //   commit("setCountLikes", theLikes.data.likes);
-      // })
     },
 
     // Récupération d'un seul utilisateur
     async getUser({ commit }: { commit: any }, userId) {
+      const user = JSON.parse(localStorage.getItem("user")!);
       const myId = userId.id;
       await axios
         .get("http://localhost:3001/api/auth/profile/" + myId, {
           headers: {
-            "x-access-token": user.accessToken!,
-            "x-role-token": user.roleToken!,
+            "x-access-token": user.accessToken,
+            "x-role-token": user.roleToken,
           },
         })
         .then((theUser: any) => {
@@ -52,41 +49,33 @@ const store = createStore({
 
     // Récupération de tous les utilisateurs
     async getUsers({ commit }: { commit: any }) {
+      const user = JSON.parse(localStorage.getItem("user")!);
       await axios
         .get("http://localhost:3001/api/auth/profile/", {
           headers: {
-            "x-access-token": user.accessToken!,
-            "x-role-token": user.roleToken!,
+            "x-access-token": user.accessToken,
+            "x-role-token": user.roleToken,
           },
         })
         .then((theUsers: any) => {
           commit("setUsers", theUsers.data.data);
         });
     },
-
-    //   async getComments({ commit }: { commit: any }, {idPost})  {
-    //     await axios
-    //       .get("http://localhost:3001/api/feed/"+idPost+"/comments")
-    //       .then((theComments: any) => {
-    //         console.log('url :>> ', "http://localhost:3001/api/feed/"+idPost+"/comments")
-    //         commit("setCommentList", theComments.data.data);
-    //       })
-    //   },
   },
 
   // Define mutations
   mutations: {
+    // liste des posts
     setFeedList(state: any, feedList: any) {
       state.feedList = feedList;
     },
-    // setCountLikes(state: any, totalLikes: any) {
-    //   state.totalLikes = totalLikes;
-    // },
 
+    // Détail du profil d'un utilisateur
     setUserDetail(state: any, userDetail: any) {
       state.userDetail = userDetail;
     },
 
+    // List des utilisateurs
     setUsers(state: any, usersList: any) {
       state.usersList = usersList;
     },

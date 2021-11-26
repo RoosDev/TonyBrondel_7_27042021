@@ -39,6 +39,7 @@
   <Modal @close="toggleModal_EditProfil" :modalActive="modalActive_EditProfil">
     <div class="modal-content">
       <ChangeProfile
+        :id="myId"
         :firstname="myUser.firstname"
         :lastname="myUser.lastname"
         :email="myUser.email"
@@ -50,7 +51,7 @@
 
   <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
     <div class="modal-content">
-      <ChangePass :email="myUser.email" />
+      <ChangePass :id="myId" :email="myUser.email" />
     </div>
   </Modal>
 </template>
@@ -62,29 +63,30 @@ import ChangePass from '@/components/ChangePass.vue';
 import ChangeProfile from '@/components/ChangeProfile.vue';
 import { computed, onMounted } from "vue";
 import store from '../store/index';
-import { useRouter } from "vue-router";
 
-const myStore: any = store;
-const myRouter: any = useRouter();
 
-// initialisation du token
-const currentUser = computed(() => myStore.state.auth.user);
+// appel de la fonction modal
+const [modalActive_EditProfil, toggleModal_EditProfil] = useModal()
+const [modalActive_Password, toggleModal_Password] = useModal()
 
 //Connexion au store pour récupération des informations
+const myStore: any = store;
 const userDetail = computed(() => myStore.state.userDetail);
 const myUser = userDetail.value;
 const myName = myUser.firstname + ' ' + myUser.lastname;
 
-// Vérification de l'authentification de l'utilisateur
+// Récupération de l' ID de l'utilisateur
+const currentUser = JSON.parse(localStorage.getItem("user")!);
+const myId = currentUser.id!;
+
 onMounted(() => {
+  const currentUser = JSON.parse(localStorage.getItem("user")!);
+  const myId = currentUser.id!;
+
   // Connexion au Store de l'application
-  myStore.dispatch("getUser", { id: currentUser.value.id })
+  myStore.dispatch("getUser", { id: myId })
 
 })
-const [modalActive_EditProfil, toggleModal_EditProfil] = useModal();
-const [modalActive_Password, toggleModal_Password] = useModal();
-
-
 
 </script>
 <style lang="scss">
@@ -120,7 +122,8 @@ const [modalActive_Password, toggleModal_Password] = useModal();
       justify-content: flex-end;
       align-items: center;
 
-      button {
+      #changeProfile,
+      #changePassword {
         display: block;
         border: 0;
         background-color: transparent;

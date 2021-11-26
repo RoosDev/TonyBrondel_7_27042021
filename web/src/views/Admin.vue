@@ -1,5 +1,5 @@
 <template>
-    <div id="admin"  class="col-12 col-md-9">
+    <div id="admin" class="col-12 col-md-9">
         <Admin />
     </div>
 </template>
@@ -11,17 +11,11 @@ import Admin from '@/components/Admin.vue';
 <style lang="scss">
 @import "../scss/variables.scss";
 
-template{
+template {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: flex-start;
     height: 100vh;
-
-    #profil {
-        position: fixed;
-        margin: 0;
-        width: 100%;
-    }
 }
 </style>

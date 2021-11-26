@@ -61,9 +61,11 @@ const sendMyPut = () => {
         messageAfterSent.classList.toggle("hidebox");
         sendButton.textContent = 'Poster';
         // PutContent.value = '';
+      }, 1500);
+      setTimeout(function () {
+      myRouter.go('');
       }, 3000);
       console.log('Post en ligne ;)', res)
-      myRouter.go();
 
     })
     .catch(error => {

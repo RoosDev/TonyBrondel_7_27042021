@@ -53,7 +53,7 @@ import UploadService from "../services/UploadFilesService";
 //   name: "upload-image",
 //   data() {
 //     return {
-let currentImage:(string | undefined | any)  = undefined;
+let currentImage:(string | undefined | any | undefined)  = undefined;
 let previewImage = '';
 let progress = 0;
 let message = "";
@@ -65,6 +65,7 @@ const selectImage = () => {
   let myFile = (document.querySelector('#myFile') as HTMLInputElement).files!;
   console.log('myFile >>>' , myFile);
   currentImage = myFile.item(0);
+  console.log('myFile.item(0) >>>' , myFile.item(0));
   previewImage = URL.createObjectURL(currentImage);
   progress = 0;
   message = "";

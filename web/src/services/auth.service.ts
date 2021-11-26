@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3001/api/auth/";
 const APP_URL = "http://localhost:3001/api/feed/";
+const myHead = JSON.parse(localStorage.getItem("user")!);
 
 class AuthService {
   login(user) {
@@ -36,8 +37,6 @@ class AuthService {
   }
 
   UpdateProfil(user) {
-    const myHead = JSON.parse(localStorage.getItem("user")!);
-
     return axios.put(API_URL + "profile/"+ user.id, {
       id: user.id,
       email:user.email,
@@ -54,7 +53,6 @@ class AuthService {
   }
 
   updateRole(user) {
-    const myHead = JSON.parse(localStorage.getItem("user")!);
     return axios.put(API_URL + "profile/role/"+ user.idToChange, {
       idToChange: user.idToChange,
       role: user.role,
@@ -67,8 +65,6 @@ class AuthService {
   }
 
   changePass(user) {
-    const myHead = JSON.parse(localStorage.getItem("user")!);
-
     return axios.put(API_URL + "myprofile/pass/"+ user.id, {
       id: user.id,
       email:user.hidemail,
@@ -82,7 +78,6 @@ class AuthService {
   }
 
   addComment(comment) {
-    const myHead = JSON.parse(localStorage.getItem("user")!);
     return axios.put(APP_URL + comment.id + "/comment", {
       id: myHead.id,
       content:comment.theNewComment.content,

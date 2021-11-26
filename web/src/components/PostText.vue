@@ -16,108 +16,97 @@
           maxlength="500"
           placeholder="Saisissez ici votre prose... (max: 500 caractères)"
           required
-          autofocus
         ></textarea>
-        <button id="sendButton" class="col-9" type="submit" :disabled="!isFormValid">Poster</button>
+        <button id="sendButton" class="col-9" type="submit">Poster</button>
       </div>
     </form>
     <div id="messageFormSent" class="hidebox"></div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+
 const myRouter: any = useRouter();
 
-// Récupération du Token présent en LocalStorage
-const user = JSON.parse(localStorage.getItem("user")!);
+// Définition des variables
+let errorMessage = '';
+let newPost = '';
 
-export default defineComponent({
-  name: "postTextForm",
-  data() {
-    return {
-      errorMessage: '',
-      theNewPost: {
-        content: '',
-        userId: 1
-      }
-    };
-  },
-// interface theNewPost {
-//   content: string
-//   userId: number
-// }
-// const props = defineProps({
-//   errorMessage: String,
-//   theNewPost: { type: Object as () => theNewPost, required: true },
+// Définition de l'ID utilisateur (avec le localstorage)
+const meTheUser = JSON.parse(localStorage.getItem("user")!);
+const userId = meTheUser.id;
 
-// });
+// Nouvel objet à envoyer en base
+let theNewPost = {
+  content: newPost,
+  userId: userId
+};
 
-  methods: {
-    // envoi du Post
-    sendMyPost() {
-      // Déclaration des variables
-      const messageAfterSent = document.querySelector('#messageFormSent')! as HTMLDivElement;
-      let PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
-      const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
+// Fonction d'envoi du Post
+const sendMyPost = () => {
+  // Déclaration des variables
+  const messageAfterSent = document.querySelector('#messageFormSent')! as HTMLDivElement;
+  let PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
+  const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
 
-      // Démarrage de la requête d'envoi du Post en DB via Axios
-      axios.post("http://localhost:3001/api/feed", this.theNewPost,{
-          headers: { "x-access-token": user.accessToken!, "x-role-token": user.roleToken! },})
+  // Récupération du Token présent en LocalStorage
+  const user = JSON.parse(localStorage.getItem("user")!);
 
-          // Actions à mener lors du clic sur le bouton envoi
-        .then((res) => {
-          sendButton.textContent = 'Envoi en-cours...';
-          sendButton.setAttribute("disabled", "");
-          setTimeout(() => {
-            messageAfterSent.classList.toggle("hidebox");
-            messageAfterSent.classList.remove("nokSent");
-            messageAfterSent.classList.add("okSent");
-            messageAfterSent.innerHTML = '<p>Message envoyé avec succès.</p>';
-            messageAfterSent.classList.toggle("hidebox");
-            sendButton.textContent = 'Poster';
-            PostContent.value = '';
-            sendButton.textContent = 'Envoyé';
-          }, 1500);
-          setTimeout(() => {
-            messageAfterSent.classList.toggle("hidebox");
-            myRouter.go();
-          }, 4000);
-
-          console.log('Post en ligne ;)' + res)
-        })
-        .catch(error => {
-          sendButton.setAttribute("disabled", "");
-          messageAfterSent.classList.toggle("hidebox");
-          messageAfterSent.classList.remove("okSent");
-          messageAfterSent.classList.add("nokSent");
-          messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-          setTimeout(function () {
-            messageAfterSent.classList.toggle("hidebox");
-          }, 5000);
-
-          this.errorMessage = error.message;
-          console.error("There was an error!", error);
-        });
-    }
-  },
-  computed: {
-    // Vérifiation si le post est valid pour activer le bouton d'envoi
-    isFormValid() {
-      if (
-        this.theNewPost.content !== ""
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+  // Démarrage de la requête d'envoi du Post en DB via Axios
+  axios.post("http://localhost:3001/api/feed", theNewPost, {
+    headers: {
+      "x-access-token": user.accessToken!,
+      "x-role-token": user.roleToken!
     },
-  },
+  })
 
-});
+    // Actions à mener lors du clic sur le bouton envoi
+    .then((res) => {
+      sendButton.textContent = 'Envoi en-cours...';
+      sendButton.setAttribute("disabled", "");
+      setTimeout(() => {
+        messageAfterSent.classList.toggle("hidebox");
+        messageAfterSent.classList.remove("nokSent");
+        messageAfterSent.classList.add("okSent");
+        messageAfterSent.innerHTML = '<p>Message envoyé avec succès.</p>';
+        messageAfterSent.classList.toggle("hidebox");
+        sendButton.textContent = 'Poster';
+        PostContent.value = '';
+        sendButton.textContent = 'Envoyé';
+      }, 1500);
+      setTimeout(() => {
+        messageAfterSent.classList.toggle("hidebox");
+        myRouter.go('');
+      }, 2500);
+    })
+    .catch(error => {
+      sendButton.setAttribute("disabled", "");
+      messageAfterSent.classList.toggle("hidebox");
+      messageAfterSent.classList.remove("okSent");
+      messageAfterSent.classList.add("nokSent");
+      messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      setTimeout(function () {
+        messageAfterSent.classList.toggle("hidebox");
+      }, 5000);
 
+      errorMessage = error.message;
+      console.error("There was an error!", error);
+    });
+}
+
+// Vérifiation si le post est valid pour activer le bouton d'envoi
+const isCommentValid = computed(() => {
+  if (
+    theNewPost.content !== ""
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+})
 
 </script>
 <style lang="scss">

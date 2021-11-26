@@ -39,7 +39,6 @@ exports.UpdateProfil = async (req, res, next) => {
   } catch (err) {
     return (res.sendStatus(500).statusMessage =
       err.message || "Une erreur s'est produite, veuillez réessayer.");
-<<<<<<< HEAD
   }
 };
 
@@ -69,8 +68,6 @@ exports.updateRole = async (req, res, next) => {
   } catch (err) {
     return (res.sendStatus(500).statusMessage =
       err.message || "Une erreur s'est produite, veuillez réessayer.");
-=======
->>>>>>> fe3d4773884ad6e15946ae127f0d297f40815fbc
   }
 };
 

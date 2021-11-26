@@ -9,6 +9,8 @@ export const auth = {
   namespaced: true,
   state: initialState,
   actions: {
+
+    // Utilisation du Store pour se connecter
     login({ commit }, user) {
       return AuthService.login(user).then(
         (user) => {
@@ -21,10 +23,14 @@ export const auth = {
         }
       );
     },
+
+    // Utilisation du Store pour se déconnecter
     logout({ commit }) {
       AuthService.logout();
       commit("logout");
     },
+
+    // Utilisation du store pour s inscrire
     register({ commit }, user) {
       return AuthService.register(user).then(
         (response) => {
@@ -37,50 +43,58 @@ export const auth = {
         }
       );
     },
+
+    // Utilisation du Store pour changer son mot de passe
     changePass({ commit }, user) {
       return AuthService.changePass(user).then(
         (response) => {
-          commit("registerSuccess");
+          commit("loginSuccess");
           return Promise.resolve(response.data);
         },
         (error) => {
-          commit("registerFailure");
+          commit("loginFailure");
           return Promise.reject(error);
         }
       );
     },
+
+    // Utilisation du Store pour changer son profil
     changeProfile({ commit }, user) {
       return AuthService.UpdateProfil(user).then(
         (response) => {
-          commit("registerSuccess");
+          commit("loginSuccess");
           return Promise.resolve(response.data);
         },
         (error) => {
-          commit("registerFailure");
+          commit("loginFailure");
           return Promise.reject(error);
         }
       );
     },
+
+    // Utilisation du Store pour changer son rôle
     changeRole({ commit }, user) {
       return AuthService.updateRole(user).then(
         (response) => {
-          commit("registerSuccess");
+          commit("loginSuccess");
           return Promise.resolve(response.data);
         },
         (error) => {
-          commit("registerFailure");
+          commit("loginFailure");
           return Promise.reject(error);
         }
       );
     },
+
+    // Utilisation du Store pour ajouter un commentaire
     addComment({ commit }, user) {
         return AuthService.addComment(user).then(
           (response) => {
-            commit("registerSuccess");
+            commit("loginSuccess");
             return Promise.resolve(response.data);
           },
           (error) => {
-            commit("registerFailure");
+            commit("loginFailure");
             return Promise.reject(error);
           }
         );

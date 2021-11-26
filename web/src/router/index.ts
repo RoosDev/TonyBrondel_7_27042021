@@ -2,14 +2,15 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Login from '../views/Login.vue'
 import Cartridge from '../views/Cartridge.vue';
 import theFeed from '../views/FeedView.vue';
-import theProfile from '../views/Profile.vue';
+import theProfile from '../views/ProfileView.vue';
 import theAdmin from '../views/Admin.vue';
 
 const routes: Array<RouteRecordRaw> = [
+
+  // Route par la connexion / inscription. C'est la page d'accueil s'il n'y a pas de token existant 
   {
     path: '/',
     name: 'Login',
-    // component: () => import('../views/Login.vue'), 
     components: {
       default: Login,
     },
@@ -17,6 +18,8 @@ const routes: Array<RouteRecordRaw> = [
       title: 'Se connecter',
     }
   },
+
+  // Route pour le flux de post , c'est le coeur du site
   {
     path: '/Home',
     name: 'Home',
@@ -30,6 +33,8 @@ const routes: Array<RouteRecordRaw> = [
     }
 
   },
+
+  // Route pour le profil de l'utilisateur
   {
     path: '/Profile',
     name: 'Profile',
@@ -43,6 +48,8 @@ const routes: Array<RouteRecordRaw> = [
     }
 
   },
+
+  //Route pour la page admin de gestion des droits utilisateurs.
   {
     path: '/Admin',
     name: 'Admin',
@@ -57,24 +64,7 @@ const routes: Array<RouteRecordRaw> = [
 
   },
 
-  // {
-  //   path: '/signup',
-  //   name: 'Signup',
-  //   component: () => import('../components/Signup.vue'),
-  //   meta:{
-  //     title: 'Inscrivez-vous',
-  //   }
-
-  // },
-  // {
-  //   path: '/login',
-  //   name: 'Log',
-  //   component: () => import('../components/Log.vue'),
-  //   meta:{
-  //     title: 'Connectez vous',
-  //   }
-
-  // },
+  // Route en cas d'accès à une page inexistante
   {
     name: 'NotFound',
     path: '/:pathMatch(.*)',
@@ -97,8 +87,7 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
 
-  // trying to access a restricted page + not logged in
-  // redirect to login page
+  // Tentative d'acces à une page à "acces restreint" avec redirection vers la page de login
   if (authRequired && !loggedIn) {
     next('/');
   } else {
@@ -106,8 +95,8 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+  // Changement du titre de la page.
 router.afterEach((to, from) => {
-  // console.log(from,to);
   document.title = `Groupomania - ${to.meta.title}`;
 });
 

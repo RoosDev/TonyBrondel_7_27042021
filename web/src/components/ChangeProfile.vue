@@ -7,26 +7,26 @@
     >
       <div id="changeProfileContent">
         <h2>Modification de votre profil</h2>
-        <Field name="id" type="hidden" :value="currentUser.id" />
+        <Field name="id" type="hidden" :value="props.id" />
 
         <div id="signupLogin">
           <label for="email">Votre adresse email : *</label>
-          <Field name="email" type="text" autocomplete="email" class="form-control" :value="email" />
+          <Field name="email" type="text" autocomplete="email" class="form-control" :value="props.email" />
         </div>
         <ErrorMessage name="email" class="error-feedback" />
         <div id="signupfirstname">
           <label for="firstname">Votre prénom : *</label>
-          <Field name="firstname" type="text" class="form-control" :value="firstname" />
+          <Field name="firstname" type="text" class="form-control" :value="props.firstname" />
         </div>
         <ErrorMessage name="firstname" class="error-feedback" />
         <div id="signupLastName">
           <label for="LastName">Votre nom de famille : *</label>
-          <Field name="lastname" type="text" class="form-control" :value="lastname" />
+          <Field name="lastname" type="text" class="form-control" :value="props.lastname" />
         </div>
         <ErrorMessage name="lastname" class="error-feedback" />
         <div id="signupjob">
           <label for="job">Votre poste : *</label>
-          <Field name="job" type="text" class="form-control" :value="job" />
+          <Field name="job" type="text" class="form-control" :value="props.job" />
         </div>
         <ErrorMessage name="job" class="error-feedback" />
         <div id="signupdivision">
@@ -53,7 +53,6 @@
             id="sendProfileButton"
             class="col-9"
             type="submit"
-            :disabled="!isFormProfilValid"
           >Enregistrer</button>
         </div>
       </div>
@@ -100,35 +99,32 @@ const props = defineProps<{
   firstname: string,
   lastname: string,
   job: string,
-  division: string
+  division: string,
+  id: number
 }>()
 
-// Check du token avant redirection
-const currentUser = computed(() => myStore.state.auth.user);
 
 // Fonction d'enregistrement du nouveau mot de passe
 const sendMyNewProfile = (user) => {
   const msgProfileAfterSent = document.querySelector('#msgProfileSent') as HTMLDivElement;
-  const inputPass = document.querySelector('.firstname') as HTMLInputElement;
   const sendProfileButton = document.querySelector('#sendProfileButton') as HTMLButtonElement;
 
   myStore.dispatch("auth/changeProfile", user)
     .then((data) => {
-        sendProfileButton.textContent = 'envoi en-cours ...',
+        sendProfileButton.textContent = 'envoi en-cours ...';
           setTimeout(() => {
             msgProfileAfterSent.classList.remove("nokSent");
             msgProfileAfterSent.classList.add("okSent");
             msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
             msgProfileAfterSent.classList.toggle("hidebox");
-            inputPass.value = '';
             sendProfileButton.textContent = 'Enregistré';
-          }, 1500),
+          }, 1500);
           setTimeout(() => {
             msgProfileAfterSent.classList.toggle("hidebox");
             myRouter.go('');
-          }, 4000),
-          console.log('Profil à jour ;)', data)
-      },
+          }, 4000);
+          console.log('Profil à jour ;)', data);
+    }),
 
       (error) => {
         msgProfileAfterSent.classList.toggle("hidebox");
@@ -140,18 +136,17 @@ const sendMyNewProfile = (user) => {
         }, 4000);
         console.error("There was an error!", error);
       }
-    )
 }
 
-const isFormProfilValid = computed((user) => {
+// const isFormProfilValid = computed((user) => {
   // if (
-  //   user.email !== "" || user.firstname !== "" || user.lastname !== "" || user.job !== "" || user.division!== ""
+  //   user.email != "" || user.firstname != "" || user.lastname != "" || user.job != "" || user.division!= ""
   // ) {
-  return true;
+  // return true;
   // } else {
   //   return false;
   // }
-})
+// })
 
 </script>
 <style lang="scss">

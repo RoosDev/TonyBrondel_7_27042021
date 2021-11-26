@@ -5,14 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
 import Feed from '@/components/Feed.vue';
-import store from '../store/index';
-const myStore: any = store;
-
-onMounted(() => {
-  myStore.dispatch("getPosts")
-})
 
 </script>
 

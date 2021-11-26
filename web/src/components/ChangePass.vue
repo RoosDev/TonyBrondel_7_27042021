@@ -6,8 +6,8 @@
         <p>
           <em>Critères: minimum 6 caractères dont au moins 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.</em>
         </p>
-        <Field name="id" type="hidden" :value="currentUser.id" />
-        <Field name="hidemail" type="hidden" :value="email" />
+        <Field name="id" type="hidden" :value="props.id" />
+        <Field name="hidemail" type="hidden" :value="props.email" />
 
         <div id="divPass1">
           <label for="password">Votre nouveau mot de passe :</label>
@@ -63,14 +63,11 @@ const schemaChangePass = yup.object().shape({
 });
 
 const props = defineProps<{
-  email: string
+  email: string,
+  id: number
 }>()
-
 const password = '';
 const password2 = '';
-
-// Check du token avant redirection
-const currentUser = computed(() => myStore.state.auth.user);
 
 // Fonction d'enregistrement du nouveau mot de passe
 const sendMyNewPass = (user) => {
@@ -82,27 +79,24 @@ const sendMyNewPass = (user) => {
   if (user.password == user.password2) {
 
     myStore.dispatch("auth/changePass", user)
-    .then((data) => {
-        console.log('data >>> ', data)
-      },
+      .then((data) => {
         sendButton.textContent = 'envoi en-cours ...',
-      setTimeout(() => {
-        messageAfterSent.classList.remove("nokSent");
-        messageAfterSent.classList.add("okSent");
-        messageAfterSent.innerHTML = '<p>Nouveau mot de passe enregistré <br /> Déconnexion en-cours...</p>';
-        messageAfterSent.classList.toggle("hidebox");
-        inputPass.value = '';
-        inputPass2.value = '';
-        sendButton.textContent = 'Envoyé';
-      }, 1500),
-      setTimeout(() => {
-        messageAfterSent.classList.toggle("hidebox");
-        myStore.dispatch('auth/logout');
-        myRouter.push('/');
-      }, 3000),
-      console.log('Mot de passe ok ;)')
-
-    ),
+          setTimeout(() => {
+            messageAfterSent.classList.remove("nokSent");
+            messageAfterSent.classList.add("okSent");
+            messageAfterSent.innerHTML = '<p>Nouveau mot de passe enregistré <br /> Déconnexion en-cours...</p>';
+            messageAfterSent.classList.toggle("hidebox");
+            inputPass.value = '';
+            inputPass2.value = '';
+            sendButton.textContent = 'Envoyé';
+          }, 1500);
+        setTimeout(() => {
+          messageAfterSent.classList.toggle("hidebox");
+          myStore.dispatch('auth/logout');
+          myRouter.push('');
+        }, 3000);
+          console.log('Mot de passe ok ;)')
+      }),
       (error) => {
         messageAfterSent.classList.toggle("hidebox");
         messageAfterSent.classList.remove("okSent");
@@ -211,7 +205,7 @@ form {
   height: 50px;
   border-radius: 15px;
   p {
-    font-size: 1.0em;
+    font-size: 1em;
     text-align: center;
     font-weight: bold;
     margin-top: 7px;

@@ -1,5 +1,5 @@
 <template>
-    <div id="profil"  class="col-12 col-md-9">
+    <div id="profil" class="col-12 col-md-9">
         <Profile />
     </div>
 </template>
@@ -11,7 +11,7 @@ import Profile from '@/components/Profile.vue';
 <style lang="scss">
 @import "../scss/variables.scss";
 
-template{
+template {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;

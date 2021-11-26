@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import ChangeRole from '@/components/ChangeRole.vue';
 import Modal from '@/components/Modal.vue';
-import { useModal } from '@/composition/modal';
+import { useModal } from '../composition/modal';
 
 const props = defineProps<{
   email: string,

@@ -22,14 +22,14 @@
             <button
               :id="buttonChange"
               class="menuPost_Change"
-              @click="toggleModal_ChangePost; toggleMenuPost()"
+              @click="toggleModal_ChangeImg; toggleMenuPost()"
             >
               <p>Modifier</p>
             </button>
             <button
               :id="buttonDelete"
               class="menuPost_Delete"
-              @click="toggleModal_DeletePost; toggleMenuPost()"
+              @click="toggleModal_DeleteImg; toggleMenuPost()"
             >
               <p>Supprimer</p>
             </button>
@@ -53,12 +53,12 @@
       <p></p>
     </div>
   </div>
-  <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
+  <Modal @close="toggleModal_ChangeImg" :modalActive="modalActive_ChangeImg">
     <div class="modal-content">
       <ChangeText :postId="theIdPost" :content="theTxtPost" />
     </div>
   </Modal>
-  <Modal @close="toggleModal_DeletePost" :modalActive="modalActive_DeletePost">
+  <Modal @close="toggleModal_DeleteImg" :modalActive="modalActive_DeleteImg">
     <div class="modal-content">
       <DeletePost :postId="theIdPost" />
     </div>
@@ -76,9 +76,10 @@ import moment from 'moment';
 const props = defineProps<{
   theIdPost: number,
   theTxtPost: string,
-  theAuthor: { string },
+  theAuthor: any,
   theDate: string,
-  theComments: { string }}>()
+  theComments: any 
+}>()
 
 const postDate = props.theDate!;
 
@@ -93,8 +94,8 @@ const authorLastname = props.theAuthor.lastname!;
 
 const postAuthor: string = authorFirstname + ' ' + authorLastname;
 const theComments = reactive(props.theComments!);
-const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
-const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
+const [modalActive_DeleteImg, toggleModal_DeleteImg] = useModal()
+const [modalActive_ChangeImg, toggleModal_ChangeImg] = useModal()
 
 
 // Nom dynamique des id pour le modifier / supprimer les posts

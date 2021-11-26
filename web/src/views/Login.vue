@@ -9,15 +9,8 @@
       </div>
       <div id="connectZone__Signup" class="col-12 col-md-5">
         <Signup />
-        <!-- <Signup v-model="message"  @displayMessage="msgReceived" /> -->
       </div>
     </div>
-    <!-- <div id="logAndSignMessage" class="row col-12 col-md-5">
-      <p>
-        {{message}}
-        {{ msg }}
-      </p>
-    </div> -->
   </div>
 </template>
 
@@ -78,22 +71,6 @@ import Log from '@/components/Log.vue';
     transform: rotate(5deg);
     filter: drop-shadow(5px 0 5px $groupo-color1);
     border-radius: 10px;
-  }
-}
-
-#logAndSignMessage {
-  margin: auto;
-  align-items: center;
-  text-align: center;
-  height: 35px;
-  background-color: rgba($groupo-colorLight1, 0.6);
-  box-shadow: 5px 0 20px $groupo-colorLight1;
-  border-radius: 0 0 10px 10px;
-  z-index: 5;
-  p {
-    font-size: 1.1em;
-    font-weight: bold;
-    margin: 2px;
   }
 }
 </style>
