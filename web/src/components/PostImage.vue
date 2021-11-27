@@ -79,7 +79,8 @@ export default defineComponent({
 });
 
 
-</script><style lang="scss">
+</script>
+<style lang="scss">
 @import "../scss/variables.scss";
 
 #PostImg {

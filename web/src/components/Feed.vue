@@ -13,7 +13,7 @@
       <PostBlocImg
         v-else-if="thePost.content === null"
         :theIdPost="thePost.id"
-        :theTxtPost="thePost.image_URL"
+        :theImgPost="thePost.image_URL"
         :theAuthor="thePost.authorPost"
         :theDate="thePost.createdAt"
         :theComments="thePost.comment_list"
@@ -26,7 +26,7 @@
 import SendPost from '@/components/SendPost.vue';
 import PostBlocImg from '@/components/PostIBlocImg.vue';
 import PostBlocText from '@/components/PostBlocText.vue';
-import { computed, onMounted, onBeforeUpdate } from 'vue';
+import { computed, onMounted } from 'vue';
 import store from '../store/index';
 
 // initialisation du store

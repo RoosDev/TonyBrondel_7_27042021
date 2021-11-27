@@ -26,25 +26,15 @@
       </div>
     </Modal>
 </template>
-<script lang="ts">
-import Modal from '@/components/Modal.vue';
+<script setup lang="ts">
 import PostText from '@/components/PostText.vue';
 import PostImage from '@/components/UploadEngine.vue';
+import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
 
-export default {
-  name: 'SendPost',
-  components: {
-    Modal,
-    PostText,
-    PostImage
-  },
-  setup() {
-    const [modalActive_Txt, toggleModal_Txt] = useModal();
-    const [modalActive_Img, toggleModal_Img] = useModal();
-    return { modalActive_Txt, toggleModal_Txt, modalActive_Img, toggleModal_Img };
-  },
-};
+const [modalActive_Txt, toggleModal_Txt] = useModal();
+const [modalActive_Img, toggleModal_Img] = useModal();
+
 </script>
 <style lang="scss">
 @import "../scss/variables.scss";

@@ -23,6 +23,7 @@ verifyToken = (req, res, next) => {
       });
     }
     req.email = decoded.email;
+    console.log('req email :>>', req.email)
     next();
   });
   return req.email;

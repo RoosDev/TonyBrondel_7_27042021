@@ -37,8 +37,8 @@
         </span>
       </div>
       <div id="PostZone" class="col-md-6">
-        <div id="thePostText" class="col-12">
-          <img :src="'../../public/Public_Images/'+ theTxtPost" alt="ma video" />
+        <div id="thePostImg" class="col-12">
+          <img id="theImageOfThePost" :src="'http://localhost:8080/'+ theImgPost" alt="" />
         </div>
       </div>
       <div id="commentZone" class="col-md-6">
@@ -55,7 +55,7 @@
   </div>
   <Modal @close="toggleModal_ChangeImg" :modalActive="modalActive_ChangeImg">
     <div class="modal-content">
-      <ChangeText :postId="theIdPost" :content="theTxtPost" />
+      <ChangeText :postId="theIdPost" :content="theImgPost" />
     </div>
   </Modal>
   <Modal @close="toggleModal_DeleteImg" :modalActive="modalActive_DeleteImg">
@@ -75,7 +75,7 @@ import moment from 'moment';
 
 const props = defineProps<{
   theIdPost: number,
-  theTxtPost: string,
+  theImgPost: string,
   theAuthor: any,
   theDate: string,
   theComments: any 
@@ -214,7 +214,11 @@ const toggleMenuPost = () => {
       line-height: 100%;
       margin: 0;
 
-      #thePostText {
+      #thePostImg {
+        display:flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
         width: 95%;
         height: 300px;
         margin-left: auto;
@@ -223,13 +227,11 @@ const toggleMenuPost = () => {
         background-color: rgba($groupo-colorLight2, 0.4);
         border-radius: 10px;
         box-shadow: 0 3px 10px rgba($groupo-color3, 0.2);
+        
 
-        p {
-          padding-top: 15px;
-          padding-bottom: 15px;
-          color: $groupo-color2;
-          font-size: 1.1em;
-          font-style: italic;
+        #theImageOfThePost{
+          max-width: 100%;
+          max-height: 100%;
         }
       }
     }

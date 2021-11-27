@@ -12,56 +12,52 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import axios from "axios";
+import { useRouter } from "vue-router";
 
-export default defineComponent({
-  name: "deletePost",
-  props: {
-    postId: Number,
-  },
-  setup(props) {
+const myRouter: any = useRouter();
 
-    const urlApi = "http://localhost:3001/api/feed/" + props.postId;
-    const deleteMyPost = () => {
-      const messageAfterDelete = document.querySelector('#messageFormDelete') as HTMLDivElement;
-      const sendButton = document.querySelector('#confirmDelete') as HTMLButtonElement;
+const props = defineProps<{
+  postId: number,
+}>()
 
-      axios.delete(urlApi)
-        .then((res) => {
-          sendButton.textContent = 'Suppression en-cours...';
-          sendButton.setAttribute("disabled", "");
-          setTimeout(function () {
-          messageAfterDelete.classList.toggle("hidebox");
-          messageAfterDelete.classList.remove("nokSent");
-          messageAfterDelete.classList.add("okSent");
-          messageAfterDelete.innerHTML = '<p>Message supprimé avec succès.</p>';
-          sendButton.textContent = 'supprimé';
-          }, 3000);
-          setTimeout(() => {
-            messageAfterDelete.classList.toggle("hidebox");
-          }, 6000);
-          console.log('Post en ligne ;)' + res)
-        })
-        .catch(err => {
-          sendButton.setAttribute("disabled", "");
-          messageAfterDelete.classList.toggle("hidebox");
-          messageAfterDelete.classList.remove("okSent");
-          messageAfterDelete.classList.add("nokSent");
-          messageAfterDelete.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-          setTimeout(function () {
-            messageAfterDelete.classList.toggle("hidebox");
-          }, 5000);
-          console.error("There was an error!", err);
-        });
-    }
-    return {
-      deleteMyPost
-    }
-  },
-});
+const deleteMyPost = () => {
+  const messageAfterDelete = document.querySelector('#messageFormDelete') as HTMLDivElement;
+  const sendButton = document.querySelector('#confirmDelete') as HTMLButtonElement;
+  const urlApi = "http://localhost:3001/api/feed/" + props.postId;
 
+  axios.delete(urlApi)
+    .then((res) => {
+      sendButton.textContent = 'Suppression en-cours...';
+      sendButton.setAttribute("disabled", "");
+      setTimeout(function () {
+        messageAfterDelete.classList.toggle("hidebox");
+        messageAfterDelete.classList.remove("nokSent");
+        messageAfterDelete.classList.add("okSent");
+        messageAfterDelete.innerHTML = '<p>Message supprimé avec succès.</p>';
+        sendButton.textContent = 'supprimé';
+      }, 1500);
+      setTimeout(() => {
+        messageAfterDelete.classList.toggle("hidebox");
+        myRouter.go('');
+      }, 3000);
+      console.log('Post en ligne ;)' + res)
+    })
+    .catch(err => {
+      sendButton.setAttribute("disabled", "");
+      messageAfterDelete.classList.toggle("hidebox");
+      messageAfterDelete.classList.remove("okSent");
+      messageAfterDelete.classList.add("nokSent");
+      messageAfterDelete.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      setTimeout(function () {
+        messageAfterDelete.classList.toggle("hidebox");
+        myRouter.go('');
+
+      }, 5000);
+      console.error("There was an error!", err);
+    });
+}
 
 </script>
 <style lang="scss">

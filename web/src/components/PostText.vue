@@ -73,7 +73,6 @@ const sendMyPost = () => {
         messageAfterSent.classList.add("okSent");
         messageAfterSent.innerHTML = '<p>Message envoyé avec succès.</p>';
         messageAfterSent.classList.toggle("hidebox");
-        sendButton.textContent = 'Poster';
         PostContent.value = '';
         sendButton.textContent = 'Envoyé';
       }, 1500);

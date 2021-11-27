@@ -12,6 +12,8 @@ const multer = require("../middlewares/multer_configPosts");
 // // Liste des routes pour créer quelque chose :
 // Création d'un post dans le feed
 router.post("/", [authJwt.verifyToken], feedPostCtrl.PostPost);
+// // Liste des routes pour uploader un post :
+router.post("/upload/post", [authJwt.verifyToken], multer.single("file"), feedUploadCtrl.uploadFiles);
 // Création d'un commentaire
 router.post("/:id/comment", [authJwt.verifyToken], feedPostCtrl.PostComment);
 // Ajout d'un like à un post
@@ -40,10 +42,7 @@ router.get("/:id/like", [authJwt.verifyToken], feedGetCtrl.getLikesPost);
 router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
 // Obtention de la liste des différents types de like
 router.get("/likes", [authJwt.verifyToken], feedGetCtrl.getLikes);
-
-// // Liste des routes pour uploader un post :
-router.post("/upload", multer.single("file"), feedUploadCtrl.uploadFiles);
-
-router.get("/upload", feedUploadGetCtrl.getHome);
+// Obtention de la liste des images de posts
+router.get("/upload/post", feedUploadGetCtrl.getHome);
 
 module.exports = router;
