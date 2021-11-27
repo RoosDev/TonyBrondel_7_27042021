@@ -7,6 +7,9 @@
           <button id="changeProfile" @click="toggleModal_EditProfil">
             <font-awesome-icon :icon="['fas', 'user-edit']" id="fontawesome-icon" />
           </button>
+          <button id="changePassword" @click="toggleModal_ImageProfile">
+            <font-awesome-icon :icon="['fas', 'camera']" id="fontawesome-icon" />
+          </button>
           <button id="changePassword" @click="toggleModal_Password">
             <font-awesome-icon :icon="['fas', 'key']" id="fontawesome-icon" />
           </button>
@@ -15,7 +18,8 @@
     </div>
     <div id="profileDetails" class="col-12 col-md-8">
       <div id="profilPicture" class="col-4">
-        <img src="../assets/user-male.png" alt="Photo de profil" />
+        <img v-if="!myPicture" src="../../public/Public_Images/Profile/user.png" alt="Photo de profil" />
+        <img v-else :src="myPicture" alt="Photo de profil" />
       </div>
       <div id="profilText" class="col-10">
         <div id="profilTextName">
@@ -49,11 +53,18 @@
     </div>
   </Modal>
 
+  <Modal @close="toggleModal_ImageProfile" :modalActive="modalActive_ImageProfile">
+    <div class="modal-content">
+      <ChangeImageProfile/>
+    </div>
+  </Modal>
+
   <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
     <div class="modal-content">
       <ChangePass :id="myId" :email="myUser.email" />
     </div>
   </Modal>
+
 </template>
 
 <script setup lang="ts">
@@ -61,6 +72,7 @@ import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
 import ChangePass from '@/components/ChangePass.vue';
 import ChangeProfile from '@/components/ChangeProfile.vue';
+import ChangeImageProfile from '@/components/UploadProfileImage.vue';
 import { computed, onMounted } from "vue";
 import store from '../store/index';
 
@@ -68,12 +80,15 @@ import store from '../store/index';
 // appel de la fonction modal
 const [modalActive_EditProfil, toggleModal_EditProfil] = useModal()
 const [modalActive_Password, toggleModal_Password] = useModal()
+const [modalActive_ImageProfile, toggleModal_ImageProfile] = useModal()
 
 //Connexion au store pour récupération des informations
 const myStore: any = store;
 const userDetail = computed(() => myStore.state.userDetail);
 const myUser = userDetail.value;
 const myName = myUser.firstname + ' ' + myUser.lastname;
+console.log(myUser);
+const myPicture = myUser.photo_URL;
 
 // Récupération de l' ID de l'utilisateur
 const currentUser = JSON.parse(localStorage.getItem("user")!);

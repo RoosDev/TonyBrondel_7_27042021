@@ -24,7 +24,6 @@ var storage = multer.diskStorage({
     const extension = MIME_TYPES[file.mimetype];
     const justName = name.split("." + extension).join("__");
     const filename = justName + Date.now() + "." + extension;
-    console.log("nom fichier corrigé : >> ", filename)
     cb(null, filename);
   },
 });

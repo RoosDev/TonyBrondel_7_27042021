@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import PostText from '@/components/PostText.vue';
-import PostImage from '@/components/UploadEngine.vue';
+import PostImage from '@/components/UploadPostImage.vue';
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
 

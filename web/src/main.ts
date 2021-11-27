@@ -29,6 +29,7 @@ import {
   faUsersCog,
   faUserPlus,
   faUserSecret ,
+  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -55,7 +56,7 @@ library.add(faUserEdit);
 library.add(faUsersCog);
 library.add(faUserPlus);
 library.add(faUserSecret);
-
+library.add(faCamera);
 
 // Création de l'app
 const app = createApp(App);

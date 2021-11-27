@@ -1,37 +1,40 @@
 const multer = require("multer");
 
 const MIME_TYPES = {
-  "image/jpg" : "jpg",
+  "image/jpg": "jpg",
   "image/jpeg": "jpg",
-  "image/png" : "png",
-  "image/gif" : "gif",
+  "image/png": "png",
+  "image/gif": "gif",
 };
 
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, "../Public_Images/Profiles");
+const imageFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb("Seule les images sont autorisées.", false);
+  }
+};
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, __basedir + "../../web/public/Public_Images/Profile/");
   },
-  filename: (req, file, callback) => {
+  filename: (req, file, cb) => {
     const name = file.originalname.split(" ").join("_");
     const extension = MIME_TYPES[file.mimetype];
     const justName = name.split("." + extension).join("__");
-    callback(null, justName + Date.now() + "." + extension);
-  },
-  fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png|gif/;
-    const extname = filetypes.test(
-      path.extname(file.originalname).toLowerCase()
-    );
-    const mimetype = filetypes.test(file.mimetype);
-
-    if (mimetype && extname) return cb(null, true);
-    else
-      cb("Error: Images Only!") &&
-        console.log(
-          "Un format de fichier non authorisé a tenté d'être envoyé. Loupé !! :)"
-        );
+    const filename = justName + Date.now() + "." + extension;
+    cb(null, filename);
   },
 });
 
-module.exports = multer({ storage }).single("image_URL");
- 
+var uploadFile = multer({ storage: storage, fileFilter: imageFilter });
+module.exports = uploadFile;
+
+
+
+
+
+
+
+

@@ -4,6 +4,7 @@ const userSignLogCtrl = require("../controllers/userSignLog_control");
 // const userRoleCtrl = require("../controllers/userRoles_control")
 const userGetCtrl = require("../controllers/userGet_control.js");
 const userUpdateCtrl = require("../controllers/userUpdate_control.js");
+const userUploadImgCtrl = require("../controllers/UserUpload_control");
 const userDropCtrl = require("../controllers/userDrop_control");
 const passValidation = require("../middlewares/pass_Validation");
 const multer = require("../middlewares/multer_configProfile");
@@ -25,6 +26,9 @@ const { authJwt, verifySignUp } = require("../middlewares");
 
     // Modification d'un profil utilisateur
     router.put("/profile/:id", [authJwt.verifyToken], userUpdateCtrl.UpdateProfil);
+
+    // Modification de la photo utilisateur
+    router.put("/upload/profile/", [authJwt.verifyToken], multer.single("file"), userUploadImgCtrl.uploadFiles);
 
     // Modification d'un role utilisateur
     router.put("/profile/role/:id", [authJwt.verifyToken], userUpdateCtrl.updateRole);

@@ -74,6 +74,7 @@ exports.getOneProfile = async (req, res, next) => {
     let data = {
       firstname: dbData.firstname,
       lastname: dbData.lastname,
+      photo_URL: dbData.photo_URL,
       email: email,
       job: dbData.job,
       division: dbData.division,

@@ -38,14 +38,6 @@
 
     <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ message }}</div>
 
-    <!-- <div class="card mt-3">
-      <div class="card-header">List of Images</div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item" v-for="(image, index) in imageInfos" :key="index">
-          <a :href="image.url">{{ image.name }}</a>
-        </li>
-      </ul>
-    </div> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -68,9 +60,7 @@ const selectImage = () => {
   activeButton.value = true
   currentImage = myFile.item(0)!;
   myFileName = myFile.item(0)!.name;
-  console.log('current image >>>' , myFileName);
   previewImage.value = URL.createObjectURL(currentImage);
-  console.log('preview >>>' , previewImage);
   progress.value = 0;
   message.value = "";
 };

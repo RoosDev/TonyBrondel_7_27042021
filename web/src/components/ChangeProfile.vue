@@ -61,7 +61,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue';
 import store from '../store/index';
 import { useRouter } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
