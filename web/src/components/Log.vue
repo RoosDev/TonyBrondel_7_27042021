@@ -1,38 +1,38 @@
 <template>
-  <div id="connectionBox" class="row align-items-center">
-    <div id="secureTitle">
+  <div id="connectionBox" class="row align-items-center col-12">
+    <div id="secureTitle" class="col-12">
       <p>
         <font-awesome-icon :icon="['fas', 'shield-alt']" />Se connecter
       </p>
     </div>
     <Form @submit="handleLogin" :validation-schema="schema">
-      <div id="secureLogin">
-        <label for="login">Votre adresse email :</label>
+      <div id="secureLogin" class="col-12">
+        <label for="login" class="col-12">Votre adresse email :</label>
         <Field
           id="email"
           name="email"
           type="text"
           autocomplete="email"
-          class="form-control"
+          class="form-control col-12"
           value="tony@groupo.fr"
         />
         <!-- <input type="email" name="email" id="email" autocomplete="email" required> -->
       </div>
-      <ErrorMessage name="email" class="error-feedback" />
+      <ErrorMessage name="email" class="error-feedback col-12" />
       <div id="securePassword">
-        <label for="password">Votre mot de passe :</label>
+        <label for="password" class="col-12">Votre mot de passe :</label>
         <Field
           id="password"
           name="password"
           type="password"
           autocomplete="current-password"
-          class="form-control"
+          class="form-control col-12"
           value="Azerty-12!"
         />
         <!-- <input type="password" name="current-password" id="password" autocomplete="current-password" required> -->
       </div>
-      <ErrorMessage name="password" class="error-feedback" />
-      <div id="secureButtonMsg">
+      <ErrorMessage name="password" class="error-feedback col-12" />
+      <div id="secureButtonMsg" class="col-12">
         <button type="submit" class="btn btn-primary btn-block" :disabled="loading">
           <span v-show="loading" class="spinner-border spinner-border-sm"></span>
           <span>Se connecter</span>
@@ -56,11 +56,11 @@ let loading: any = ref(false);
 let message: any = ref('');
 
 // fonction de login
-const loggedIn = computed(() => myStore.state.auth.status.loggedIn);
+const loggedIn = computed(() => myStore.state.auth.status.loggedIn)
 if (loggedIn.value) {
   setTimeout(() => {
     myRouter.push('/Home');
-  }, 1000);
+  }, 500);
 }
 
 const schema = yup.object().shape({
@@ -71,23 +71,23 @@ const schema = yup.object().shape({
 // envoi des données pour se logger
 const handleLogin = (user) => {
   loading = true;
-
-  myStore.dispatch("auth/login", user).then(
-    () => {
-      setTimeout(() => {
+  myStore.dispatch("auth/login", user)
+    .then((res) => {
+      console.log('response log >> ', res.data)
         myRouter.push('/Home');
-      }, 1000);
     },
-    (error) => {
-      loading = false;
-      message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-    }
-  );
+      (error) => {
+      console.log('response error >> ', error)
+        loading = false;
+        console.log(error)
+        message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      }
+    );
 }
 
 </script>
@@ -135,7 +135,7 @@ const handleLogin = (user) => {
   input {
     background-color: $groupo-color4;
     color: $groupo-colorLight1;
-    width: 300px;
+    width: 100%;
     height: 30px;
     border: 0;
     border-radius: 10px;

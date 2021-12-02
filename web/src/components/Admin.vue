@@ -19,8 +19,9 @@
           <td id="jobUser">{{ user.job }}</td>
           <td id="divisionUser">{{ user.division }}</td>
           <td id="roleUser" class="txtcenter">{{ user.role.role_name }}</td>
-          <td id="actions" class="txtcenter">
+          <td id="actionsAdmin" class="txtcenter">
             <ButtonRole :idToChange="user.id" :name="user.firstname + ' ' + user.lastname" :email="user.email" :role="user.roleId"/>
+            <ButtonDelete :idToDelete="user.id" :name="user.firstname + ' ' + user.lastname" :email="user.email" :role="user.roleId"/>
           </td>
         </tr>
       </tbody>
@@ -29,6 +30,7 @@
 </template>
 <script setup lang="ts">
 import ButtonRole from '@/components/ButtonRole.vue';
+import ButtonDelete from '@/components/ButtonDeleteProfile.vue';
 import { computed, onMounted } from "vue";
 import store from '../store/index';
 
@@ -36,7 +38,7 @@ import store from '../store/index';
 const myStore: any = store;
 
 //Connexion au store pour récupération des informations
-const usersList = computed(() => myStore.state.usersList);
+const usersList = computed(() => myStore.state.users.usersList);
 
 onMounted(() => {
   // Connexion au Store de l'application
@@ -91,5 +93,11 @@ button {
       color: $groupo-color1;
     }
   }
+}
+#actionsAdmin{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
 }
 </style>

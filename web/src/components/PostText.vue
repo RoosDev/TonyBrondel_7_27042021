@@ -27,8 +27,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import axios from "axios";
+import store from '../store/index';
 import { useRouter } from "vue-router";
 
+const myStore: any = store;
 const myRouter: any = useRouter();
 
 // Définition des variables
@@ -52,19 +54,11 @@ const sendMyPost = () => {
   let PostContent = document.querySelector('#PostContent')! as HTMLTextAreaElement;
   const sendButton = document.querySelector('#sendButton')! as HTMLButtonElement;
 
-  // Récupération du Token présent en LocalStorage
-  const user = JSON.parse(localStorage.getItem("user")!);
-
   // Démarrage de la requête d'envoi du Post en DB via Axios
-  axios.post("http://localhost:3001/api/feed", theNewPost, {
-    headers: {
-      "x-access-token": user.accessToken!,
-      "x-role-token": user.roleToken!
-    },
-  })
-
+  myStore.dispatch("createPost", theNewPost)
     // Actions à mener lors du clic sur le bouton envoi
     .then((res) => {
+      console.log('res > ', res)
       sendButton.textContent = 'Envoi en-cours...';
       sendButton.setAttribute("disabled", "");
       setTimeout(() => {
@@ -78,7 +72,7 @@ const sendMyPost = () => {
       }, 1500);
       setTimeout(() => {
         messageAfterSent.classList.toggle("hidebox");
-        myRouter.go('');
+        // myRouter.go('');
       }, 2500);
     })
     .catch(error => {

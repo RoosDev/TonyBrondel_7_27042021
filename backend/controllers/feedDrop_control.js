@@ -1,7 +1,7 @@
 const dbConnect  = require('../config/db.config');
 const modelPostCommentList = dbConnect.post_comment_list;
 const modelPostsLike = dbConnect.posts_like;
-const modelLikesType = dbConnect.likes_type;
+// const modelLikesType = dbConnect.likes_type;
 
 // Suppression d un post uniquement
 exports.deleteOnePost = async (req, res, next) => {
@@ -22,22 +22,22 @@ exports.deleteOnePost = async (req, res, next) => {
 };
 
 // Suppression d un post uniquement
-exports.deleteOneLike = async (req, res, next) => {
-  try {
-    const data = await modelPostsLike.destroy(
-      { where: { post_comment_Id: req.params.id , identity_Id: req.body.identity_Id } }
-    );
-    res.send({data});
-    data  => {
-      if (data ==1 ){
-        return res.statusMessage = "Le post a été supprimé."
-      }else{
-        return res.statusMessage = "Suppression impossible."
-      }}
-  } catch (err) {
-    return res.sendStatus(500).statusMessage = err.message || "Il semble qu'une erreur se soit glissée sur la route. Nous sommes désolé."
-  }
-};
+// exports.deleteOneLike = async (req, res, next) => {
+//   try {
+//     const data = await modelPostsLike.destroy(
+//       { where: { post_comment_Id: req.params.id , identity_Id: req.body.identity_Id } }
+//     );
+//     res.send({data});
+//     data  => {
+//       if (data ==1 ){
+//         return res.statusMessage = "Le post a été supprimé."
+//       }else{
+//         return res.statusMessage = "Suppression impossible."
+//       }}
+//   } catch (err) {
+//     return res.sendStatus(500).statusMessage = err.message || "Il semble qu'une erreur se soit glissée sur la route. Nous sommes désolé."
+//   }
+// };
 
 
 // // Sélection des commentaires qui son attachés à un post

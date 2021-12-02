@@ -57,12 +57,11 @@ const props = defineProps<{
 }>()
 
 // Fonction d'enregistrement du nouveau mot de passe
-const sendNewRole = (user) => {
+const sendNewRole = (usertoChange) => {
   const msgRoleAfterSent = document.querySelector('#msgRoleSent') as HTMLDivElement;
   const sendRoleButton = document.querySelector('#sendRoleButton') as HTMLButtonElement;
-
-  myStore.dispatch("auth/changeRole", user)
-    .then((data) => {
+  myStore.dispatch("changeRole", usertoChange)
+    .then(() => {
         sendRoleButton.textContent = 'envoi en-cours ...',
           setTimeout(() => {
             msgRoleAfterSent.classList.remove("nokSent");
@@ -75,7 +74,7 @@ const sendNewRole = (user) => {
             msgRoleAfterSent.classList.toggle("hidebox");
             myRouter.go('');
           }, 3000),
-          console.log('Rôle à jour ;)', data)
+          console.log('Rôle à jour ;)')
       }),
 
       (error) => {

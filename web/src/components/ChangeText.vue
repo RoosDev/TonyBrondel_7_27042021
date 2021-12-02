@@ -39,6 +39,7 @@ const props = defineProps<{
 
 const urlApi = "http://localhost:3001/api/feed/" + props.postId;
 const myRouter: any = useRouter();
+const myHead = JSON.parse(localStorage.getItem("user")!);
 
 const sendMyPut = () => {
   const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
@@ -49,7 +50,13 @@ const sendMyPut = () => {
     content: PutContent.value,
     userId: 1,
   };
-  axios.put(urlApi, theChangedPost)
+  axios.put(urlApi, theChangedPost,  {
+      headers: { 
+        "x-access-token": myHead.accessToken!, 
+        "x-role-token": myHead.roleToken! ,
+        // "postID": props.postId
+      }
+    })
     .then((res) => {
       sendButton.textContent = 'Modification en-cours...';
       sendButton.setAttribute("disabled", "");

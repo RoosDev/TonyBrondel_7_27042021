@@ -36,8 +36,8 @@
             <option value="ERR" disabled>Sélectionnez la division</option>
             <option value="Achats">Achats</option>
             <option value="Deploiement">Deploiement</option>
-            <option value="Direction">Direction</option>
-            <option value="Finance" selected>Finance</option>
+            <option value="Direction" :selected="props.division == 'Direction'">Direction</option>
+            <option value="Finance" :selected="props.division == 'Finance'">Finance</option>
             <option value="Foncier">Foncier</option>
             <option value="Franchise">Franchise</option>
             <option value="Logistique">Logistique</option>
@@ -94,21 +94,22 @@ const schemaChangeProfile = yup.object().shape({
 });
 
 const props = defineProps<{
-  email: string,
+  id: number,
   firstname: string,
   lastname: string,
+  email: string,
   job: string,
-  division: string,
-  id: number
+  division: string
 }>()
 
 
 // Fonction d'enregistrement du nouveau mot de passe
-const sendMyNewProfile = (user) => {
+const sendMyNewProfile = (userDetail) => {
   const msgProfileAfterSent = document.querySelector('#msgProfileSent') as HTMLDivElement;
   const sendProfileButton = document.querySelector('#sendProfileButton') as HTMLButtonElement;
 
-  myStore.dispatch("auth/changeProfile", user)
+  console.log(userDetail)
+  myStore.dispatch("changeProfile", userDetail)
     .then((data) => {
         sendProfileButton.textContent = 'envoi en-cours ...';
           setTimeout(() => {
@@ -120,8 +121,8 @@ const sendMyNewProfile = (user) => {
           }, 1500);
           setTimeout(() => {
             msgProfileAfterSent.classList.toggle("hidebox");
-            myRouter.go('');
-          }, 4000);
+            // myRouter.go('');
+          }, 3000);
           console.log('Profil à jour ;)', data);
     }),
 

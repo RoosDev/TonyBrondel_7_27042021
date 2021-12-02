@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="progressProfImg">
+    <div class="progress">
       <div
         class="progress-bar progress-bar-striped progress-bar-animated progress-bar-info progressProfImg"
         role="progressbar"

@@ -173,19 +173,6 @@ exports.login = async (req, res, next) => {
           { algorithm: "RS256" }
         );
 
-        // Récupératiion du niveau de role de l'utilisateur
-        // let authorities = [];
-        // const roleId = findForLogin.role_Id;
-        //   console.log('role ID >> ' , roleId);
-
-        // const rolesName = modelUserRole.findOne({
-        //   where: {id: roleId}, 
-        // })
-        // .then(
-        //   console.log('roles >> ' , rolesName),
-        //   authorities.push("ROLE_" + rolesName.name.toUpperCase()),
-        //   console.log("authorities : >> " , authorities)
-        // );
         return res.status(200).send({
           id: findForLogin.id,
           accessToken: accessToken, 

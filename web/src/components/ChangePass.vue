@@ -63,8 +63,8 @@ const schemaChangePass = yup.object().shape({
 });
 
 const props = defineProps<{
-  email: string,
-  id: number
+  id: number,
+  email: string
 }>()
 const password = '';
 const password2 = '';

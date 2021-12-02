@@ -9,27 +9,14 @@
           </p>
         </span>
         <span id="likePost">
-          <!-- <p>
-            <button>
-              <font-awesome-icon :icon="['fas', 'hand-peace']" />
-            </button>
-            {{ theLike }}
-          </p> -->
         </span>
-        <span id="menuPost">
-          <button :id="buttonChangeDelete" class="openMenuPost" @click="toggleMenuPost()">•••</button>
-          <div :id="menuDevelopChange" class="menuPostDevelop hidebox">
-            <button
-              :id="buttonChange"
-              class="menuPost_Change"
-              @click="toggleModal_ChangeImg; toggleMenuPost()"
-            >
-              <p>Modifier</p>
-            </button>
+        <span id="menuPost" v-if="myId === props.theAuthor.id">
+          <button :id="buttonDeleteImage" class="openMenuImage" @click="toggleMenuImage()">•••</button>
+          <div :id="menuDevelopChangeImage" class="menuPostDevelop hidebox">
             <button
               :id="buttonDelete"
               class="menuPost_Delete"
-              @click="toggleModal_DeleteImg; toggleMenuPost()"
+              @click="toggleModal_DeleteImg(); toggleMenuImage()"
             >
               <p>Supprimer</p>
             </button>
@@ -53,22 +40,16 @@
       <p></p>
     </div>
   </div>
-  <Modal @close="toggleModal_ChangeImg" :modalActive="modalActive_ChangeImg">
-    <div class="modal-content">
-      <ChangeText :postId="theIdPost" :content="theImgPost" />
-    </div>
-  </Modal>
   <Modal @close="toggleModal_DeleteImg" :modalActive="modalActive_DeleteImg">
     <div class="modal-content">
-      <DeletePost :postId="theIdPost" />
+      <DeleteImage :postId="theIdPost" />
     </div>
   </Modal>
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
 import CommentZone from '@/components/CommentZone.vue';
-import ChangeText from '@/components/ChangeText.vue';
-import DeletePost from '@/components/DeletePost.vue';
+import DeleteImage from '@/components/DeleteImage.vue';
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
 import moment from 'moment';
@@ -89,24 +70,34 @@ const formatDatePost = (postDate) => {
   return moment(postDate).format('lll')
 }
 
+// Récupération de l' ID de l'utilisateur
+const currentUser = JSON.parse(localStorage.getItem("user")!);
+const myId = currentUser.id!;
+
+const checkOwner = () => {
+  if (myId == props.theAuthor.id){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 const authorFirstname = props.theAuthor.firstname!;
 const authorLastname = props.theAuthor.lastname!;
 
 const postAuthor: string = authorFirstname + ' ' + authorLastname;
 const theComments = reactive(props.theComments!);
 const [modalActive_DeleteImg, toggleModal_DeleteImg] = useModal()
-const [modalActive_ChangeImg, toggleModal_ChangeImg] = useModal()
 
 
 // Nom dynamique des id pour le modifier / supprimer les posts
-const buttonChangeDelete = 'openMenu_' + props.theIdPost;
-const menuDevelopChange = 'menuPostDev_' + props.theIdPost;
-const buttonChange = 'buttonChange_' + props.theIdPost;
+const buttonDeleteImage = 'openMenu_' + props.theIdPost;
+const menuDevelopChangeImage = 'menuPostDev_' + props.theIdPost;
 const buttonDelete = 'buttonDelete_' + props.theIdPost;
 
 // Fonction d'affichage du menu Modifier/ supprimer le post
-const toggleMenuPost = () => {
-  const boxMenuPost = document.querySelector('#' + menuDevelopChange) as HTMLDivElement;
+const toggleMenuImage = () => {
+  const boxMenuPost = document.querySelector('#' + menuDevelopChangeImage) as HTMLDivElement;
   boxMenuPost.classList.toggle("hidebox");
 }
 
@@ -147,7 +138,7 @@ const toggleMenuPost = () => {
         }
       }
 
-      .openMenuPost {
+      .openMenuImage {
         margin: 0 auto 0 150px;
         border: 0 solid $groupo-color1;
         border-radius: 5px;
@@ -158,40 +149,10 @@ const toggleMenuPost = () => {
         }
       }
 
-      .menuPostDevelop {
-        // #menuPostDevelop{
-        position: absolute;
-        width: 200px;
-        height: 90px;
-        border-radius: 10px;
-        box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
-        background-color: #fff;
-        z-index: 100;
+   
 
-        button {
-          display: block;
-          border: 0;
-          background-color: #fff;
-          width: 100%;
-          height: 50%;
-
-          .menuPost_Change {
-            // #menuPost_Change {
-            border-radius: 10px 10px 0 0;
-          }
-          .menuPost_Delete {
-            // #menuPost_Delete {
-            border-radius: 0 0 10px 10px;
-          }
-
-          &:hover {
-            background-color: rgba($groupo-color1, 0.1);
-          }
-          p {
-            font-size: 1.1em;
-            padding: 5px;
-          }
-        }
+      #menuDevelopChangeImage{
+        height: 45px;
       }
 
       #likePost,

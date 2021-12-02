@@ -13,12 +13,10 @@ exports.PostPost = async (req, res, next) => {
     reference: null,
     identity_Id: req.body.userId,
   };
-  console.log('proto ::>> ' + req.protocol );
-  console.log('host ::>> ' + req.get("host"));
-  // console.log('file ::>> ' + req.file.filename);
   try {
-      await modelPostCommentList.create(thePost);
-      return res.status(201).json({message: "Post ajouté avec succès." } );
+      const createdPost = await modelPostCommentList.create(thePost);
+      
+      return res.status(201).json( createdPost );
   } catch (err) {
     return res.status(500).json({message: "Une erreur s'est produite, le message n'est pas enregistré.", details: err});
   }

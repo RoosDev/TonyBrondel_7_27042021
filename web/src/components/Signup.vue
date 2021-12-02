@@ -1,51 +1,51 @@
 <template>
-  <div id="signupBox" class="row align-items-center">
+  <div id="signupBox" class="row align-items-center col-12">
     <div id="signupStart" class="col-12">
       <button id="SignupButton" @click="signButton">s'inscrire</button>
     </div>
     <div id="signupZone" class="col-12 d-none">
-      <div id="signupTitle">
+      <div id="signupTitle" class="col-12">
         <p>
           <font-awesome-icon :icon="['fas', 'user-plus']" />S'inscrire
         </p>
       </div>
-      <Form @submit="handleRegister" :validation-schema="schemaSignup">
-        <div v-if="!successful">
-          <div id="signupLogin">
-            <label for="email">Votre adresse email : *</label>
-            <Field name="email" type="text" autocomplete="email" class="form-control" value="tony@chefi.fr" />
+      <Form @submit="handleRegister" :validation-schema="schemaSignup" class="col-12">
+        <div v-if="!successful" class="col-12">
+          <div id="signupLogin" class="col-12">
+            <label for="email" class="col-12">Votre adresse email : *</label>
+            <Field name="email" type="text" autocomplete="email" class="form-control col-12" value="tony@groupo.fr" />
           </div>
-          <ErrorMessage name="email" class="error-feedback" />
-          <div id="signupPassword">
-            <label for="password">Votre mot de passe : *</label>
+          <ErrorMessage name="email" class="error-feedback col-12" />
+          <div id="signupPassword" class=" col-12">
+            <label for="password" class=" col-12">Votre mot de passe : *</label>
             <Field
               name="password"
               type="password"
               autocomplete="new-password"
-              class="form-control"
-              value="Azerty12!"
+              class="form-control col-12"
+              value="Azerty-12!"
             />
           </div>
-          <ErrorMessage name="newPass" class="error-feedback" />
-          <div id="signupfirstname">
-            <label for="firstname">Votre prénom : *</label>
-            <Field name="firstname" type="text" class="form-control" value="Paul" />
+          <ErrorMessage name="newPass" class="error-feedback col-12" />
+          <div id="signupfirstname" class=" col-12">
+            <label for="firstname" class=" col-12">Votre prénom : *</label>
+            <Field name="firstname" type="text" class="form-control col-12" value="Paul" />
           </div>
-          <ErrorMessage name="firstname" class="error-feedback" />
-          <div id="signupLastName">
-            <label for="LastName">Votre nom de famille : *</label>
-            <Field name="lastname" type="text" class="form-control" value="Pote" />
+          <ErrorMessage name="firstname" class="error-feedback col-12" />
+          <div id="signupLastName" class=" col-12">
+            <label for="LastName" class=" col-12">Votre nom de famille : *</label>
+            <Field name="lastname" type="text" class="form-control col-12" value="Pote" />
           </div>
-          <ErrorMessage name="lastname" class="error-feedback" />
-          <div id="signupjob">
-            <label for="job">Votre poste : *</label>
-            <Field name="job" type="text" class="form-control" value="no sabe" />
+          <ErrorMessage name="lastname" class="error-feedback col-12" />
+          <div id="signupjob" class=" col-12">
+            <label for="job" class=" col-12">Votre poste : *</label>
+            <Field name="job" type="text" class="form-control col-12" value="no sabe" />
           </div>
-          <ErrorMessage name="job" class="error-feedback" />
-          <div id="signupdivision">
-            <label for="division">Votre division : *</label>
+          <ErrorMessage name="job" class="error-feedback col-12" />
+          <div id="signupdivision" class=" col-12">
+            <label for="division" class=" col-12">Votre division : *</label>
             <br />
-            <Field id="selectdivision" name="division" as="select">
+            <Field id="selectdivision" name="division" as="select" class=" col-12">
               <option value="ERR" disabled>Sélectionnez la division</option>
               <option value="Achats" selected>Achats</option>
               <option value="Deploiement">Deploiement</option>
@@ -58,11 +58,11 @@
               <option value="RH">RH</option>
             </Field>
           </div>
-          <ErrorMessage name="division" class="error-feedback" />
-          <div id="signupButtonMsg">
+          <ErrorMessage name="division" class="error-feedback col-12" />
+          <div id="signupButtonMsg" class=" col-12">
             <button type="submit" class="btn btn-block" @click="sendButton">
               <!-- <span v-show="loading" class="spinner-border spinner-border-sm"></span> -->
-              <span>S'inscrire</span>
+              <span class=" col-12">S'inscrire</span>
             </button>
           </div>
         </div>
@@ -73,7 +73,7 @@
       <div
         id="alertBox"
         v-if="msg"
-        class="alert"
+        class="alert col-12"
         role="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
         >Bienvenue, <br />Vous pouvez vous connecter à présent.</div>
@@ -229,7 +229,6 @@ let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElem
     input {
       background-color: $groupo-color4;
       color: $groupo-colorLight1;
-      width: 300px;
       height: 30px;
       border: 0;
       border-radius: 10px;
@@ -246,7 +245,6 @@ let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElem
     select {
       background-color: $groupo-color4;
       color: $groupo-colorLight1;
-      width: 300px;
       height: 30px;
       border: 0;
       border-radius: 10px;

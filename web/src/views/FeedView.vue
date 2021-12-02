@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import Feed from '@/components/Feed.vue';
-
 </script>
 
 <style lang="scss">

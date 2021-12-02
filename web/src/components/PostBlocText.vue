@@ -8,20 +8,20 @@
             {{ postAuthor }} - le {{ formatDatePost(theDate) }}
           </p>
         </span>
-        <span id="menuPost">
-          <button :id="buttonChangeDelete" class="openMenuPost" @click="toggleMenuPost()">•••</button>
-          <div :id="menuDevelopChange" class="menuPostDevelop hidebox">
+        <span id="menuPost" v-if="myId === props.theAuthor.id">
+          <button :id="buttonChangeDeletePostText" class="openMenuPostText" @click="toggleMenuPost()">•••</button>
+          <div :id="menuDevelopChangePostText" class="menuPostDevelop hidebox">
             <button
-              :id="buttonChange"
+              :id="buttonChangePostText"
               class="menuPost_Change"
-              @click="toggleModal_ChangePost; toggleMenuPost()"
+              @click="toggleModal_ChangePost(), toggleMenuPost()"
             >
               <p>Modifier</p>
             </button>
             <button
-              :id="buttonDelete"
+              :id="buttonDeletePostText"
               class="menuPost_Delete"
-              @click="toggleModal_DeletePost; toggleMenuPost()"
+              @click="toggleModal_DeletePost(), toggleMenuPost()"
             >
               <p>Supprimer</p>
             </button>
@@ -73,6 +73,7 @@ const props = defineProps<{
   theComments: any
 }>()
 
+// récupération de la date du post
 const postDate = props.theDate!;
 
 // Fonction de mise en forme de la date du post
@@ -81,9 +82,20 @@ const formatDatePost = (postDate) => {
   return moment(postDate).format('lll')
 }
 
+// Récupération de l' ID de l'utilisateur
+const currentUser = JSON.parse(localStorage.getItem("user")!);
+const myId = currentUser.id!;
+
+const checkOwner = () => {
+  if (myId == props.theAuthor.id){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 const authorFirstname = props.theAuthor.firstname!;
 const authorLastname = props.theAuthor.lastname!;
-
 const postAuthor: string = authorFirstname + ' ' + authorLastname;
 // const theComments = reactive(props.theComments!);
 const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
@@ -91,14 +103,14 @@ const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
 
 
 // Nom dynamique des id pour le modifier / supprimer les posts
-const buttonChangeDelete = 'openMenu_' + props.theIdPost;
-const menuDevelopChange = 'menuPostDev_' + props.theIdPost;
-const buttonChange = 'buttonChange_' + props.theIdPost;
-const buttonDelete = 'buttonDelete_' + props.theIdPost;
+const buttonChangeDeletePostText = 'openMenu_' + props.theIdPost;
+const menuDevelopChangePostText = 'menuPostDev_' + props.theIdPost;
+const buttonChangePostText = 'buttonChange_' + props.theIdPost;
+const buttonDeletePostText = 'buttonDelete_' + props.theIdPost;
 
 // Fonction d'affichage du menu Modifier/ supprimer le post
 const toggleMenuPost = () => {
-  const boxMenuPost = document.querySelector('#' + menuDevelopChange) as HTMLDivElement;
+  const boxMenuPost = document.querySelector('#' + menuDevelopChangePostText) as HTMLDivElement;
   boxMenuPost.classList.toggle("hidebox");
 }
 
@@ -139,7 +151,7 @@ const toggleMenuPost = () => {
         }
       }
 
-      .openMenuPost {
+      .openMenuPostText {
         margin: 0 auto 0 150px;
         border: 0 solid $groupo-color1;
         border-radius: 5px;

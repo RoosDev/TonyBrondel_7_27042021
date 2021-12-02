@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const dbConnect = require("../config/db.config");
 const User = dbConnect.users;
+const modelPostCommentList = dbConnect.post_comment_list;
 
 // Mise en place des variables d'environnement
 const dotenv = require("dotenv");
@@ -10,13 +11,14 @@ const MY_APP_SECRET = process.env.APP_SECRET_KEY;
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   let tokenRole = req.headers["x-role-token"];
-  if ( !token && !tokenRole ) {
+  if (!token && !tokenRole) {
     return res.status(403).send({
       message: "Pas de Token ... Pas d'accès",
     });
   }
 
   jwt.verify(token, MY_APP_SECRET, (err, decoded) => {
+
     if (err) {
       return res.status(401).send({
         message: "Accès non authorisé",
@@ -25,91 +27,89 @@ verifyToken = (req, res, next) => {
     req.email = decoded.email;
     next();
   });
-  return req.email;
 };
+
+isRessourceOwner = async(req, res, next) => {
+  modelPostList.findByPk(req.params.id)
+  .then((thePost) => {
+    console.log('thePost => ', thePost )
+  })
+  
+  res.send( { reqInit } )
+console.log('reqinit >>' ,reqInit)
+
+ 
+  User.findOne({
+    where: { email_Crypt: req.email },
+  }).then((user) => {
+    req.userId = user.id;
+    req.role = user.role_Id;
+    console.log("req id admin >> ", req.userId);
+    console.log("req email admin >> ", req.email);
+    console.log("role admin >> ", user.role_Id);
+    if (user.role_Id == 3) {
+      console.log("ça y est , on a les droits et pour pas cher en plus !");
+      res.status(200)
+      next();
+      return user.role_Id;
+    } else {
+      console.log("désolé , mais on passe son chemin !!");
+      res.status(403).send({
+        message: "Require Admin Role!",
+      });
+    }
+  });
+
+}
 
 isAdmin = async (req, res, next) => {
   let tokenRole = req.headers["x-role-token"];
-  console.log("req email in admin: ", req.email);
-  jwt.verify(tokenRole, MY_APP_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({
-        message: "Accès non authorisé",
-      });
-    }
-    req.role = decoded.role;
-    console.log("decoded role 1 >> " + decoded.role);
-    next();
+  jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {
   });
-
-  console.log("req email >> ", req.email);
-  
   User.findOne({
     where: { email_Crypt: req.email },
   }).then((user) => {
-    console.log("user req >>" ,user.role_Id)
-    console.log("user req.user >>" ,req.role)
-    if (user.role_Id === req.role == 3) {
-      console.log('ça y est , on a les droits et pour pas cher en plus !')
-      return ;
+    req.userId = user.id;
+    req.role = user.role_Id;
+    console.log("req id admin >> ", req.userId);
+    console.log("req email admin >> ", req.email);
+    console.log("role admin >> ", user.role_Id);
+    if (user.role_Id == 3) {
+      console.log("ça y est , on a les droits et pour pas cher en plus !");
+      res.status(200)
+      next();
+      return user.role_Id;
     } else {
-      console.log('désolé , mais on passe son chemin !!')
-      res.status(403);
+      console.log("désolé , mais on passe son chemin !!");
+      res.status(403).send({
+        message: "Require Admin Role!",
+      });
     }
   });
 };
-
 
 isManager = (req, res, next) => {
   let tokenRole = req.headers["x-role-token"];
-  console.log("req email in manager: ", req.email);
-  jwt.verify(tokenRole, MY_APP_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({
-        message: "Accès non authorisé",
-      });
-    }
-    req.role = decoded.role;
-    console.log("decoded role 1 >> " + decoded.role);
-    next();
+  jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {
+    console.log("decod role >> ", decod)
   });
-
-  console.log("req email >> ", req.email);
-  
   User.findOne({
     where: { email_Crypt: req.email },
   }).then((user) => {
-    console.log("user req >>" ,user.role_Id)
-    console.log("user req.user >>" ,req.role)
-    if (user.role_Id === req.role >= 2) {
-      console.log('ça y est , on a les droits et pour pas cher en plus !')
-      return ;
+    req.userId = user.id;
+    req.role = user.role_Id;
+    console.log("req id manager >> ", req.userId);
+    console.log("req email manager >> ", req.email);
+    console.log("role manager>> ", user.role_Id);
+    if (user.role_Id >= 2) {
+      res.status(200)
+      next();
+      return user.role_Id;
     } else {
-      console.log('désolé , mais on passe son chemin !!')
-      res.status(403);
-    }
-  });
-};
-
-isModeratorOrAdmin = (req, res, next) => {
-  User.findByPk(req.id).then((user) => {
-    user.getRoles().then((roles) => {
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "manager") {
-          next();
-          return;
-        }
-
-        if (roles[i].name === "admin") {
-          next();
-          return;
-        }
-      }
-
       res.status(403).send({
-        message: "Vous devez être manager ou admin.",
+        message: "Require Moderator Role!",
       });
-    });
+    }
   });
 };
 
@@ -117,6 +117,5 @@ const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
   isManager: isManager,
-  isModeratorOrAdmin: isModeratorOrAdmin,
 };
 module.exports = authJwt;

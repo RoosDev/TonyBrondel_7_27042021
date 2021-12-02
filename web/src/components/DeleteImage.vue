@@ -1,14 +1,14 @@
 <template>
-  <div id="DeletePost" class="col-12">
-    <form id="postTextForm" v-on:submit.prevent="deleteMyPost">
-      <div id="PostwriteContent">
-        <label for="PostContent">
+  <div id="DeleteImage" class="col-12">
+    <form id="postImageForm" v-on:submit.prevent="deleteMyImage">
+      <div id="PostImageContent">
+        <label for="ImageContent">
           <h2>Voulez-vous vraiment supprimer ce post ?</h2>
         </label>
-        <button id="confirmDelete" class="col-9" type="submit">Confirmer la suppression</button>
+        <button id="confirmDeleteImage" class="col-9" type="submit">Confirmer la suppression</button>
       </div>
     </form>
-    <div id="messageFormDelete" class="hidebox"></div>
+    <div id="messageFormDeleteImage" class="hidebox"></div>
   </div>
 </template>
 
@@ -22,9 +22,9 @@ const props = defineProps<{
   postId: number,
 }>()
 
-const deleteMyPost = () => {
-  const messageAfterDelete = document.querySelector('#messageFormDelete') as HTMLDivElement;
-  const sendButton = document.querySelector('#confirmDelete') as HTMLButtonElement;
+const deleteMyImage = () => {
+  const messageAfterDelete = document.querySelector('#messageFormDeleteImage') as HTMLDivElement;
+  const sendButton = document.querySelector('#confirmDeleteImage') as HTMLButtonElement;
   const urlApi = "http://localhost:3001/api/feed/" + props.postId;
 
   axios.delete(urlApi)
@@ -52,6 +52,8 @@ const deleteMyPost = () => {
       messageAfterDelete.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
       setTimeout(function () {
         messageAfterDelete.classList.toggle("hidebox");
+        myRouter.go('');
+
       }, 5000);
       console.error("There was an error!", err);
     });
@@ -73,7 +75,7 @@ const deleteMyPost = () => {
     font-weight: bold;
   }
 }
-#confirmDelete {
+#confirmDeleteImage {
   display: block;
   height: 60px;
   margin: 70px auto 50px auto;
@@ -97,7 +99,7 @@ const deleteMyPost = () => {
     color: $groupo-color1;
   }
 }
-#messageFormDelete {
+#messageFormDeleteImage {
   margin: auto;
   width: 70%;
   height: 40px;

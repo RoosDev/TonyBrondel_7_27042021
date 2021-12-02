@@ -26,13 +26,19 @@
 import SendPost from '@/components/SendPost.vue';
 import PostBlocImg from '@/components/PostIBlocImg.vue';
 import PostBlocText from '@/components/PostBlocText.vue';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
+import Vuex from 'vuex';
 import store from '../store/index';
+
 
 // initialisation du store
 const myStore: any = store;
 //Connexion au store pour récupération des informations
-let feedList = computed(() => myStore.state.feedList);
+let theFeedList = computed(() =>  myStore.state.feed.feedList);
+let feedList = reactive(theFeedList)
+
+let theFeed = computed(() => { return Vuex.mapGetters(['theFeed'])});
+console.log('ma feed list via getter >> ', theFeed.value)
 
 onMounted(() => {
   // Connexion au Store de l'application

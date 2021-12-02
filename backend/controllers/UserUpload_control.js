@@ -9,15 +9,12 @@ const uploadFiles = async (req, res) => {
     let posterId = 0;
     await User.findOne({
       where: { email_Crypt: req.email },
-    }).then( async (user) => {
+    })
+    .then( async (user) => {
       posterId = user.id;
 
       const buildImageURL =
         "Public_Images/Profile/" + req.file.filename;
-
-
-      console.log("headers >> ", req.headers);
-      console.log("user id>>", posterId);
 
       if (req.file == undefined) {
         return res.send(`Vous devez sélectionner un fichier.`);

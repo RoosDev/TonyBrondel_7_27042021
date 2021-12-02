@@ -22,7 +22,6 @@ const props = defineProps<{
   role: number, 
   name: string
 }>()
-
 const [modalActive_Role, toggleModal_Role] = useModal();
 
 </script>

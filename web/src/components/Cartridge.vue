@@ -7,118 +7,60 @@
       </div>
     </div>
     <div id="profilBox">
-      <img id="pictureProfilMin" src="../assets/user-male.png" />
-      <p>{{ meAndIName }}</p>
+      <!-- <img
+        v-if="!myPicture"
+        class="pictureProfilMin"
+        src="../../public/Public_Images/Profile/user.png"
+        alt="Photo de profil"
+      />
+      <img v-else id="pictureProfilDefault" class="pictureProfilMin" :src="myPictureURL" />
+      <p>{{ myDetails.firstname }} {{ myDetails.lastname }}</p>
       <p>
-        <em>{{ meAndI.job }}</em>
-      </p>
+        <em>{{ myDetails.job }}</em>
+      </p> -->
     </div>
 
     <div id="cartridge_Bottom">
-      <nav class="row align-items-center col-md-6">
-        <router-link to="/Home" class="col-md-6 navLink">
-          <div class="sizeSvg">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 23 23"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"
-              />
-            </svg>
-          </div>
-          <div class="svgText">
-            <p>News</p>
-          </div>
-        </router-link>
-        <router-link to="/Profile" class="col-md-6 navLink">
-          <div class="sizeSvg">
-            <svg fill="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
-              <path
-                fill-rule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-          <div class="svgText">
-            <p>Mon profil</p>
-          </div>
-        </router-link>
-        <router-link to="/Admin" class="col-md-6 navLink">
-          <button>
-            <div class="sizeSvg">
-              <svg fill="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"
-                />
-              </svg>
-            </div>
-            <div class="svgText">
-              <p>Admin.</p>
-            </div>
-          </button>
-        </router-link>
-        <a @click.prevent="logOut" class="col-md-6 navLink">
-          <button>
-            <div class="sizeSvg">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 23 23"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
-            </div>
-            <div class="svgText">
-              <p>Déconnexion</p>
-            </div>
-          </button>
-        </a>
-      </nav>
+      <NavComponent />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import NavComponent from '@/components/nav.vue';
+import { computed, onMounted , reactive } from "vue";
+import Vuex from 'vuex';
 import store from '../store/index';
-import { useRouter } from "vue-router";
 
 const myStore: any = store;
-const myRouter: any = useRouter();
 
 //Connexion au store pour récupération des informations
-const userDetail = computed(() => myStore.state.userDetail);
-const meAndI = userDetail.value;
-const meAndIName = meAndI.firstname + ' ' + meAndI.lastname;
+let userDetails = computed(() => myStore.state.userDetail);
+// let myDetails = reactive(userDetails);
+// let myPicture = myDetails.value.photo_URL;
+// let myPictureURL = ('http://localhost:8080/' + myPicture);
+// console.log('la photo /// ', myPictureURL)
 
-// Récupération de l' ID de l'utilisateur
-const currentUser = JSON.parse(localStorage.getItem("user")!);
-const myId = currentUser.id!;
+// let getId = computed(() => { return Vuex.mapGetters(['auth/theUserId'])});
+// console.log('getter pour id val  >> ',getId.value)
+// console.log('getter pour id  >> ',getId)
 
-// Identification de l'utilisateur
+
+let usersList = computed(() => { return Vuex.mapGetters(['usersBase/allUsers'])});
+console.log('getter pour user val  >> ',usersList.value)
+console.log('getter pour user  >> ',usersList)
+
+
+console.log('myStore >> ',myStore)
+
 onMounted(() => {
+  // Récupération de l' ID de l'utilisateur
+  const currentUser = computed(() => myStore.state.auth.user);
+  const myId = currentUser.value.id!;
   // Connexion au Store de l'application
-  myStore.dispatch("getUser", { id: myId })
+    myStore.dispatch("getUser", { id: myId })
 })
 
-// Fonction de déconnexion 
-const logOut = () => {
-  myStore.dispatch('auth/logout');
-  myRouter.push('/');
-}
 
 </script>
 
@@ -137,7 +79,7 @@ const logOut = () => {
 
   #cartridge_Top {
     width: 100%;
-    min-height: 50%;
+    height: 45%;
     top: 0;
     margin: 0;
     background: linear-gradient(
@@ -164,15 +106,16 @@ const logOut = () => {
     justify-content: center;
     align-items: center;
     width: 65%;
-    height: 250px;
+    height: 200px;
     border-radius: 15px;
     background-color: $color-white;
-    margin: -200px auto auto auto;
+    margin: -150px auto auto auto;
     z-index: 50;
 
-    #pictureProfilMin {
+    .pictureProfilMin {
       width: 30%;
       margin: 0 auto 10px auto;
+      border-radius: 50%;
     }
 
     p {
@@ -181,69 +124,13 @@ const logOut = () => {
   }
 
   #cartridge_Bottom {
+    width: 100%;
+    height: 50%;
     display: flex;
-
-    nav {
-      margin-right: auto;
-      margin-left: auto;
-      margin-top: 80px;
-
-      router-link {
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: center;
-        align-items: center;
-
-        .sizeSvg {
-          width: 50%;
-          height: 50%;
-          color: $groupo-color4;
-          svg {
-            padding: 0;
-            margin: auto;
-
-            path {
-              margin: 0;
-            }
-          }
-        }
-        .svgText {
-          text-align: center;
-          text-decoration: none;
-          color: $groupo-color4;
-          font-size: 1.2em;
-        }
-      }
-      .navLink {
-        text-decoration: none;
-        color: $groupo-color4;
-        font-size: 1.2em;
-        p {
-          text-align: center;
-        }
-      }
-
-      .router-link-active {
-        color: orange;
-        text-decoration: none;
-      }
-
-      .router-link-exact-active {
-        color: $groupo-color1;
-        font-weight: bold;
-      }
-
-      // p {
-      //   font-size: 0.9em;
-      //   margin-top: 10px;
-      //   margin-bottom: 30px;
-      //   text-align: center;
-
-      //   #fontawesome-icon {
-      //     font-size: 1.6em;
-      //   }
-      // }
-    }
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    margin: -25px auto 0 auto;
   }
 }
 </style>

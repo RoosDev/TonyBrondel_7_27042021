@@ -7,35 +7,42 @@
           <button id="changeProfile" @click="toggleModal_EditProfil">
             <font-awesome-icon :icon="['fas', 'user-edit']" id="fontawesome-icon" />
           </button>
-          <button id="changePassword" @click="toggleModal_ImageProfile">
+          <button id="changePicture" @click="toggleModal_ImageProfile">
             <font-awesome-icon :icon="['fas', 'camera']" id="fontawesome-icon" />
           </button>
-          <button id="changePassword" @click="toggleModal_Password">
+          <button id="deleteProfile" @click="toggleModal_Password">
             <font-awesome-icon :icon="['fas', 'key']" id="fontawesome-icon" />
+          </button>
+          <button id="changePassword" @click="toggleModal_DeleteProfile">
+            <font-awesome-icon :icon="['fas', 'trash-alt']" id="fontawesome-icon" />
           </button>
         </div>
       </div>
     </div>
     <div id="profileDetails" class="col-12 col-md-8">
-      <div id="profilPicture" class="col-4">
-        <img v-if="!myPicture" src="../../public/Public_Images/Profile/user.png" alt="Photo de profil" />
+      <div id="profilPicture" class="col-7 col-md-4">
+        <img
+          v-if="!myPicture"
+          src="../../public/Public_Images/Profile/user.png"
+          alt="Photo de profil"
+        />
         <img v-else :src="myPicture" alt="Photo de profil" />
       </div>
       <div id="profilText" class="col-10">
         <div id="profilTextName">
-          <span id="nameContent">{{ myName }}</span>
+          <span id="nameContent">{{ myDetails.firstname }} {{ myDetails.lastname }}</span>
         </div>
         <div id="profilText_Email">
           <span id="emailTitle" class="identityTitle">Adresse email :</span>
-          <span id="emailContent">{{ myUser.email }}</span>
+          <span id="emailContent">{{ myDetails.email }}</span>
         </div>
         <div id="profilText_Job">
           <span id="jobTitle" class="identityTitle">Poste :</span>
-          <span id="jobContent">{{ myUser.job }}</span>
+          <span id="jobContent">{{ myDetails.job }}</span>
         </div>
         <div id="profilText_Division">
           <span id="divisionTitle" class="identityTitle col-3">Division :</span>
-          <span id="divisionContent" class="col-9">{{ myUser.division }}</span>
+          <span id="divisionContent" class="col-9">{{ myDetails.division }}</span>
         </div>
       </div>
     </div>
@@ -44,63 +51,73 @@
     <div class="modal-content">
       <ChangeProfile
         :id="myId"
-        :firstname="myUser.firstname"
-        :lastname="myUser.lastname"
-        :email="myUser.email"
-        :job="myUser.job"
-        :division="myUser.division"
+        :firstname="myDetails.firstname"
+        :lastname="myDetails.lastname"
+        :email="myDetails.email"
+        :job="myDetails.job"
+        :division="myDetails.division"
       />
     </div>
   </Modal>
-
   <Modal @close="toggleModal_ImageProfile" :modalActive="modalActive_ImageProfile">
     <div class="modal-content">
-      <ChangeImageProfile/>
+      <ChangeImageProfile />
     </div>
   </Modal>
-
+  <Modal @close="toggleModal_DeleteProfile" :modalActive="modalActive_DeleteProfile">
+    <div class="modal-content">
+      <DeleteProfileProfile :id="myId" />
+    </div>
+  </Modal>
   <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
     <div class="modal-content">
-      <ChangePass :id="myId" :email="myUser.email" />
+      <ChangePass :id="myId" :email="myDetails.email" />
     </div>
   </Modal>
-
 </template>
 
 <script setup lang="ts">
-import Modal from '@/components/Modal.vue';
-import { useModal } from '@/composition/modal';
+import { computed, onMounted, reactive, ref } from "vue";
 import ChangePass from '@/components/ChangePass.vue';
 import ChangeProfile from '@/components/ChangeProfile.vue';
+import DeleteProfileProfile from '@/components/DeleteProfile.vue';
 import ChangeImageProfile from '@/components/UploadProfileImage.vue';
-import { computed, onMounted } from "vue";
 import store from '../store/index';
+import Modal from '@/components/Modal.vue';
+import { useModal } from '@/composition/modal';
 
-
-// appel de la fonction modal
-const [modalActive_EditProfil, toggleModal_EditProfil] = useModal()
-const [modalActive_Password, toggleModal_Password] = useModal()
-const [modalActive_ImageProfile, toggleModal_ImageProfile] = useModal()
+// const props = defineProps<{
+//   id: number,
+//   firstname: string,
+//   lastname: string,
+//   email: string,
+//   job: string,
+//   division: string
+// }>()
 
 //Connexion au store pour récupération des informations
 const myStore: any = store;
-const userDetail = computed(() => myStore.state.userDetail);
-const myUser = userDetail.value;
-const myName = myUser.firstname + ' ' + myUser.lastname;
-console.log(myUser);
-const myPicture = myUser.photo_URL;
+let userDetail = computed(() => myStore.state.users.userDetail);
+let myDetails = reactive(userDetail.value);
+let myPicture = reactive(myDetails.photo_URL);
 
 // Récupération de l' ID de l'utilisateur
-const currentUser = JSON.parse(localStorage.getItem("user")!);
-const myId = currentUser.id!;
+const currentUser = computed(() => myStore.state.auth.user);
+const myId = currentUser.value.id!;
+  
+// appel de la fonction modal
+const [modalActive_EditProfil, toggleModal_EditProfil] = useModal()
+const [modalActive_Password, toggleModal_Password] = useModal()
+const [modalActive_DeleteProfile, toggleModal_DeleteProfile] = useModal()
+const [modalActive_ImageProfile, toggleModal_ImageProfile] = useModal()
+
 
 onMounted(() => {
-  const currentUser = JSON.parse(localStorage.getItem("user")!);
-  const myId = currentUser.id!;
-
+  // Récupération de l' ID de l'utilisateur
+  const currentUser = computed(() => myStore.state.auth.user);
+  const myId = currentUser.value.id!;
   // Connexion au Store de l'application
-  myStore.dispatch("getUser", { id: myId })
-
+    myStore.dispatch("getUser", { id: myId })
 })
 
 </script>
@@ -138,6 +155,8 @@ onMounted(() => {
       align-items: center;
 
       #changeProfile,
+      #changePicture,
+      #deleteProfile,
       #changePassword {
         display: block;
         border: 0;
