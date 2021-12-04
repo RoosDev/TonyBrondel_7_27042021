@@ -30,37 +30,31 @@ verifyToken = (req, res, next) => {
 };
 
 isRessourceOwner = async(req, res, next) => {
-  modelPostList.findByPk(req.params.id)
+  modelPostCommentList.findByPk(req.params.id)
   .then((thePost) => {
     console.log('thePost => ', thePost )
+
+  console.log(req.email);
+    User.findOne({
+      where: { email_Crypt: req.email },
+    }).then((theUserAuthor) => {
+      console.log("req id admin >> ", thePost.identity_Id);
+      console.log("id user >> ", theUserAuthor.id);
+      if (theUserAuthor.id == thePost.identity_Id) {
+        console.log("ça y est , on a les droits et pour pas cher en plus !");
+        res.status(200)
+        next();
+        return theUserAuthor.role_Id;
+      } else {
+        console.log("désolé , mais on passe son chemin !!");
+        res.status(403).send({
+          message: "Require Admin Role!",
+        });
+      }
+    });
   })
-  
-  res.send( { reqInit } )
-console.log('reqinit >>' ,reqInit)
 
- 
-  User.findOne({
-    where: { email_Crypt: req.email },
-  }).then((user) => {
-    req.userId = user.id;
-    req.role = user.role_Id;
-    console.log("req id admin >> ", req.userId);
-    console.log("req email admin >> ", req.email);
-    console.log("role admin >> ", user.role_Id);
-    if (user.role_Id == 3) {
-      console.log("ça y est , on a les droits et pour pas cher en plus !");
-      res.status(200)
-      next();
-      return user.role_Id;
-    } else {
-      console.log("désolé , mais on passe son chemin !!");
-      res.status(403).send({
-        message: "Require Admin Role!",
-      });
-    }
-  });
-
-}
+};
 
 isAdmin = async (req, res, next) => {
   let tokenRole = req.headers["x-role-token"];
@@ -115,6 +109,7 @@ isManager = (req, res, next) => {
 
 const authJwt = {
   verifyToken: verifyToken,
+  isRessourceOwner: isRessourceOwner,
   isAdmin: isAdmin,
   isManager: isManager,
 };

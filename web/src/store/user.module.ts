@@ -176,8 +176,9 @@ export const usersBase = {
 
     async getUser({ commit }: { commit: any }, userId) {
       if (userId.accessToken == null || userId.roleToken == null) {
-        console.log("my head is null");
+        console.log("my head is null for my profile");
         myHead = JSON.parse(localStorage.getItem("user")!);
+        console.log("tok tok //" , myHead)
       } else {
         (myHead.id = userId.id),
           (myHead.accessToken = userId.accessToken),
@@ -223,6 +224,15 @@ export const usersBase = {
   },
 
   mutations: {
+    // initialiseStore(state) {
+		// 	// Check if the ID exists
+		// 	if(localStorage.getItem('store')) {
+		// 		// Replace the state object with the stored item
+		// 		replaceState(
+		// 			Object.assign(state, JSON.parse(localStorage.getItem('store')!))
+		// 		);
+		// 	}
+		// },
     // Détail du profil d'un utilisateur
     SETUSERDETAIL(state: any, userDetail: any) {
       state.userDetail = userDetail;

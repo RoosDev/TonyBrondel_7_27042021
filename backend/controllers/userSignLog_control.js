@@ -160,23 +160,31 @@ exports.login = async (req, res, next) => {
       // if ( (argon2.verify(findForLogin.password_H, req.body.password ))){
         console.log("ok on est logggggééééé !!!!");
         // Génération du token à envoyer
-        let accessToken = jwt.sign(
+        const accessToken = jwt.sign(
           { email: findForLogin.email_Crypt, },
           MY_APP_SECRET,
           { expiresIn: "24h" },
           { algorithm: "RS256" }
         );
-        let RoleToken = jwt.sign(
+        const RoleToken = jwt.sign(
           { email: findForLogin.role_Id, },
           MY_APP_SECRET,
           { expiresIn: "24h" },
           { algorithm: "RS256" }
         );
+        const adminGo = () => {
+          if(findForLogin.role_Id = 3){
+            return 'okAGo';
+          }else{
+            return 'okU'
+          }
+        }
 
         return res.status(200).send({
           id: findForLogin.id,
           accessToken: accessToken, 
-          roleToken: RoleToken
+          roleToken: RoleToken, 
+          canOrNot: adminGo(),
         }).message('Bienvenue !');
       } else {
         console.log("erreur de mot de passe");

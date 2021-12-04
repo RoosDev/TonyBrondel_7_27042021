@@ -68,7 +68,6 @@ export const feed = {
         );
     },
 
-    // Démarrage de la requête d'envoi du Post en DB via Axios
     async createPost({ commit }: { commit: any }, theNewPost) {
       if (theNewPost.accessToken == null || theNewPost.roleToken == null) {
         console.log("my head is null");
@@ -85,13 +84,35 @@ export const feed = {
             "x-role-token": myHead.roleToken!,
           },
         })
-        // .then((thePost: any) => {
-        //   console.log("thePost inside return >>> ", thePost);
-        //   commit("CREATEPOST", thePost.data);
-        //   return thePost;
-        // })
         .then(
           (thePosts: any) => {
+            commit("SETFEEDLIST", thePosts.data.data);
+          },
+          (error) => {
+            return Promise.reject(error);
+          }
+        );
+    },
+    async deletePost({ commit }: { commit: any }, postToDelete) {
+      if (postToDelete.accessToken == null || postToDelete.roleToken == null) {
+        console.log("my head is null");
+        myHead = JSON.parse(localStorage.getItem("user")!);
+      } else {
+        (myHead.id = postToDelete.id),
+          (myHead.accessToken = postToDelete.accessToken),
+          (myHead.roleToken = postToDelete.roleToken);
+      }
+      console.log("my head before delete >> ", myHead)
+      await axios
+        .delete(API_FEED_URL + postToDelete, {
+          headers: {
+            "x-access-token": myHead.accessToken!,
+            "x-role-token": myHead.roleToken!,
+          },
+        })
+        .then(
+          (thePosts: any) => {
+            console.log('delete on the way')
             commit("SETFEEDLIST", thePosts.data.data);
           },
           (error) => {

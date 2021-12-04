@@ -57,8 +57,8 @@ const sendMyPost = () => {
   // Démarrage de la requête d'envoi du Post en DB via Axios
   myStore.dispatch("createPost", theNewPost)
     // Actions à mener lors du clic sur le bouton envoi
-    .then((res) => {
-      console.log('res > ', res)
+    .then((data) => {
+      console.log('res > ', data)
       sendButton.textContent = 'Envoi en-cours...';
       sendButton.setAttribute("disabled", "");
       setTimeout(() => {
@@ -72,6 +72,7 @@ const sendMyPost = () => {
       }, 1500);
       setTimeout(() => {
         messageAfterSent.classList.toggle("hidebox");
+        store.commit('SETFEEDLIST');
         // myRouter.go('');
       }, 2500);
     })

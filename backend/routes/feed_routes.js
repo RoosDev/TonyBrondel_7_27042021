@@ -46,7 +46,7 @@ const multer = require("../middlewares/multer_configPosts");
 
     // // Liste des routes pour supprimer quelque chose :
     //     // Suppression d'un post dans le feed
-    router.delete("/:id", [authJwt.verifyToken], feedDropCtrl.deleteOnePost);
+    router.delete("/:id", [authJwt.verifyToken, authJwt.isRessourceOwner, authJwt.isAdmin], feedDropCtrl.deleteOnePost);
     //     // Suppression d'un like
     // router.delete("/:id/like", [authJwt.verifyToken], feedDropCtrl.deleteOneLike);
 

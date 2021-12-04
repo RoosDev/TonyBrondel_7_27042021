@@ -42,6 +42,11 @@ let myPicture = myDetails.value.photo_URL;
 let myPictureURL = ('../../' + myPicture);
 console.log('la photo /// ', myPictureURL)
 
+defineExpose({
+  userDetails,
+  myDetails, 
+  myStore
+})
 // let getId = computed(() => { return Vuex.mapGetters(['auth/theUserId'])});
 // console.log('getter pour id val  >> ',getId.value)
 // console.log('getter pour id  >> ',getId)

@@ -8,7 +8,7 @@
             {{ postAuthor }} - le {{ formatDatePost(theDate) }}
           </p>
         </span>
-        <span id="menuPost" v-if="myId === props.theAuthor.id">
+        <span id="menuPost" v-if="myId === props.theAuthor.id || myRole === 'okAGo'">
           <button
             :id="buttonChangeDeletePostText"
             class="openMenuPostText"
@@ -86,9 +86,15 @@ const formatDatePost = (postDate) => {
   return moment(postDate).format('lll')
 }
 
+defineExpose({
+  props
+})
+
 // Récupération de l' ID de l'utilisateur
 const currentUser = JSON.parse(localStorage.getItem("user")!);
 const myId = currentUser.id!;
+const myRole = currentUser.canOrNot!;
+
 
 const checkOwner = () => {
   if (myId == props.theAuthor.id) {

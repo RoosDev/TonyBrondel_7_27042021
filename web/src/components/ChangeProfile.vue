@@ -121,6 +121,7 @@ const sendMyNewProfile = (userDetail) => {
           }, 1500);
           setTimeout(() => {
             msgProfileAfterSent.classList.toggle("hidebox");
+            store.commit('SETUSERDETAIL');
             // myRouter.go('');
           }, 3000);
           console.log('Profil à jour ;)', data);
