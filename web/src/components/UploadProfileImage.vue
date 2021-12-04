@@ -1,11 +1,16 @@
 <template>
   <div id="ProfileImgImg" class="col-12">
     <div id="ProfileImgImgForm" class="row">
-      
       <div id="ProfileImgImgContent" class="col-8">
         <h2 class="uploadImageH2">Votre photo de profil</h2>
-        <label class="btn btn-default p-0" id="labelSendPicture" for="myFileProfile">Sélectionner un fichier
-          <input type="file" accept="image/*.jpg, image/*.jpeg, image/*.png, image/*.gif" id="myFileProfile" @change="selectImage" />
+        <label class="btn btn-default p-0" id="labelSendPicture" for="myFileProfile">
+          Sélectionner un fichier
+          <input
+            type="file"
+            accept="image/*.jpg, image/*.jpeg, image/*.png, image/*.gif"
+            id="myFileProfile"
+            @change="selectImage"
+          />
         </label>
       </div>
 
@@ -36,23 +41,24 @@
       </div>
     </div>
 
-    <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ messageProfImg }}</div>
+    <div
+      id="uploadImgMessage"
+      class="alert alert-secondary hidebox"
+      role="alert"
+    >{{ messageProfImg }}</div>
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import UploadService from "../services/UploadFilesService";
-import { useRouter } from "vue-router";
-
-const myRouter: any = useRouter();
+import store from "../store/index";
 
 let activeButtonProfImg = ref(false);
-let currentProfImage:(any)  = ref('');
-let myFileNameProfImg:(any) = ref()
+let currentProfImage: (any) = ref('');
+let myFileNameProfImg: (any) = ref()
 let previewProfileImage = ref('');
 let progressProfImg = ref(0);
 let messageProfImg = ref("");
-let imageInfosProfImg:([] | string | any) = ref([]);
 
 const selectImage = () => {
   let myFileProfile = (document.querySelector('#myFileProfile') as HTMLInputElement).files!;
@@ -70,28 +76,22 @@ const upload = () => {
 
   UploadService.uploadProfileImage(currentProfImage, (event) => {
     progressProfImg.value = Math.round((100 * event.loaded) / event.total);
-  console.log('progressProfImg >>>' , progressProfImg);
   })
-  
+
     .then((response: any) => {
       messageProfImg = response.data.messageProfImg;
-      return UploadService.getFiles();
+      // return UploadService.getFiles();
     })
     .then((images) => {
       buttonSendImage.textContent = 'Envoi en-cours...';
       buttonSendImage.setAttribute("disabled", "");
-      setTimeout(() => {
         messageUploadImg.classList.toggle("hidebox");
         messageUploadImg.classList.remove("nokSent");
         messageUploadImg.classList.add("okSent");
         messageUploadImg.innerHTML = '<p>Image postée</p>';
         messageUploadImg.classList.toggle("hidebox");
         buttonSendImage.textContent = 'Envoyé';
-      }, 1500);
-      setTimeout(() => {
-        messageUploadImg.classList.toggle("hidebox");
-        myRouter.go('');
-      }, 2500);
+        store.commit('SETFEEDLIST');
     })
     .catch((err) => {
       progressProfImg.value = 0;
@@ -101,9 +101,7 @@ const upload = () => {
 };
 
 onMounted(() => {
-  UploadService.getFiles().then(response => {
-    imageInfosProfImg = response.data;
-  });
+  UploadService.getFiles()
 });
 
 </script>
@@ -116,11 +114,11 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
 
-  #ProfileImgImgContent{
+  #ProfileImgImgContent {
     width: 100%;
   }
 
-  #divButtonUpload{
+  #divButtonUpload {
     width: 100%;
   }
 
@@ -199,17 +197,17 @@ onMounted(() => {
     margin-top: 50px;
   }
 }
-#previewImgProfileImg{
+#previewImgProfileImg {
   width: 250px;
   height: 250px;
 
-  #imgPreviewProfileImg{
+  #imgPreviewProfileImg {
     max-width: 95%;
     max-height: 95%;
   }
 }
 
-.progressProfImg{
+.progressProfImg {
   width: 80%;
   margin: 10px auto 30px auto;
 }

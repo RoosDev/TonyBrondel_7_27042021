@@ -58,9 +58,7 @@ let message: any = ref('');
 // fonction de login
 const loggedIn = computed(() => myStore.state.auth.status.loggedIn)
 if (loggedIn.value) {
-  setTimeout(() => {
     myRouter.push('/Home');
-  }, 500);
 }
 
 const schema = yup.object().shape({
@@ -72,12 +70,11 @@ const schema = yup.object().shape({
 const handleLogin = (user) => {
   loading = true;
   myStore.dispatch("auth/login", user)
-    .then((res) => {
-      console.log('response log >> ', res.data)
-        myRouter.push('/Home');
+    .then(() => {
+      myRouter.push('/Home');
     },
       (error) => {
-      console.log('response error >> ', error)
+        console.log('response error >> ', error)
         loading = false;
         console.log(error)
         message =

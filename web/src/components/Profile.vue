@@ -1,6 +1,6 @@
 <template>
   <div id="profilePage" class="col-9">
-    <div id="headProfile" class="col-12 col-md-9">
+    <div id="headProfile" class="col-12 col-xl-9">
       <h2 class="h2profil col-9">Mon profil</h2>
       <div id="blockButton" class="col-3">
         <div id="navProfile" class="col-12">
@@ -19,8 +19,8 @@
         </div>
       </div>
     </div>
-    <div id="profileDetails" class="col-12 col-md-8">
-      <div id="profilPicture" class="col-7 col-md-4">
+    <div id="profileDetails" class="col-12 col-sm-11 col-md-10 col-lg-9">
+      <div id="profilPicture" class="col-7 col-sm-6 col-md-5 col-lg-4">
         <img
           v-if="!myPicture"
           src="../../public/Public_Images/Profile/user.png"
@@ -104,7 +104,7 @@ let myPicture = reactive(myDetails.photo_URL);
 // Récupération de l' ID de l'utilisateur
 const currentUser = computed(() => myStore.state.auth.user);
 const myId = currentUser.value.id!;
-  
+
 // appel de la fonction modal
 const [modalActive_EditProfil, toggleModal_EditProfil] = useModal()
 const [modalActive_Password, toggleModal_Password] = useModal()
@@ -117,7 +117,7 @@ onMounted(() => {
   const currentUser = computed(() => myStore.state.auth.user);
   const myId = currentUser.value.id!;
   // Connexion au Store de l'application
-    myStore.dispatch("getUser", { id: myId })
+  myStore.dispatch("getUser", { id: myId })
 })
 
 </script>
@@ -228,6 +228,14 @@ onMounted(() => {
   div[id*="profilText_"] {
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 1199.99px) {
+  #profilePage {
+    position: absolute;
+    width: 100vw;
+    height: 100%;
   }
 }
 </style>

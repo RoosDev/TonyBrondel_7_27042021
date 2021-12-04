@@ -1,15 +1,15 @@
 <template>
   <div id="ChangeRole" class="col-12">
-    <Form
-      id="changeRoleForm"
-      @submit="sendNewRole"
-      :validation-schema="schemaChangeRole"
-    >
+    <Form id="changeRoleForm" @submit="sendNewRole" :validation-schema="schemaChangeRole">
       <div id="changeRoleContent">
         <h2>Modification du niveau de responsabilité</h2>
-        <p class="pbold">Utilisateur concerné : <br /><em>{{ name }} -  {{ email }} </em></p>
+        <p class="pbold">
+          Utilisateur concerné :
+          <br />
+          <em>{{ name }} - {{ email }}</em>
+        </p>
         <div id="divrole">
-        <Field name="idToChange" type="hidden" :value="idToChange" />
+          <Field name="idToChange" type="hidden" :value="idToChange" />
 
           <label for="role">Sélectionner un rôle : *</label>
           <br />
@@ -23,11 +23,7 @@
 
         <div id="cleanZone"></div>
         <div id="divsendRoleButton">
-          <button
-            id="sendRoleButton"
-            class="col-9"
-            type="submit"
-          >Enregistrer</button>
+          <button id="sendRoleButton" class="col-9" type="submit">Enregistrer</button>
         </div>
       </div>
     </Form>
@@ -36,6 +32,7 @@
 </template>
 <script setup lang="ts">
 import store from '../store/index';
+import { computed, reactive } from 'vue';
 import { useRouter } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -51,8 +48,8 @@ const schemaChangeRole = yup.object().shape({
 
 const props = defineProps<{
   idToChange: number,
-  role: number, 
-  name: string, 
+  role: number,
+  name: string,
   email: string,
 }>()
 
@@ -62,31 +59,31 @@ const sendNewRole = (usertoChange) => {
   const sendRoleButton = document.querySelector('#sendRoleButton') as HTMLButtonElement;
   myStore.dispatch("changeRole", usertoChange)
     .then(() => {
-        sendRoleButton.textContent = 'envoi en-cours ...',
-          setTimeout(() => {
-            msgRoleAfterSent.classList.remove("nokSent");
-            msgRoleAfterSent.classList.add("okSent");
-            msgRoleAfterSent.innerHTML = '<p>Rôle mis à jour</p>';
-            msgRoleAfterSent.classList.toggle("hidebox");
-            sendRoleButton.textContent = 'Enregistré';
-          }, 1500),
-          setTimeout(() => {
-            msgRoleAfterSent.classList.toggle("hidebox");
-            myRouter.go('');
-          }, 3000),
-          console.log('Rôle à jour ;)')
-      }),
-
-      (error) => {
-        msgRoleAfterSent.classList.toggle("hidebox");
-        msgRoleAfterSent.classList.remove("okSent");
-        msgRoleAfterSent.classList.add("nokSent");
-        msgRoleAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-        setTimeout(function () {
+      sendRoleButton.textContent = 'envoi en-cours ...',
+        setTimeout(() => {
+          msgRoleAfterSent.classList.remove("nokSent");
+          msgRoleAfterSent.classList.add("okSent");
+          msgRoleAfterSent.innerHTML = '<p>Rôle mis à jour</p>';
           msgRoleAfterSent.classList.toggle("hidebox");
-        }, 3500);
-        console.error("There was an error!", error);
-      }
+          sendRoleButton.textContent = 'Enregistré';
+        }, 1500),
+        setTimeout(() => {
+          msgRoleAfterSent.classList.toggle("hidebox");
+          myRouter.go('');
+        }, 3000),
+        console.log('Rôle à jour ;)')
+    }),
+
+    (error) => {
+      msgRoleAfterSent.classList.toggle("hidebox");
+      msgRoleAfterSent.classList.remove("okSent");
+      msgRoleAfterSent.classList.add("nokSent");
+      msgRoleAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      setTimeout(function () {
+        msgRoleAfterSent.classList.toggle("hidebox");
+      }, 3500);
+      console.error("There was an error!", error);
+    }
 }
 
 // const isFormProfilValid = computed((user) => {
@@ -103,22 +100,21 @@ const sendNewRole = (usertoChange) => {
 <style lang="scss">
 @import "../scss/variables.scss";
 
-  h2 {
-    font-size: 1.4em;
-    text-decoration: underline;
-    font-weight: bold;
-    margin: 15px;
-  }
+h2 {
+  font-size: 1.4em;
+  text-decoration: underline;
+  font-weight: bold;
+  margin: 15px;
+}
 
-  .pbold {
-    font-size: 1.4em;
-    font-weight: bold;
-    text-align: center;
-    em {
-        font-weight: normal;
-    }
+.pbold {
+  font-size: 1.4em;
+  font-weight: bold;
+  text-align: center;
+  em {
+    font-weight: normal;
   }
-
+}
 
 #modal-content {
   border: 0;
@@ -138,10 +134,10 @@ form {
       width: 80%;
       text-align: center;
     }
-    label{
-        font-size: 1.1em;
-        margin-top: 15px;
-        margin-bottom: 15px;
+    label {
+      font-size: 1.1em;
+      margin-top: 15px;
+      margin-bottom: 15px;
     }
     input {
       background-color: $groupo-color4;

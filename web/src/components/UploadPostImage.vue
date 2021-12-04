@@ -1,11 +1,16 @@
 <template>
   <div id="PostImg" class="col-12">
     <div id="PostImgForm" class="row">
-      
       <div id="PostImgContent" class="col-8">
-        <h2 class="uploadImageH2">Affichez cette image sur la place publique </h2>
-        <label class="btn btn-default p-0" id="labelSendPicture" for="myFile">Sélectionner un fichier
-          <input type="file" accept="image/*.jpg, image/*.jpeg, image/*.png, image/*.gif" id="myFile" @change="selectImage" />
+        <h2 class="uploadImageH2">Affichez cette image sur la place publique</h2>
+        <label class="btn btn-default p-0" id="labelSendPicture" for="myFile">
+          Sélectionner un fichier
+          <input
+            type="file"
+            accept="image/*.jpg, image/*.jpeg, image/*.png, image/*.gif"
+            id="myFile"
+            @change="selectImage"
+          />
         </label>
       </div>
 
@@ -37,23 +42,20 @@
     </div>
 
     <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ message }}</div>
-
   </div>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import UploadService from "../services/UploadFilesService";
-import { useRouter } from "vue-router";
+import store from "../store/index";
 
-const myRouter: any = useRouter();
 
 let activeButton = ref(false);
-let currentImage:(any)  = ref('');
-let myFileName:(any) = ref()
+let currentImage: (any) = ref('');
+let myFileName: (any) = ref()
 let previewImage = ref('');
 let progress = ref(0);
 let message = ref("");
-let imageInfos:([] | string | any) = ref([]);
 
 const selectImage = () => {
   let myFile = (document.querySelector('#myFile') as HTMLInputElement).files!;
@@ -71,12 +73,11 @@ const upload = () => {
 
   UploadService.upload(currentImage, (event) => {
     progress.value = Math.round((100 * event.loaded) / event.total);
-  console.log('progress >>>' , progress);
   })
-  
+
     .then((response: any) => {
       message = response.data.message;
-      return UploadService.getFiles();
+      // return UploadService.getFiles();
     })
     .then((images) => {
       buttonSendImage.textContent = 'Envoi en-cours...';
@@ -91,7 +92,8 @@ const upload = () => {
       }, 1500);
       setTimeout(() => {
         messageUploadImg.classList.toggle("hidebox");
-        myRouter.go('');
+        store.commit('SETFEEDLIST');
+
       }, 2500);
     })
     .catch((err) => {
@@ -102,9 +104,7 @@ const upload = () => {
 };
 
 onMounted(() => {
-  UploadService.getFiles().then(response => {
-    imageInfos = response.data;
-  });
+  UploadService.getFiles()
 });
 
 </script>
@@ -117,11 +117,11 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
 
-  #PostImgContent{
+  #PostImgContent {
     width: 100%;
   }
 
-  #divButtonUpload{
+  #divButtonUpload {
     width: 100%;
   }
 
@@ -200,17 +200,17 @@ onMounted(() => {
     margin-top: 50px;
   }
 }
-#previewImgPost{
+#previewImgPost {
   width: 250px;
   height: 250px;
 
-  #imgPreviewPost{
+  #imgPreviewPost {
     max-width: 95%;
     max-height: 95%;
   }
 }
 
-.progress{
+.progress {
   width: 80%;
   margin: 10px auto 30px auto;
 }

@@ -1,16 +1,15 @@
 <template>
   <router-view />
-  <div id="cartridge" class="d-none d-sm-flex col-12 col-md-3">
+  <div id="cartridge" class="d-none d-sm-flex col-12 col-xl-3">
     <router-view class="cartridge col-12 col-md-3" name="navMenu"></router-view>
   </div>
-  <div id="divPage" class="d-none d-sm-flex col-12 col-md-9">
+  <div id="divPage" class="d-none d-sm-flex col-12 col-xl-9">
     <router-view name="thePage"></router-view>
   </div>
   <div id="appnoncompatible" class="col-11 d-sm-none">
     <p>La résolution de votre écran est incompatible avec cette application pour un usage optimal.</p>
     <p>Veuillez changé d'écran.</p>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -63,6 +62,24 @@ onMounted(() => {
     background: $groupo-color1;
   }
 }
+@media screen and (max-width: 1199px) {
+  template {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100vw;
+
+    #cartridge {
+      width: 100vw;
+    }
+
+    #divPage {
+      width: 100vw;
+    }
+  }
+}
+
 template {
   display: flex;
   flex-flow: row nowrap;

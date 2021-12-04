@@ -11,7 +11,7 @@
           id="deleteProfileButton"
           class="col-9"
           type="submit"
-        >Je confirme la suppression de mon profil .</button>
+        >Je confirme la suppression.</button>
       </div>
     </form>
     <div id="msgProfileDelete" class="hidebox"></div>

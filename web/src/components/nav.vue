@@ -1,6 +1,6 @@
 <template>
-    <nav class="row align-items-center col-md-6">
-        <router-link to="/Home" class="col-md-6 navLink">
+    <nav class="col-xl-6">
+        <router-link to="/Home" class="col-xl-6 navLink">
             <div class="sizeSvg">
                 <svg
                     fill="none"
@@ -84,7 +84,7 @@ const logOut = () => {
 @import "../scss/variables.scss";
 
 nav {
-    height : 90%;
+    height: 90%;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
@@ -95,7 +95,6 @@ nav {
         color: $groupo-color4;
         border: 1px solid transparent;
 
-        
         &:hover {
             text-decoration: wavy;
             border: 1px solid $groupo-color4;
@@ -141,12 +140,25 @@ nav {
             font-size: 1em;
         }
     }
-    .router-link-active ,.router-link-exact-active {
+    .router-link-active,
+    .router-link-exact-active {
         color: $groupo-color1;
         border: 1px solid $groupo-color1;
         border-radius: 15px;
         font-weight: bold;
         background-color: #fff;
+    }
+}
+
+@media (max-width: 1199.99px) {
+    nav {
+        height: 90%;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+        margin-right: auto;
+        margin-left: auto;
     }
 }
 </style>

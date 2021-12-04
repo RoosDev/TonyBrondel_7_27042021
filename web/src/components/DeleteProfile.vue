@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import store from '../store/index';
 import { useRouter } from "vue-router";
+import { computed, reactive } from 'vue';
 
 const myStore: any = store;
 const myRouter: any = useRouter();
@@ -28,8 +29,10 @@ const myRouter: any = useRouter();
 const deleteMyProfile = () => {
   const msgProfileAfterSent = document.querySelector('#msgProfileDelete') as HTMLDivElement;
   const deleteProfileButton = document.querySelector('#deleteProfileButton') as HTMLButtonElement;
+  const currentUser = computed(() => myStore.state.auth.user);
+  const myUserDetails = reactive(currentUser.value);
 
-  myStore.dispatch("deleteProfile")
+  myStore.dispatch("deleteProfile", myUserDetails )
     .then((data) => {
       deleteProfileButton.textContent = 'envoi en-cours ...';
       setTimeout(() => {

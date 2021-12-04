@@ -17,11 +17,5 @@ template {
     justify-content: space-between;
     align-items: flex-start;
     height: 100vh;
-
-    #profil {
-        position: fixed;
-        margin: 0;
-        width: 100%;
-    }
 }
 </style>

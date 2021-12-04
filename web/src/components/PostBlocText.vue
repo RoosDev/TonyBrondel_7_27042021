@@ -1,5 +1,5 @@
 <template>
-  <div id="fullBloc" class="col-md-10">
+  <div id="fullBloc" class="col-11 col-lg-10">
     <div id="postBloc">
       <div id="timeLikeMenuZone" class="col-12">
         <span id="timePost">
@@ -9,7 +9,11 @@
           </p>
         </span>
         <span id="menuPost" v-if="myId === props.theAuthor.id">
-          <button :id="buttonChangeDeletePostText" class="openMenuPostText" @click="toggleMenuPost()">•••</button>
+          <button
+            :id="buttonChangeDeletePostText"
+            class="openMenuPostText"
+            @click="toggleMenuPost()"
+          >•••</button>
           <div :id="menuDevelopChangePostText" class="menuPostDevelop hidebox">
             <button
               :id="buttonChangePostText"
@@ -28,12 +32,12 @@
           </div>
         </span>
       </div>
-      <div id="PostZone" class="col-md-6">
+      <div id="PostZone" class="col-12 col-lg-6">
         <div id="thePostText" class="col-12">
           <p>{{ theTxtPost }}</p>
         </div>
       </div>
-      <div id="commentZone" class="col-md-6">
+      <div id="commentZone" class="col-12 col-lg-6">
         <CommentZone
           :theIdPost="props.theIdPost"
           :theComments="props.theComments"
@@ -87,9 +91,9 @@ const currentUser = JSON.parse(localStorage.getItem("user")!);
 const myId = currentUser.id!;
 
 const checkOwner = () => {
-  if (myId == props.theAuthor.id){
+  if (myId == props.theAuthor.id) {
     return true;
-  }else{
+  } else {
     return false;
   }
 }
@@ -172,7 +176,8 @@ const toggleMenuPost = () => {
         background-color: #fff;
         z-index: 100;
 
-        .menuPost_Delete, .menuPost_Change {
+        .menuPost_Delete,
+        .menuPost_Change {
           display: block;
           border: 0;
           background-color: #fff;
@@ -237,8 +242,6 @@ const toggleMenuPost = () => {
         }
       }
     }
-
-
   }
 
   #postFooter {
@@ -250,5 +253,45 @@ const toggleMenuPost = () => {
 
 .hidebox {
   display: none;
+}
+
+@media (max-width: 991.99px) {
+  #fullBloc {
+    height: 770px;
+    background-color: $color-white;
+    margin: 20px auto 0 30px;
+    border-left: 1px solid $groupo-color1;
+
+    #postBloc {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+
+
+
+      #PostZone {
+        display: flex;
+        height: 350px;
+        line-height: 100%;
+        margin: 0;
+
+         #thePostText {
+          max-height: 300px;
+        }
+      }
+      #commentZone{
+        display: flex;
+        height: 400px;
+
+      }
+    }
+
+    #postFooter {
+      width: 60%;
+      border-bottom: 1px solid $groupo-color1;
+      margin: 0 auto 0 auto;
+    }
+  }
 }
 </style>

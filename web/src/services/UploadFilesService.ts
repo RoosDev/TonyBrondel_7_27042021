@@ -1,13 +1,21 @@
 import axios from "axios";
+import store from "../store/index";
+import { computed } from 'vue'; 
+import { mapMutations } from "vuex";
+const myStore: any = store;
 
 class UploadFilesService {
   upload(file, onUploadProgress) {
     const myHead = JSON.parse(localStorage.getItem("user")!);
     const formData = new FormData();
 
-    console.log(formData)
-    formData.append("file", file);  
-    console.log("file", file)
+    console.log(formData);
+    formData.append("file", file);
+    console.log("file", file);
+
+    //   return myStore.dispatch("createPostImage", formData,
+    //     onUploadProgress,);
+    // }
 
     return axios.post("http://localhost:3001/api/feed/upload/post", formData, {
       headers: {
@@ -17,33 +25,42 @@ class UploadFilesService {
       },
       onUploadProgress,
     });
+    
   }
-  
+
   uploadProfileImage(file, onUploadProgress) {
     const myHead = JSON.parse(localStorage.getItem("user")!);
     const formData = new FormData();
 
-    console.log(formData)
-    formData.append("file", file);  
-    console.log("file", file)
+    console.log(formData);
+    formData.append("file", file);
+    console.log("file", file);
 
-    return axios.put("http://localhost:3001/api/auth/upload/profile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "x-access-token": myHead.accessToken,
-        "x-role-token": myHead.roleToken,
-      },
-      onUploadProgress,
-    });
+    return axios.put(
+      "http://localhost:3001/api/auth/upload/profile",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "x-access-token": myHead.accessToken,
+          "x-role-token": myHead.roleToken,
+        },
+        onUploadProgress,
+      }
+    );
   }
 
   getFiles() {
-    const myHead = JSON.parse(localStorage.getItem("user")!);
-    return axios.get("http://localhost:3001/api/feed/", {
-      headers: {
-        "x-access-token": myHead.accessToken,
-        "x-role-token": myHead.roleToken,
-      },
+    const currentUser = computed(() => myStore.state.auth.user);
+    const myId = currentUser.value.id!;
+    const myaccessToken = currentUser.value.accessToken!;
+    const myroleToken = currentUser.value.roleToken!;
+
+    // Connexion au Store de l'application
+    myStore.dispatch("getPosts", {
+      id: myId,
+      accessToken: myaccessToken,
+      roleToken: myroleToken,
     });
   }
 }

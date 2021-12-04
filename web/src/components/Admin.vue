@@ -1,13 +1,13 @@
 <template>
-  <div id="adminUser" class="col-9">
+  <div id="adminUser" class="col-12 col-xl-9">
     <h2 class="col-12">Liste des utilisateurs</h2>
     <table id="TableUser" class="table table-striped table-hover col-12">
       <thead>
         <tr>
           <th scope="col">Nom</th>
           <th scope="col">Email</th>
-          <th scope="col">Job</th>
-          <th scope="col">Division</th>
+          <th scope="col" class="hideIfTooSmall">Job</th>
+          <th scope="col" class="hideIfSmall">Division</th>
           <th scope="col">Responsabilité</th>
           <th scope="col">Actions</th>
         </tr>
@@ -16,12 +16,22 @@
         <tr id="RowUser" v-for="user in usersList" :key="user.id">
           <td scope="row" id="NameUser">{{ user.firstname + ' ' + user.lastname }}</td>
           <td id="emailUser">{{ user.email }}</td>
-          <td id="jobUser">{{ user.job }}</td>
-          <td id="divisionUser">{{ user.division }}</td>
+          <td id="jobUser" class="hideIfTooSmall">{{ user.job }}</td>
+          <td id="divisionUser" class="hideIfSmall">{{ user.division }}</td>
           <td id="roleUser" class="txtcenter">{{ user.role.role_name }}</td>
           <td id="actionsAdmin" class="txtcenter">
-            <ButtonRole :idToChange="user.id" :name="user.firstname + ' ' + user.lastname" :email="user.email" :role="user.roleId"/>
-            <ButtonDelete :idToDelete="user.id" :name="user.firstname + ' ' + user.lastname" :email="user.email" :role="user.roleId"/>
+            <ButtonRole
+              :idToChange="user.id"
+              :name="user.firstname + ' ' + user.lastname"
+              :email="user.email"
+              :role="user.roleId"
+            />
+            <ButtonDelete
+              :idToDelete="user.id"
+              :name="user.firstname + ' ' + user.lastname"
+              :email="user.email"
+              :role="user.roleId"
+            />
           </td>
         </tr>
       </tbody>
@@ -31,7 +41,7 @@
 <script setup lang="ts">
 import ButtonRole from '@/components/ButtonRole.vue';
 import ButtonDelete from '@/components/ButtonDeleteProfile.vue';
-import { computed, onMounted } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import store from '../store/index';
 
 // initialisation du store
@@ -41,8 +51,11 @@ const myStore: any = store;
 const usersList = computed(() => myStore.state.users.usersList);
 
 onMounted(() => {
+  const currentUser = computed(() => myStore.state.auth.user);
+  const myUserDetails = reactive(currentUser.value);
+
   // Connexion au Store de l'application
-  myStore.dispatch("getUsers")
+  myStore.dispatch("getUsers", myUserDetails)
 })
 
 
@@ -85,7 +98,7 @@ button {
   background-color: transparent;
   margin: 3px;
 
-  .buttonIcon{
+  .buttonIcon {
     font-size: 2em;
 
     &:hover {
@@ -94,10 +107,24 @@ button {
     }
   }
 }
-#actionsAdmin{
+#actionsAdmin {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 991.99px) {
+  #adminUser {
+    position: absolute;
+  }
+  .hideIfSmall {
+    display: none;
+  }
+}
+@media (max-width: 767.99px) {
+  .hideIfTooSmall {
+    display: none;
+  }
 }
 </style>

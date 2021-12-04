@@ -8,7 +8,7 @@
         <textarea
           name="PostContent"
           id="PostContent"
-          cols="65"
+          cols="53"
           rows="6"
           v-model="theNewPost.content"
           autocapitalize="sentence"

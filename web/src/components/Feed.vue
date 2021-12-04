@@ -2,14 +2,14 @@
   <div id="feedcontent" class="col-12 col-md-9">
     <SendPost />
     <div id="postsList" v-for="thePost in feedList" :key="thePost.id">
-       <PostBlocText 
+      <PostBlocText
         v-if="thePost.image_URL === null"
         :theIdPost="thePost.id"
         :theTxtPost="thePost.content"
         :theAuthor="thePost.authorPost"
         :theDate="thePost.createdAt"
         :theComments="thePost.comment_list"
-      /> 
+      />
       <PostBlocImg
         v-else-if="thePost.content === null"
         :theIdPost="thePost.id"
@@ -17,7 +17,7 @@
         :theAuthor="thePost.authorPost"
         :theDate="thePost.createdAt"
         :theComments="thePost.comment_list"
-      /> 
+      />
     </div>
   </div>
 </template>
@@ -34,15 +34,20 @@ import store from '../store/index';
 // initialisation du store
 const myStore: any = store;
 //Connexion au store pour récupération des informations
-let theFeedList = computed(() =>  myStore.state.feed.feedList);
+let theFeedList = computed(() => myStore.state.feed.feedList);
 let feedList = reactive(theFeedList)
 
-let theFeed = computed(() => { return Vuex.mapGetters(['theFeed'])});
-console.log('ma feed list via getter >> ', theFeed.value)
+// let theFeed = computed(() => { return Vuex.mapGetters(['feed / theFeed'])});
+// console.log('ma feed list via getter >> ', theFeed.value)
 
 onMounted(() => {
+  const currentUser = computed(() => myStore.state.auth.user);
+  const myId = currentUser.value.id!;
+  const myaccessToken = currentUser.value.accessToken!;
+  const myroleToken = currentUser.value.roleToken!;
+
   // Connexion au Store de l'application
-  myStore.dispatch("getPosts")
+  myStore.dispatch("getPosts", { id: myId, accessToken: myaccessToken, roleToken: myroleToken })
 })
 
 </script>
@@ -74,6 +79,17 @@ onMounted(() => {
 
   ::-webkit-scrollbar-thumb:hover {
     background: $groupo-color1;
+  }
+}
+
+@media (max-width: 1199.99px) {
+  #feedcontent {
+    width : 100vw;
+    height: 100%;
+    right: 0;
+    background-color: $groupo-colorLight1;
+    overflow-y: scroll;
+
   }
 }
 </style>

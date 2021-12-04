@@ -272,4 +272,61 @@ const formatDatePost = (postDate) => {
     transform: rotate(359deg);
   }
 }
+
+@media (max-width: 991.99px) {
+  #commentZone {
+    height: 400px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 0;
+    margin-bottom: 5px;
+
+    #CommentList {
+      height: 325px;
+      align-items: center;
+      top: 5px;
+      margin-top: 0;
+      margin-bottom: 0px;
+      overflow-y: auto;
+      scrollbar-width: 5px;
+      scrollbar-color: $groupo-color1;
+
+      .CommentSend {
+        height: 75px;
+
+        .textareaZone {
+          height: 75px;
+
+          .sendPost {
+            background-color: transparent;
+            margin: 5px auto 0 auto;
+            font-size: 0.8em;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            resize: none;
+
+            &:hover {
+              border-bottom: 1px solid rgba($groupo-color1, 0.3);
+            }
+
+            &:focus {
+              border-bottom: 1px solid rgba($groupo-color1, 0.6);
+            }
+          }
+        }
+
+        .buttonSendZone {
+          width: 75px;
+          height: 50px;
+          border-radius: 0 10px 10px 0;
+          background-color: $groupo-colorLight3;
+          line-height: 100%;
+        }
+      }
+    }
+  }
+}
 </style>
