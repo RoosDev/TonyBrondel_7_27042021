@@ -37,10 +37,19 @@ const myStore: any = store;
 let theFeedList = computed(() => store.getters.theFeed);
 
 onMounted(() => {
-  const currentUser = computed(() => myStore.state.auth.user);
+  const storeCurrentUser = computed(() => myStore.state.auth.user);
+  const storageCurrentUser = JSON.parse(localStorage.getItem("user")!);
+  let currentUser: any;
+if(!storeCurrentUser.value){
+  console.log('version localStorage')
+  currentUser = storageCurrentUser
+}else{
+  console.log('version store')
+  currentUser = storeCurrentUser.value
+}
 
   // Connexion au Store de l'application
-  myStore.dispatch("getPosts", { id: currentUser.value.id, accessToken: currentUser.value.accessToken, roleToken: currentUser.value.roleToken })
+  myStore.dispatch("getPosts", { id: currentUser.id, accessToken: currentUser.accessToken, roleToken: currentUser.roleToken })
 })
 
 </script>

@@ -11,7 +11,7 @@
         </span>
         <span id="likePost">
         </span>
-        <span id="menuPost" v-if="currentUserId == props.theAuthor.id || myRole == 'okAGo'">
+        <span id="menuPost" v-if="currentUser.id == props.theAuthor.id || myRole == 'okAGo'">
           <button :id="buttonDeleteImage" class="openMenuImage" @click="toggleMenuImage()">•••</button>
           <div :id="menuDevelopChangeImage" class="menuPostDevelop hidebox">
             <button
@@ -74,7 +74,6 @@ const formatDatePost = (postDate) => {
 
 // Récupération de l' ID de l'utilisateur
 const currentUserId = computed(() => myStore.getters.theUserId);
-
 const currentUser = JSON.parse(localStorage.getItem("user")!);
 const myRole = currentUser.canOrNot!;
 

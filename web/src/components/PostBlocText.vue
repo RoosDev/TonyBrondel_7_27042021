@@ -9,7 +9,7 @@
             {{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }} - le {{ formatDatePost(props.theDate) }}
           </p>
         </span>
-        <span id="menuPost" v-if="currentUserId == props.theAuthor.id || myRole == 'okAGo'">
+        <span id="menuPost" v-if="currentUser.id == props.theAuthor.id || myRole == 'okAGo'">
           <button
             :id="buttonChangeDeletePostText"
             class="openMenuPostText"
@@ -52,7 +52,7 @@
   </div>
   <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
     <div class="modal-content">
-      <ChangeText :postId="theIdPost" :content="theTxtPost" />
+      <ChangeText :postId="theIdPost" :theContent="theTxtPost" />
     </div>
   </Modal>
   <Modal @close="toggleModal_DeletePost" :modalActive="modalActive_DeletePost">
@@ -87,15 +87,14 @@ const formatDatePost = (postDate) => {
   return moment(postDate).format('lll')
 }
 
-// Récupération de l' ID de l'utilisateur
-const currentUserId = computed(() => myStore.getters.theUserId);
-
+// Récupération du role de l'utilisateur
 const currentUser = JSON.parse(localStorage.getItem("user")!);
 const myRole = currentUser.canOrNot!;
 
 
+
 const checkOwner = () => {
-  if (currentUserId.value == props.theAuthor.id) {
+  if (currentUser.id == props.theAuthor.id) {
     return true;
   } else {
     return false;

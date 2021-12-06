@@ -10,7 +10,7 @@
           id="PutContent"
           cols="65"
           rows="6"
-          :value="content"
+          :value="theContent"
           autocapitalize="sentence"
           form="putTextForm"
           maxlength="500"
@@ -34,7 +34,7 @@ import store from '../store/index';
 
 const props = defineProps<{
   postId: number,
-  content: string
+  theContent: string
 }>()
 
 const myStore: any = store;
@@ -64,7 +64,6 @@ const sendMyPut = () => {
       messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
       messageAfterSent.classList.toggle("hidebox");
       sendButton.textContent = 'Poster';
-
     })
     .catch(error => {
       sendButton.setAttribute("disabled", "");
@@ -78,7 +77,7 @@ const sendMyPut = () => {
 
 const isPutValid = () => {
   if (
-    props.content !== ""
+    props.theContent !== ""
   ) {
     return true;
   } else {

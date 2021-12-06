@@ -43,7 +43,8 @@
                 </svg>
             </div>
             <div class="svgText">
-                <p>Admin.</p>
+                <p v-if="myRole == 'okAGo'">Admin.</p>
+                <p v-else>Annuaire</p>
             </div>
         </router-link>
         <a @click.prevent="logOut" class="col-md-6 navLink">
@@ -74,6 +75,12 @@ import { useRouter } from "vue-router";
 
 const myStore: any = store;
 const myRouter: any = useRouter();
+
+// Récupération de l' ID de l'utilisateur
+const currentUser = JSON.parse(localStorage.getItem("user")!);
+const myRole = currentUser.canOrNot!;
+
+
 // Fonction de déconnexion 
 const logOut = () => {
     myStore.dispatch('auth/logout');

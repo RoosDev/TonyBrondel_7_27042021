@@ -173,7 +173,7 @@ exports.login = async (req, res, next) => {
           { algorithm: "RS256" }
         );
         const adminGo = () => {
-          if(findForLogin.role_Id === 3){
+          if(findForLogin.role_Id >= 2){
             return 'okAGo';
           }else{
             return 'okU'

@@ -8,18 +8,18 @@
           <th scope="col">Email</th>
           <th scope="col" class="hideIfTooSmall">Job</th>
           <th scope="col" class="hideIfSmall">Division</th>
-          <th scope="col">Responsabilité</th>
-          <th scope="col">Actions</th>
+          <th scope="col" v-if="myRole == 'okAGo'">Responsabilité</th>
+          <th id="ActionTitle" scope="col" v-if="myRole == 'okAGo'">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr id="RowUser" v-for="user in usersList" :key="user.id">
           <td scope="row" id="NameUser">{{ user.firstname + ' ' + user.lastname }}</td>
-          <td id="emailUser">{{ user.email }}</td>
+          <td id="emailUser"> <a :href="'mailto:'+user.email" class="lienEmail">{{ user.email }}</a></td>
           <td id="jobUser" class="hideIfTooSmall">{{ user.job }}</td>
           <td id="divisionUser" class="hideIfSmall">{{ user.division }}</td>
-          <td id="roleUser" class="txtcenter">{{ user.role.role_name }}</td>
-          <td id="actionsAdmin" class="txtcenter">
+          <td id="roleUser" class="txtcenter" v-if="myRole == 'okAGo'">{{ user.role.role_name }}</td>
+          <td id="actionsAdmin" class="txtcenter" v-if="myRole == 'okAGo'">
             <ButtonRole
               :idToChange="user.id"
               :name="user.firstname + ' ' + user.lastname"
@@ -49,6 +49,10 @@ const myStore: any = store;
 
 //Connexion au store pour récupération des informations
 const usersList = computed(() => myStore.state.users.usersList);
+
+  // Récupération du role de l'utilisateur
+  const currentUser:any = JSON.parse(localStorage.getItem("user")!);
+  const myRole:string = currentUser.canOrNot!;
 
 onMounted(() => {
   const currentUser = computed(() => myStore.state.auth.user);
@@ -112,6 +116,15 @@ button {
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+}
+
+.lienEmail{
+  color: $groupo-color2;
+  text-decoration: none;
+
+  &:hover{
+    color: $groupo-color1;
+  }
 }
 
 @media (max-width: 991.99px) {
