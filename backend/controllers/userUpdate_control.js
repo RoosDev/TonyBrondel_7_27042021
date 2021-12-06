@@ -17,7 +17,7 @@ const A2_ASSO_DATA_P = process.env.ARGON2_ASSOCIATEDDATA_password;
 //                Mise à jour du profil utilisateur                  //
 //*******************************************************************//
 exports.UpdateProfil = async (req, res, next) => {
-  const theProfil = {
+  const theProfile = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
@@ -25,20 +25,20 @@ exports.UpdateProfil = async (req, res, next) => {
     division: req.body.division,
   };
   try {
-    const data = await modelUsers.update(theProfil, {
+    const data = await modelUsers.update(theProfile, {
       where: { id: req.params.id },
     });
     res.send({ data });
-    (data) => {
-      if (data == 1) {
-        return (res.statusMessage = "Modification enregistrée");
-      } else {
-        return (res.statusMessage = "Modification impossible.");
-      }
-    };
+    // (data) => {
+    //   if (data == 1) {
+    //     return (res.statusMessage = "Modification enregistrée");
+    //   } else {
+    //     return (res.statusMessage = "Modification impossible.");
+    //   }
+    // };
   } catch (err) {
     return (res.sendStatus(500).statusMessage =
-      err.message || "Une erreur s'est produite, veuillez réessayer.");
+      err.message || "Some error occurred while retrieving the post's list.");
   }
 };
 

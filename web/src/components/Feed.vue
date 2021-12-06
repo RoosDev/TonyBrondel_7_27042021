@@ -1,7 +1,7 @@
 <template>
   <div id="feedcontent" class="col-12 col-md-9">
     <SendPost />
-    <div id="postsList" v-for="thePost in feedList" :key="thePost.id">
+    <div id="postsList" v-for="thePost in theFeedList" :key="thePost.id">
       <PostBlocText
         v-if="thePost.image_URL === null"
         :theIdPost="thePost.id"
@@ -23,22 +23,18 @@
 </template>
 
 <script setup lang="ts">
-import SendPost from '@/components/SendPost.vue';
-import PostBlocImg from '@/components/PostIBlocImg.vue';
-import PostBlocText from '@/components/PostBlocText.vue';
-import { computed, onMounted, reactive } from 'vue';
-import Vuex from 'vuex';
+import { computed } from 'vue';
+import { onMounted } from 'vue';
 import store from '../store/index';
+import SendPost from '@/components/SendPost.vue';
+import PostBlocText from '@/components/PostBlocText.vue';
+import PostBlocImg from '@/components/PostIBlocImg.vue';
 
 
 // initialisation du store
 const myStore: any = store;
 //Connexion au store pour récupération des informations
-let theFeedList = computed(() => myStore.state.feed.feedList);
-let feedList = reactive(theFeedList)
-
-// let theFeed = computed(() => { return Vuex.mapGetters(['feed / theFeed'])});
-// console.log('ma feed list via getter >> ', theFeed.value)
+let theFeedList = computed(() => store.getters.theFeed);
 
 onMounted(() => {
   const currentUser = computed(() => myStore.state.auth.user);

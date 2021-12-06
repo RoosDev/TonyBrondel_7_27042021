@@ -25,37 +25,37 @@ const { manager, verifySignUp, authJwt } = require("../middlewares");
 // Autorisé pour tous
     // Connexion d'un utilisateur
     router.post("/login", userSignLogCtrl.login);
+    
+    // Données de profil d'un utilisateur
+    router.get("/profile/:id",  [authJwt.verifyToken], userGetCtrl.getOneProfile);
+    // Liste de tous les utilisateurs
+    router.get("/profiles", [authJwt.verifyToken], userGetCtrl.getAllProfiles);
 
 
 // Autorisé pour l utilisateur lui meme
-    // Modification d'un profil utilisateur
-    router.put("/profile/:id", [authJwt.verifyToken], userUpdateCtrl.UpdateProfil);
+    // Modification du profil utilisateur
+    router.put("/myProfile/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.UpdateProfil);
 
     // Modification de la photo utilisateur
-    router.put("/upload/profile/", [authJwt.verifyToken], multer.single("file"), userUploadImgCtrl.uploadFiles);
+    router.put("/upload/profile/", [authJwt.verifyToken, authJwt.isProfileOwner], multer.single("file"), userUploadImgCtrl.uploadFiles);
 
     // Modification d un mot de passe utilisateur
-    router.put("/myprofile/pass/:id", [authJwt.verifyToken], userUpdateCtrl.UpdatePassword);
-
-    // Données de profil d'un utilisateur
-    router.get("/profile/:id",  [authJwt.verifyToken], userGetCtrl.getOneProfile);
+    router.put("/myProfile/pass/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.UpdatePassword);
     
     // // Suppression de son propre profil
-    router.put("/profile/getout/:id", [authJwt.verifyToken], userUpdateCtrl.getOutProfil);
+    router.put("/myProfile/getout/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.getOutProfil);
 
 
 // Autorisé pour les managers
 
     // Modification d'un role utilisateur
-    router.put("/profile/role/:id", [authJwt.verifyToken, authJwt.isManager], userUpdateCtrl.updateRole);
+    router.put("/Admin/profile/role/:id", [authJwt.verifyToken, (authJwt.isManager || authJwt.isAdmin)], userUpdateCtrl.updateRole);
 
-    // Liste de tous les utilisateurs
-    router.get("/profile", [authJwt.verifyToken, authJwt.isManager], userGetCtrl.getAllProfiles);
 
 
 // Autorisé pour les administrateurs
 
     // // Suppression d'un utilisateur Admin
-    router.put("/profile/getouts/:id", [authJwt.verifyToken, authJwt.isAdmin], userUpdateCtrl.getOutProfilAdmin);
+    router.put("/Admin/profile/getouts/:id", [authJwt.verifyToken, authJwt.isAdmin], userUpdateCtrl.getOutProfilAdmin);
 
 module.exports = router;

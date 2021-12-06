@@ -1,7 +1,5 @@
 import AuthService from "../services/auth.service";
-import { useRouter } from "vue-router";
 
-const myRouter: any = useRouter();
 const user = JSON.parse(localStorage.getItem("user")!);
 const initialState = user
   ? { status: { loggedIn: true }, user }

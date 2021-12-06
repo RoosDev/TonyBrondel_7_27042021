@@ -8,6 +8,7 @@
       <div id="changeProfileContent">
         <h2>Modification de votre profil</h2>
         <Field name="id" type="hidden" :value="props.id" />
+        <Field name="photo_URL" type="hidden" :value="props.photo_URL" />
 
         <div id="signupLogin">
           <label for="email">Votre adresse email : *</label>
@@ -99,7 +100,8 @@ const props = defineProps<{
   lastname: string,
   email: string,
   job: string,
-  division: string
+  division: string, 
+  photo_URL: string
 }>()
 
 
@@ -112,18 +114,11 @@ const sendMyNewProfile = (userDetail) => {
   myStore.dispatch("changeProfile", userDetail)
     .then((data) => {
         sendProfileButton.textContent = 'envoi en-cours ...';
-          setTimeout(() => {
             msgProfileAfterSent.classList.remove("nokSent");
             msgProfileAfterSent.classList.add("okSent");
             msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
             msgProfileAfterSent.classList.toggle("hidebox");
             sendProfileButton.textContent = 'Enregistré';
-          }, 1500);
-          setTimeout(() => {
-            msgProfileAfterSent.classList.toggle("hidebox");
-            store.commit('SETUSERDETAIL');
-            // myRouter.go('');
-          }, 3000);
           console.log('Profil à jour ;)', data);
     }),
 
@@ -132,22 +127,9 @@ const sendMyNewProfile = (userDetail) => {
         msgProfileAfterSent.classList.remove("okSent");
         msgProfileAfterSent.classList.add("nokSent");
         msgProfileAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-        setTimeout(function () {
-          msgProfileAfterSent.classList.toggle("hidebox");
-        }, 4000);
         console.error("There was an error!", error);
       }
 }
-
-// const isFormProfilValid = computed((user) => {
-  // if (
-  //   user.email != "" || user.firstname != "" || user.lastname != "" || user.job != "" || user.division!= ""
-  // ) {
-  // return true;
-  // } else {
-  //   return false;
-  // }
-// })
 
 </script>
 <style lang="scss">

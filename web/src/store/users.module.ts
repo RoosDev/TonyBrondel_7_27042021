@@ -1,10 +1,17 @@
 import axios from "axios";
+// import { reactive } from 'vue';
 
 let myHead = { id: "", accessToken: "", roleToken: "" };
 const API_User_URL = "http://localhost:3001/api/auth/";
 
+// const state = reactive({
+//   userDetail: [],
+//   usersList: [],
+// })
+
 export const usersBase = {
-  // namespaced: true,
+
+
 
   state: {
     userDetail: [],
@@ -23,7 +30,7 @@ export const usersBase = {
           (myHead.roleToken = user.roleToken);
       }
       await axios.put(
-        API_User_URL + "myprofile/pass/" + user.id,
+        API_User_URL + "myProfile/pass/" + user.id,
         {
           id: user.id,
           email: user.hidemail,
@@ -53,17 +60,19 @@ export const usersBase = {
           (myHead.roleToken = userDetail.roleToken);
       }
       console.log('my head change profile >> ', myHead)
+      const dataProfile = {
+        id: userDetail.id,
+        email: userDetail.email,
+        firstname: userDetail.firstname,
+        lastname: userDetail.lastname,
+        job: userDetail.job,
+        division: userDetail.division,
+        photo_URL: userDetail.photo_URL,
+      }
       await axios
         .put(
-          API_User_URL + "profile/" + userDetail.id,
-          {
-            id: userDetail.id,
-            email: userDetail.email,
-            firstname: userDetail.firstname,
-            lastname: userDetail.lastname,
-            job: userDetail.job,
-            division: userDetail.division,
-          },
+          API_User_URL + "myProfile/" + userDetail.id,
+          dataProfile,
           {
             headers: {
               "x-access-token": myHead.accessToken!,
@@ -72,12 +81,13 @@ export const usersBase = {
           }
         )
         .then((theUser: any) => {
-          console.log(theUser.data.data)
-          commit("SETUSERDETAIL", theUser.data.data);
+          console.log('retour pour theUser >', theUser.data.data)
+          if(theUser.data.data == 1){
+          commit("SETUSERDETAIL", dataProfile);
+        }else{
+          console.log('nok nok ')
+        }
         })
-        .then((theUsers: any) => {
-          commit("SETUSERS", theUsers.data.data);
-        });
     },
 
     // Utilisation du Store pour supprimer son propre profil
@@ -92,7 +102,7 @@ export const usersBase = {
       }
       await axios
         .put(
-          API_User_URL + "profile/getout/" + myHead.id,
+          API_User_URL + "myProfile/getout/" + myHead.id,
           {
             id: myHead.id,
           },
@@ -124,7 +134,7 @@ export const usersBase = {
       console.log("userDetail>>", usertoDelete);
       await axios
         .put(
-          API_User_URL + "profile/getouts/" + usertoDelete.id,
+          API_User_URL + "Admin/profile/getouts/" + usertoDelete.id,
           {
             id: usertoDelete.id,
           },
@@ -157,7 +167,7 @@ export const usersBase = {
       console.log('myHead >> ', myHead)
       await axios
         .put(
-          API_User_URL + "profile/role/" + usertoChange.idToChange,
+          API_User_URL + "Admin/profile/role/" + usertoChange.idToChange,
           {
             idToChange: usertoChange.idToChange,
             role: usertoChange.role,
@@ -176,9 +186,7 @@ export const usersBase = {
 
     async getUser({ commit }: { commit: any }, userId) {
       if (userId.accessToken == null || userId.roleToken == null) {
-        console.log("my head is null for my profile");
         myHead = JSON.parse(localStorage.getItem("user")!);
-        console.log("tok tok //" , myHead)
       } else {
         (myHead.id = userId.id),
           (myHead.accessToken = userId.accessToken),
@@ -205,7 +213,7 @@ export const usersBase = {
           (myHead.accessToken = userId.accessToken),
           (myHead.roleToken = userId.roleToken);
       }
-      await axios.get(API_User_URL + "profile/", {
+      await axios.get(API_User_URL + "profiles/", {
         headers: {
           "x-access-token": myHead.accessToken,
           "x-role-token": myHead.roleToken,
@@ -224,15 +232,6 @@ export const usersBase = {
   },
 
   mutations: {
-    // initialiseStore(state) {
-		// 	// Check if the ID exists
-		// 	if(localStorage.getItem('store')) {
-		// 		// Replace the state object with the stored item
-		// 		replaceState(
-		// 			Object.assign(state, JSON.parse(localStorage.getItem('store')!))
-		// 		);
-		// 	}
-		// },
     // Détail du profil d'un utilisateur
     SETUSERDETAIL(state: any, userDetail: any) {
       state.userDetail = userDetail;

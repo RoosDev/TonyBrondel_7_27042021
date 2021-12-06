@@ -5,7 +5,7 @@
         <span id="timePost">
           <p>
             <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture" />
-            {{ postAuthor }} - le {{ formatDatePost(theDate) }}
+           {{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }}  - le {{ formatDatePost(props.theDate) }}
           </p>
         </span>
         <span id="likePost">
@@ -25,7 +25,7 @@
       </div>
       <div id="PostZone" class="col-12 col-lg-6">
         <div id="thePostImg" class="col-12">
-          <img id="theImageOfThePost" :src="'http://localhost:8080/'+ theImgPost" alt="" />
+          <img id="theImageOfThePost" :src="'http://localhost:8080/'+ props.theImgPost" alt="" />
         </div>
       </div>
       <div id="commentZone" class="col-12 col-lg-6">
@@ -62,8 +62,6 @@ const props = defineProps<{
   theComments: any 
 }>()
 
-const postDate = props.theDate!;
-
 // Fonction de mise en forme de la date du post
 const formatDatePost = (postDate) => {
   moment.locale("fr")
@@ -82,10 +80,6 @@ const checkOwner = () => {
   }
 }
 
-const authorFirstname = props.theAuthor.firstname!;
-const authorLastname = props.theAuthor.lastname!;
-
-const postAuthor: string = authorFirstname + ' ' + authorLastname;
 const theComments = reactive(props.theComments!);
 const [modalActive_DeleteImg, toggleModal_DeleteImg] = useModal()
 

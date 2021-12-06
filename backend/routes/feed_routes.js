@@ -25,20 +25,20 @@ const multer = require("../middlewares/multer_configPosts");
     router.get("/", [authJwt.verifyToken], feedGetCtrl.getAllFeeds);
     // Récupère le détail d'un seul post dans le feed
     router.get("/:id", [authJwt.verifyToken], feedGetCtrl.getOneFeed);
-    // Détail d'un post dans le feed et Liste de tous les commentaires d'un post
+    // Liste de tous les commentaires d'un post
     router.get("/:id/comment", [authJwt.verifyToken], feedGetCtrl.getAllComments);
     // Obtention des likes d'un post
-    router.get("/:id/like", [authJwt.verifyToken], feedGetCtrl.getLikesPost);
+    // router.get("/:id/like", [authJwt.verifyToken], feedGetCtrl.getLikesPost);
     // Obtention du nombre de like
-    router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
+    // router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
     // Obtention de la liste des différents types de like
-    router.get("/likes", [authJwt.verifyToken], feedGetCtrl.getLikes);
+    // router.get("/likes", [authJwt.verifyToken], feedGetCtrl.getLikes);
     // Obtention de la liste des images de posts
     router.get("/upload/post", feedUploadGetCtrl.getHome);
 
 // Autorisé pour l utilisateur lui meme
     //     Modification d'un post dans le feed
-    router.put("/:id", [authJwt.verifyToken], feedUpdateCtrl.UpdatePost);
+    router.put("/:id", [authJwt.verifyToken, (authJwt.isRessourceOwner || authJwt.isAdmin)], feedUpdateCtrl.UpdatePost);
 
 
 // Autorisé pour l utilisateur lui meme et les administrateurs
@@ -46,9 +46,9 @@ const multer = require("../middlewares/multer_configPosts");
 
     // // Liste des routes pour supprimer quelque chose :
     //     // Suppression d'un post dans le feed
-    router.delete("/:id", [authJwt.verifyToken, authJwt.isRessourceOwner, authJwt.isAdmin], feedDropCtrl.deleteOnePost);
+    router.delete("/:id", [authJwt.verifyToken,(authJwt.isRessourceOwner || authJwt.isAdmin)], feedDropCtrl.deleteOnePost);
     //     // Suppression d'un like
-    // router.delete("/:id/like", [authJwt.verifyToken], feedDropCtrl.deleteOneLike);
+    // router.delete("/:id/like",  [authJwt.verifyToken, authJwt.isRessourceOwner, authJwt.isAdmin], feedDropCtrl.deleteOneLike);
 
 
 

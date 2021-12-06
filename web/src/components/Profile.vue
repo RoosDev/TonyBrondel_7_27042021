@@ -22,40 +22,41 @@
     <div id="profileDetails" class="col-12 col-sm-11 col-md-10 col-lg-9">
       <div id="profilPicture" class="col-7 col-sm-6 col-md-5 col-lg-4">
         <img
-          v-if="!myPicture"
+          v-if="!userDetail.photo_URL"
           src="../../public/Public_Images/Profile/user.png"
           alt="Photo de profil"
         />
-        <img v-else :src="myPicture" alt="Photo de profil" />
+        <img v-else :src="userDetail.photo_URL" alt="Photo de profil" />
       </div>
       <div id="profilText" class="col-10">
         <div id="profilTextName">
-          <span id="nameContent">{{ myDetails.firstname }} {{ myDetails.lastname }}</span>
+          <span id="nameContent">{{ userDetail.firstname }} {{ userDetail.lastname }}</span>
         </div>
         <div id="profilText_Email">
           <span id="emailTitle" class="identityTitle">Adresse email :</span>
-          <span id="emailContent">{{ myDetails.email }}</span>
+          <span id="emailContent">{{ userDetail.email }}</span>
         </div>
         <div id="profilText_Job">
           <span id="jobTitle" class="identityTitle">Poste :</span>
-          <span id="jobContent">{{ myDetails.job }}</span>
+          <span id="jobContent">{{ userDetail.job }}</span>
         </div>
         <div id="profilText_Division">
           <span id="divisionTitle" class="identityTitle col-3">Division :</span>
-          <span id="divisionContent" class="col-9">{{ myDetails.division }}</span>
+          <span id="divisionContent" class="col-9">{{ userDetail.division }}</span>
         </div>
       </div>
     </div>
   </div>
   <Modal @close="toggleModal_EditProfil" :modalActive="modalActive_EditProfil">
     <div class="modal-content">
-      <ChangeProfile
+      <ChangeProfile 
         :id="myId"
-        :firstname="myDetails.firstname"
-        :lastname="myDetails.lastname"
-        :email="myDetails.email"
-        :job="myDetails.job"
-        :division="myDetails.division"
+        :firstname="userDetail.firstname"
+        :lastname="userDetail.lastname"
+        :email="userDetail.email"
+        :job="userDetail.job"
+        :division="userDetail.division"
+        :photo_URL="userDetail.photo_URL"
       />
     </div>
   </Modal>
@@ -71,13 +72,16 @@
   </Modal>
   <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
     <div class="modal-content">
-      <ChangePass :id="myId" :email="myDetails.email" />
+      <ChangePass :id="myId" :email="userDetail.email" />
     </div>
   </Modal>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+
+import { computed } from "vue";
+import { onMounted } from "vue";
+import { ref } from "vue";
 import ChangePass from '@/components/ChangePass.vue';
 import ChangeProfile from '@/components/ChangeProfile.vue';
 import DeleteProfileProfile from '@/components/DeleteProfile.vue';
@@ -86,20 +90,12 @@ import store from '../store/index';
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
 
-// const props = defineProps<{
-//   id: number,
-//   firstname: string,
-//   lastname: string,
-//   email: string,
-//   job: string,
-//   division: string
-// }>()
-
 //Connexion au store pour récupération des informations
 const myStore: any = store;
-let userDetail = computed(() => myStore.state.users.userDetail);
-let myDetails = reactive(userDetail.value);
-let myPicture = reactive(myDetails.photo_URL);
+// let userDetail = computed(() => myStore.state.users.userDetail);
+let userDetail = computed(() => store.getters.currentUser)
+console.log('user detail Getter// >> ', userDetail.value)
+let myDetails = ref(userDetail.value);
 
 // Récupération de l' ID de l'utilisateur
 const currentUser = computed(() => myStore.state.auth.user);

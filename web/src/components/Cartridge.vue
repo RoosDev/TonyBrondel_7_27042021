@@ -8,15 +8,15 @@
     </div>
     <div id="profilBox" class="profilBox">
       <img
-        v-if="!myPicture"
+        v-if="!userDetails.photo_URL"
         class="pictureProfilMin"
         src="../../public/Public_Images/Profile/user.png"
         alt="Photo de profil"
       />
-      <img v-else id="pictureProfilDefault" class="pictureProfilMin" :src="myPictureURL" />
-      <p>{{ myDetails.firstname }} {{ myDetails.lastname }}</p>
+      <img v-else id="pictureProfilDefault" class="pictureProfilMin" :src="'../../' + userDetails.photo_URL" />
+      <p>{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
       <p>
-        <em>{{ myDetails.job }}</em>
+        <em>{{ userDetails.job }}</em>
       </p>
     </div>
 
@@ -28,38 +28,13 @@
 
 <script setup lang="ts">
 import NavComponent from '@/components/nav.vue';
-import { computed, onMounted, reactive } from "vue";
-import { mapGetters } from 'vuex';
+import { computed, onMounted, reactive, ref, toRefs, toRef } from "vue";
 import store from '../store/index';
 
 const myStore: any = store;
 
 //Connexion au store pour récupération des informations
-let userDetails = computed(() => myStore.state.users.userDetail);
-let myDetails = reactive(userDetails);
-console.log("user detail //", myDetails.value)
-let myPicture = myDetails.value.photo_URL;
-let myPictureURL = ('../../' + myPicture);
-console.log('la photo /// ', myPictureURL)
-
-defineExpose({
-  userDetails,
-  myDetails, 
-  myStore
-})
-// let getId = computed(() => { return Vuex.mapGetters(['auth/theUserId'])});
-// console.log('getter pour id val  >> ',getId.value)
-// console.log('getter pour id  >> ',getId)
-
-
-// let usersList = computed(() => { return Vuex.mapGetters(['users/allUsers'])});
-// console.log('getter pour users val  >> ',usersList.value)
-// console.log('getter pour users  >> ',usersList)
-
-
-// let meAndI = { ...mapGetters(['users/currentUser'])};
-// console.log('getter pour meAndI val >> ',meAndI)
-
+let userDetails = computed(() => store.getters.currentUser);
 
 
 onMounted(() => {

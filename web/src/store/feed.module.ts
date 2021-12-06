@@ -22,7 +22,7 @@ export const feed = {
           (myHead.roleToken = userDatas.roleToken);
       }
       await axios
-        .get("http://localhost:3001/api/feed", {
+        .get( API_FEED_URL, {
           headers: {
             "x-access-token": userDatas.accessToken,
             "x-role-token": userDatas.roleToken,

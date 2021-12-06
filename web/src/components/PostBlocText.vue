@@ -4,11 +4,12 @@
       <div id="timeLikeMenuZone" class="col-12">
         <span id="timePost">
           <p>
-            <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture" />
-            {{ postAuthor }} - le {{ formatDatePost(theDate) }}
+            <img id="pictureAuthor" v-if="!props.theAuthor.photo_URL"  src="../assets/user-male.png" alt="Profil Picture" />
+            <img id="pictureAuthorReal" v-else :src="'../../'+props.theAuthor.photo_URL" alt="Profil Picture" />
+            {{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }} - le {{ formatDatePost(props.theDate) }}
           </p>
         </span>
-        <span id="menuPost" v-if="myId === props.theAuthor.id || myRole === 'okAGo'">
+        <span id="menuPost" v-if="myId == props.theAuthor.id || myRole == 'okAGo'">
           <button
             :id="buttonChangeDeletePostText"
             class="openMenuPostText"
@@ -77,9 +78,6 @@ const props = defineProps<{
   theComments: any
 }>()
 
-// récupération de la date du post
-const postDate = props.theDate!;
-
 // Fonction de mise en forme de la date du post
 const formatDatePost = (postDate) => {
   moment.locale("fr")
@@ -104,9 +102,7 @@ const checkOwner = () => {
   }
 }
 
-const authorFirstname = props.theAuthor.firstname!;
-const authorLastname = props.theAuthor.lastname!;
-const postAuthor: string = authorFirstname + ' ' + authorLastname;
+console.log(props.theAuthor);
 // const theComments = reactive(props.theComments!);
 const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
 const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()
@@ -159,6 +155,9 @@ const toggleMenuPost = () => {
         img {
           width: 50px;
         }
+        #pictureAuthorReal{
+          border-radius: 50%;
+        }
       }
 
       .openMenuPostText {
@@ -189,6 +188,7 @@ const toggleMenuPost = () => {
           background-color: #fff;
           width: 100%;
           height: 50%;
+          
 
           .menuPost_Change {
             // #menuPost_Change {

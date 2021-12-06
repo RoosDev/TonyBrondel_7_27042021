@@ -2,7 +2,7 @@
 import { createStore } from "vuex";
 import { auth } from "./auth.module";
 import { feed } from "./feed.module";
-import { usersBase } from "./user.module";
+import { usersBase } from "./users.module";
 
 //Create Store :
 const store = createStore({
