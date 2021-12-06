@@ -75,6 +75,27 @@ exports.getAllFeeds = ( async(req, res, next) => {
   }
 });
 
+
+// exports.getComments = ( async(req, res, next) => {
+//   try{
+
+
+//     const data = await modelCommentList.findAll({
+//       attributes: ['id', 'content','updatedAt'],
+//       include: [
+//                 { model: modelUsers, as: 'authorComment', attributes:['id', 'firstname', 'lastname', 'job', 'division']},
+//                ],
+//       where: {reference: null }, 
+//       order: [['updatedAt', 'DESC']] ,
+//     }) 
+
+//     res.send( { data } );
+//   }catch(err){
+//     return res.sendStatus(500, {message: "getAllFeeds : Une erreur s'est produite.", details: err});
+//   }
+// });
+
+
 // Contage du nombre de like pour un post
 // exports.countLikesPost  = ( async(req, res, next) => {
 //   try{
@@ -101,7 +122,7 @@ exports.getOneFeed = ( async(req, res, next) => {
 // Sélection des commentaires qui son attachés à un post
 exports.getAllComments = ( async(req, res, next) => {
   try{
-    const data = await modelCommentList.findAll({include: ["authorComment"], where: {reference: [ req.params.id ] }, order: [['updatedAt', 'DESC']] }) 
+    const data = await modelCommentList.findAll({include: ["authorComment"], where: {reference: [ req.params.id ] }, order: [['updatedAt', 'ASC']] }) 
     return res.send( { data } );
   }catch(err){
     return res.status(500).json({message: "getAllComments : Une erreur s'est produite.", details: err});

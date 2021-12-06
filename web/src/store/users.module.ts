@@ -1,13 +1,8 @@
 import axios from "axios";
-// import { reactive } from 'vue';
 
 let myHead = { id: "", accessToken: "", roleToken: "" };
 const API_User_URL = "http://localhost:3001/api/auth/";
 
-// const state = reactive({
-//   userDetail: [],
-//   usersList: [],
-// })
 
 export const usersBase = {
 

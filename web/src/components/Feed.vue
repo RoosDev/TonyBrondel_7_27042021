@@ -38,12 +38,9 @@ let theFeedList = computed(() => store.getters.theFeed);
 
 onMounted(() => {
   const currentUser = computed(() => myStore.state.auth.user);
-  const myId = currentUser.value.id!;
-  const myaccessToken = currentUser.value.accessToken!;
-  const myroleToken = currentUser.value.roleToken!;
 
   // Connexion au Store de l'application
-  myStore.dispatch("getPosts", { id: myId, accessToken: myaccessToken, roleToken: myroleToken })
+  myStore.dispatch("getPosts", { id: currentUser.value.id, accessToken: currentUser.value.accessToken, roleToken: currentUser.value.roleToken })
 })
 
 </script>
@@ -80,12 +77,11 @@ onMounted(() => {
 
 @media (max-width: 1199.99px) {
   #feedcontent {
-    width : 100vw;
+    width: 100vw;
     height: 100%;
     right: 0;
     background-color: $groupo-colorLight1;
     overflow-y: scroll;
-
   }
 }
 </style>

@@ -29,17 +29,17 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
-import { useRouter } from "vue-router";
+import { computed } from 'vue';
+import store from '../store/index';
 
 const props = defineProps<{
   postId: number,
   content: string
 }>()
 
-const urlApi = "http://localhost:3001/api/feed/" + props.postId;
-const myRouter: any = useRouter();
-const myHead = JSON.parse(localStorage.getItem("user")!);
+const myStore: any = store;
+
+const currentUser = computed(() => myStore.state.auth.user);
 
 const sendMyPut = () => {
   const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
@@ -47,16 +47,14 @@ const sendMyPut = () => {
   const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
 
   const theChangedPost = {
+    postId: props.postId,
     content: PutContent.value,
-    userId: 1,
+    userId: currentUser.value.id,
+    accessToken: currentUser.value.accessToken,
+    roleToken: currentUser.value.roleToken,
   };
-  axios.put(urlApi, theChangedPost,  {
-      headers: { 
-        "x-access-token": myHead.accessToken!, 
-        "x-role-token": myHead.roleToken! ,
-        // "postID": props.postId
-      }
-    })
+
+  myStore.dispatch("updatePost", theChangedPost)
     .then((res) => {
       sendButton.textContent = 'Modification en-cours...';
       sendButton.setAttribute("disabled", "");
@@ -64,15 +62,8 @@ const sendMyPut = () => {
       messageAfterSent.classList.remove("nokSent");
       messageAfterSent.classList.add("okSent");
       messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
-      setTimeout(function () {
-        messageAfterSent.classList.toggle("hidebox");
-        sendButton.textContent = 'Poster';
-        // PutContent.value = '';
-      }, 1500);
-      setTimeout(function () {
-      myRouter.go('');
-      }, 3000);
-      console.log('Post en ligne ;)', res)
+      messageAfterSent.classList.toggle("hidebox");
+      sendButton.textContent = 'Poster';
 
     })
     .catch(error => {
@@ -81,9 +72,6 @@ const sendMyPut = () => {
       messageAfterSent.classList.remove("okSent");
       messageAfterSent.classList.add("nokSent");
       messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-      setTimeout(function () {
-        messageAfterSent.classList.toggle("hidebox");
-      }, 5000);
       console.error("There was an error!", error);
     });
 }

@@ -63,12 +63,10 @@
 </template>
 <script setup lang="ts">
 import store from '../store/index';
-import { useRouter } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 
 const myStore: any = store;
-const myRouter: any = useRouter();
 
 const schemaChangeProfile = yup.object().shape({
   email: yup
@@ -119,7 +117,7 @@ const sendMyNewProfile = (userDetail) => {
             msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
             msgProfileAfterSent.classList.toggle("hidebox");
             sendProfileButton.textContent = 'Enregistré';
-          console.log('Profil à jour ;)', data);
+          console.log('Profil à jour ;)',);
     }),
 
       (error) => {

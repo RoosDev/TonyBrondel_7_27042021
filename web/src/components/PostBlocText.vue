@@ -9,7 +9,7 @@
             {{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }} - le {{ formatDatePost(props.theDate) }}
           </p>
         </span>
-        <span id="menuPost" v-if="myId == props.theAuthor.id || myRole == 'okAGo'">
+        <span id="menuPost" v-if="currentUserId == props.theAuthor.id || myRole == 'okAGo'">
           <button
             :id="buttonChangeDeletePostText"
             class="openMenuPostText"
@@ -62,13 +62,14 @@
   </Modal>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue';
-import Modal from '@/components/Modal.vue';
-import { useModal } from '@/composition/modal';
+import { computed } from 'vue';
+import store from '../store/index';
+import moment from 'moment';
 import CommentZone from '@/components/CommentZone.vue';
 import ChangeText from '@/components/ChangeText.vue';
 import DeletePost from '@/components/DeletePost.vue';
-import moment from 'moment';
+import Modal from '@/components/Modal.vue';
+import { useModal } from '@/composition/modal';
 
 const props = defineProps<{
   theIdPost: number,
@@ -78,31 +79,29 @@ const props = defineProps<{
   theComments: any
 }>()
 
+const myStore: any = store;
+
 // Fonction de mise en forme de la date du post
 const formatDatePost = (postDate) => {
   moment.locale("fr")
   return moment(postDate).format('lll')
 }
 
-defineExpose({
-  props
-})
-
 // Récupération de l' ID de l'utilisateur
+const currentUserId = computed(() => myStore.getters.theUserId);
+
 const currentUser = JSON.parse(localStorage.getItem("user")!);
-const myId = currentUser.id!;
 const myRole = currentUser.canOrNot!;
 
 
 const checkOwner = () => {
-  if (myId == props.theAuthor.id) {
+  if (currentUserId.value == props.theAuthor.id) {
     return true;
   } else {
     return false;
   }
 }
 
-console.log(props.theAuthor);
 // const theComments = reactive(props.theComments!);
 const [modalActive_DeletePost, toggleModal_DeletePost] = useModal()
 const [modalActive_ChangePost, toggleModal_ChangePost] = useModal()

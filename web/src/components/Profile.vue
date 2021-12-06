@@ -81,12 +81,11 @@
 
 import { computed } from "vue";
 import { onMounted } from "vue";
-import { ref } from "vue";
-import ChangePass from '@/components/ChangePass.vue';
-import ChangeProfile from '@/components/ChangeProfile.vue';
-import DeleteProfileProfile from '@/components/DeleteProfile.vue';
-import ChangeImageProfile from '@/components/UploadProfileImage.vue';
 import store from '../store/index';
+import ChangeProfile from '@/components/ChangeProfile.vue';
+import ChangeImageProfile from '@/components/UploadProfileImage.vue';
+import ChangePass from '@/components/ChangePass.vue';
+import DeleteProfileProfile from '@/components/DeleteProfile.vue';
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
 
@@ -94,8 +93,6 @@ import { useModal } from '@/composition/modal';
 const myStore: any = store;
 // let userDetail = computed(() => myStore.state.users.userDetail);
 let userDetail = computed(() => store.getters.currentUser)
-console.log('user detail Getter// >> ', userDetail.value)
-let myDetails = ref(userDetail.value);
 
 // Récupération de l' ID de l'utilisateur
 const currentUser = computed(() => myStore.state.auth.user);
@@ -103,9 +100,9 @@ const myId = currentUser.value.id!;
 
 // appel de la fonction modal
 const [modalActive_EditProfil, toggleModal_EditProfil] = useModal()
+const [modalActive_ImageProfile, toggleModal_ImageProfile] = useModal()
 const [modalActive_Password, toggleModal_Password] = useModal()
 const [modalActive_DeleteProfile, toggleModal_DeleteProfile] = useModal()
-const [modalActive_ImageProfile, toggleModal_ImageProfile] = useModal()
 
 
 onMounted(() => {

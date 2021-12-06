@@ -4,13 +4,14 @@
       <div id="timeLikeMenuZone" class="col-12">
         <span id="timePost">
           <p>
-            <img id="pictureAuthor" src="../assets/user-male.png" alt="Profil Picture" />
+            <img id="pictureAuthor" v-if="!props.theAuthor.photo_URL"  src="../assets/user-male.png" alt="Profil Picture" />
+            <img id="pictureAuthorReal" v-else :src="'../../'+props.theAuthor.photo_URL" alt="Profil Picture" />
            {{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }}  - le {{ formatDatePost(props.theDate) }}
           </p>
         </span>
         <span id="likePost">
         </span>
-        <span id="menuPost" v-if="myId === props.theAuthor.id">
+        <span id="menuPost" v-if="currentUserId == props.theAuthor.id || myRole == 'okAGo'">
           <button :id="buttonDeleteImage" class="openMenuImage" @click="toggleMenuImage()">•••</button>
           <div :id="menuDevelopChangeImage" class="menuPostDevelop hidebox">
             <button
@@ -47,12 +48,13 @@
   </Modal>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { computed } from 'vue';
+import store from '../store/index';
+import moment from 'moment';
 import CommentZone from '@/components/CommentZone.vue';
 import DeleteImage from '@/components/DeleteImage.vue';
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
-import moment from 'moment';
 
 const props = defineProps<{
   theIdPost: number,
@@ -62,6 +64,8 @@ const props = defineProps<{
   theComments: any 
 }>()
 
+const myStore: any = store;
+
 // Fonction de mise en forme de la date du post
 const formatDatePost = (postDate) => {
   moment.locale("fr")
@@ -69,18 +73,20 @@ const formatDatePost = (postDate) => {
 }
 
 // Récupération de l' ID de l'utilisateur
+const currentUserId = computed(() => myStore.getters.theUserId);
+
 const currentUser = JSON.parse(localStorage.getItem("user")!);
-const myId = currentUser.id!;
+const myRole = currentUser.canOrNot!;
+
 
 const checkOwner = () => {
-  if (myId == props.theAuthor.id){
+  if (currentUserId.value == props.theAuthor.id){
     return true;
   }else{
     return false;
   }
 }
 
-const theComments = reactive(props.theComments!);
 const [modalActive_DeleteImg, toggleModal_DeleteImg] = useModal()
 
 

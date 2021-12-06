@@ -1,22 +1,17 @@
 <template>
   <div id="CommentList" :name="theIdPost" class="col-12">
     <!-- Ici sont intégrés les commentaires -->
-    <div id="bubbleNoComment" v-if="!theComments?.[0]">
+    <div id="bubbleNoComment" v-if="!props.theComments?.[0]">
       <p>Il n'y a pas encore de commentaire. Soyez le premier.</p>
     </div>
     <div
       id="commentBubble"
       class="col-12"
       v-else
-      v-for="theComment in theComments"
+      v-for="theComment in props.theComments"
       :key="theComment.reference"
     >
-      <div id="bubbleText" class="col-12">
-        <p>{{ theComment.content }}</p>
-      </div>
-      <div id="bubbleAuthor" class="col">
-        <p>{{ theComment.authorComment.firstname }} {{ theComment.authorComment.lastname }} - {{ formatDatePost(theComment.updatedAt) }}</p>
-      </div>
+      <BubbleComment :theComment="theComment" />
     </div>
   </div>
   <div :id="divCommentSend" class="CommentSend">
@@ -48,30 +43,26 @@
 </template>
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import axios from "axios";
-import { useRouter } from "vue-router";
-import moment from 'moment';
+import store from '../store/index';
+import BubbleComment from '@/components/BubbleComment.vue';
 
-const myRouter: any = useRouter();
-const user = JSON.parse(localStorage.getItem('user')!);
-const myId = user.id;
+const myStore: any = store;
 
 const props = defineProps<{
   theIdPost: number,
   theComments: { any },
 }>();
-// Définition des variables
-let content = '';
-let errorMessage = ref('');
+
 // Définition de l'ID utilisateur (avec le localstorage)
-const meTheUser = JSON.parse(localStorage.getItem("user")!);
-const userId = meTheUser.id;
+const currentUserId = computed(() => myStore.getters.theUserId);
+
 
 // Nouvel objet à envoyer en base
-let theNewComment = {
-  content: content,
-  userId: userId
-};
+let theNewComment = ref({
+  theIdPost: props.theIdPost,
+  content: '',
+  userId: currentUserId.value
+});
 
 // Nom dynamique des id pour les commentaires
 const divCommentSend = 'CommentSend_' + props.theIdPost;
@@ -82,43 +73,26 @@ const buttonSendComment = 'sendComment_' + props.theIdPost;
 
 // Fonction d'envoi du commentaire avec action / animation lié à l'envoi
 const sendMyComment = () => {
-  const user = JSON.parse(localStorage.getItem("user")!);
+  // const user = JSON.parse(localStorage.getItem("user")!);
   let commentContent = document.querySelector(`#textareaComment_${props.theIdPost}`) as HTMLTextAreaElement;
   const sendCommentButton = document.querySelector(`#sendComment_${props.theIdPost}`) as HTMLDivElement;
 
   //Envoi de la requete via vuex et axios
-  axios.post("http://localhost:3001/api/feed/" + props.theIdPost + "/comment", theNewComment, {
-    headers: {
-      "x-access-token": user.accessToken!,
-      "x-role-token": user.roleToken!,
-      "id": myId!
-    },
-  })
+  myStore.dispatch("createComment", theNewComment.value)
     .then(() => {
       // const myRouter: any = useRouter();
       sendCommentButton.innerHTML = `<svg class="w-6 h-6 rotate svgComment" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
       sendCommentButton.setAttribute("disabled", "");
-      setTimeout(() => {
-        commentContent.value = '';
-        sendCommentButton.innerHTML = `<svg class="w-6 h-6 svgComment" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
-      }, 1500);
-      setTimeout(() => {
-        myRouter.go('');
-      }, 2500);
+      commentContent.value = '';
+      sendCommentButton.innerHTML = `<svg class="w-6 h-6 svgComment" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
       console.log('Commentaire enregistré ;)')
     })
     .catch(error => {
-      errorMessage.value = error.message;
       sendCommentButton.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-      console.error("There was an error!", error);
+      console.error("There was an error!", error.message);
     });
 };
 
-// Fonction de mise en forme de la date du post
-const formatDatePost = (postDate) => {
-  moment.locale("fr")
-  return moment(postDate).format('lll')
-}
 
 
 // const isCommentValid = computed(() => {
@@ -256,6 +230,14 @@ const formatDatePost = (postDate) => {
     }
   }
 }
+.bubbledeleteComment {
+  // position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: -12px auto auto -12px;
+  z-index: 150;
+}
+
 .hidebox {
   display: none;
 }

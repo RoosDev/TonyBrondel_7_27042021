@@ -27,8 +27,6 @@ const multer = require("../middlewares/multer_configPosts");
     router.get("/:id", [authJwt.verifyToken], feedGetCtrl.getOneFeed);
     // Liste de tous les commentaires d'un post
     router.get("/:id/comment", [authJwt.verifyToken], feedGetCtrl.getAllComments);
-    // Obtention des likes d'un post
-    // router.get("/:id/like", [authJwt.verifyToken], feedGetCtrl.getLikesPost);
     // Obtention du nombre de like
     // router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
     // Obtention de la liste des différents types de like
@@ -47,6 +45,8 @@ const multer = require("../middlewares/multer_configPosts");
     // // Liste des routes pour supprimer quelque chose :
     //     // Suppression d'un post dans le feed
     router.delete("/:id", [authJwt.verifyToken,(authJwt.isRessourceOwner || authJwt.isAdmin)], feedDropCtrl.deleteOnePost);
+    //     // Suppression d'un commentaire dans le feed
+    router.delete("/:id/comment", [authJwt.verifyToken,(authJwt.isRessourceOwner || authJwt.isAdmin)], feedDropCtrl.deleteOnePost);
     //     // Suppression d'un like
     // router.delete("/:id/like",  [authJwt.verifyToken, authJwt.isRessourceOwner, authJwt.isAdmin], feedDropCtrl.deleteOneLike);
 
