@@ -37,21 +37,19 @@ const deleteMyProfile = () => {
   const deleteProfileButton = document.querySelector('#deleteProfileButton') as HTMLButtonElement;
 
   myStore.dispatch("deleteProfileAdmin", {id: props.TheIdGetOut})
-    .then(() => {
+    .then((data) => {
       deleteProfileButton.textContent = 'envoi en-cours ...';
-      setTimeout(() => {
         msgProfileAfterSent.classList.remove("nokSent");
         msgProfileAfterSent.classList.add("okSent");
         msgProfileAfterSent.innerHTML = '<p>Profil Supprimé</p>';
         msgProfileAfterSent.classList.toggle("hidebox");
         deleteProfileButton.textContent = 'Au revoir';
-      }, 1500)
     })
     .then((data) => {
       setTimeout(() => {
         msgProfileAfterSent.classList.toggle("hidebox");
         myRouter.go('');
-      }, 3000);
+      }, 1000);
       console.log('Profil supprimé :(');
     }),
 

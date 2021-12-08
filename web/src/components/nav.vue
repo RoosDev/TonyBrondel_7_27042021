@@ -1,6 +1,6 @@
 <template>
-    <nav class="col-xl-6">
-        <router-link to="/Home" class="col-xl-6 navLink">
+    <nav class="col-10">
+        <router-link to="/Home" class="col-6 navLink">
             <div class="sizeSvg">
                 <svg
                     fill="none"
@@ -20,7 +20,7 @@
                 <p>News</p>
             </div>
         </router-link>
-        <router-link to="/Profile" class="col-md-6 navLink">
+        <router-link to="/Profile" class="col-6 navLink">
             <div class="sizeSvg">
                 <svg fill="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -34,7 +34,7 @@
                 <p>Mon profil</p>
             </div>
         </router-link>
-        <router-link to="/Admin" class="col-md-6 navLink">
+        <router-link to="/Admin" class="col-6 navLink">
             <div class="sizeSvg">
                 <svg fill="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -47,7 +47,7 @@
                 <p v-else>Annuaire</p>
             </div>
         </router-link>
-        <a @click.prevent="logOut" class="col-md-6 navLink">
+        <a @click.prevent="logOut" class="col-6 navLink">
             <div class="sizeSvg">
                 <svg
                     fill="none"
@@ -91,16 +91,18 @@ const logOut = () => {
 @import "../scss/variables.scss";
 
 nav {
-    height: 90%;
+    height: 25vh;
+    margin-top : 100px;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+    align-items: flex-start;
     margin-right: auto;
     margin-left: auto;
     a {
         color: $groupo-color4;
         border: 1px solid transparent;
+        margin: 0;
 
         &:hover {
             text-decoration: wavy;
@@ -114,7 +116,7 @@ nav {
         flex-flow: row wrap;
         justify-content: center;
         align-items: center;
-        margin: 1px 1px 5px 1px;
+        margin: 0;
         text-decoration: none;
         font-size: 1.1em;
         text-align: center;

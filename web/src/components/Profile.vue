@@ -22,11 +22,12 @@
     <div id="profileDetails" class="col-12 col-sm-11 col-md-10 col-lg-9">
       <div id="profilPicture" class="col-7 col-sm-6 col-md-5 col-lg-4">
         <img
+          class='imgProfilDetail'
           v-if="!userDetail.photo_URL"
           src="../../public/Public_Images/Profile/user.png"
           alt="Photo de profil"
         />
-        <img v-else :src="userDetail.photo_URL" alt="Photo de profil" />
+        <img class='imgProfilDetail' v-else :src="userDetail.photo_URL" alt="Photo de profil" />
       </div>
       <div id="profilText" class="col-10">
         <div id="profilTextName">
@@ -144,7 +145,7 @@ if(!storeCurrentUser.value){
       font-weight: bold;
       text-decoration: underline;
       color: $groupo-color1;
-      margin-left: 0;
+      margin-left: 20px;
       text-align: left;
     }
 
@@ -191,15 +192,16 @@ if(!storeCurrentUser.value){
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-    height: 250px;
+    height: 300px;
     border: 2px solid $groupo-color1;
     border-radius: 15px;
     background-color: $groupo-color4;
     margin-top: -150px;
     z-index: 20;
 
-    img {
-      width: 75%;
+    .imgProfilDetail {
+      max-width: 85%;
+      max-height: 85%;
       border: 0;
       margin: auto;
       border-radius: 50%;

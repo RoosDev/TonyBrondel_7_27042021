@@ -47,15 +47,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import UploadService from "../services/UploadFilesService";
-import store from "../store/index";
+import store from '../store/index';
+import { useRouter } from "vue-router";
 
+const myRouter: any = useRouter();
 
+// Déclaration des variables réactives pour l'upload
 let activeButtonProfile = ref(false);
 let currentImage: (any) = ref('');
 let myFileName: (any) = ref()
 let previewImage = ref('');
 let progress = ref(0);
 let message = ref("");
+
 
 const selectImage = () => {
   let myFile = (document.querySelector('#myFile') as HTMLInputElement).files!;
@@ -66,6 +70,8 @@ const selectImage = () => {
   progress.value = 0;
   message.value = "";
 };
+
+
 const upload = () => {
   progress.value = 0;
   const messageUploadImg = document.querySelector('#uploadImgMessage')! as HTMLDivElement;
@@ -93,6 +99,7 @@ const upload = () => {
       setTimeout(() => {
         messageUploadImg.classList.toggle("hidebox");
         store.commit('SETFEEDLIST');
+        myRouter.go('');
 
       }, 2500);
     })

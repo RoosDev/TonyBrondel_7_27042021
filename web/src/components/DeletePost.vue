@@ -44,7 +44,7 @@ const deleteMyPost = () => {
         messageAfterDelete.classList.toggle("hidebox");
         console.log('yep c est delete')
         store.commit('SETFEEDLIST');
-        // myRouter.go('');
+        myRouter.go('');
       }, 3000);
     })
     .catch(err => {

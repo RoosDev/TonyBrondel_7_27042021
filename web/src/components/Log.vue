@@ -37,7 +37,7 @@
           <span v-show="loading" class="spinner-border spinner-border-sm"></span>
           <span>Se connecter</span>
         </button>
-        <div id="alertBox" v-if="message" class="alert alert-danger" role="alert">{{ message }}</div>
+        <div id="alertBox"></div>
       </div>
     </Form>
   </div>
@@ -52,9 +52,6 @@ import * as yup from "yup";
 const myStore: any = store;
 const myRouter: any = useRouter();
 
-let loading: any = ref(false);
-let message: any = ref('');
-
 // fonction de login
 const loggedIn = computed(() => myStore.state.auth.status.loggedIn)
 if (loggedIn.value) {
@@ -68,21 +65,16 @@ const schema = yup.object().shape({
 
 // envoi des données pour se logger
 const handleLogin = (user) => {
-  loading = true;
+    let alertBox = document.querySelector('#alertBox') as HTMLButtonElement;
+
   myStore.dispatch("auth/login", user)
     .then(() => {
+      alertBox.innerHTML = `<svg class="w-6 h-6 svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`
       myRouter.push('/Home');
     },
       (error) => {
         console.log('response error >> ', error)
-        loading = false;
-        console.log(error)
-        message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        alertBox.innerHTML = `Il semble qu'il y ait un problème.`
       }
     );
 }

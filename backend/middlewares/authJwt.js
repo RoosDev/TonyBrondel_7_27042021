@@ -106,23 +106,24 @@ isManager = (req, res, next) => {
   console.log("Voyons si ce user est Manager");
   let tokenRole = req.headers["x-role-token"];
   jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {
-    // console.log("decod role >> ", decod);
+    console.log("decod role >> ", decod);
   });
   User.findOne({
     where: { email_Crypt: req.email },
   }).then((user) => {
     req.userId = user.id;
     req.role = user.role_Id;
-    // console.log("req id manager >> ", req.userId);
-    // console.log("req email manager >> ", req.email);
-    // console.log("role manager>> ", user.role_Id);
+    console.log("req id manager >> ", req.userId);
+    console.log("req email manager >> ", req.email);
+    console.log("role manager>> ", user.role_Id);
     if (user.role_Id == 2) {
       res.status(200);
       next();
       return user.role_Id;
     } else {
+      console.log( "Statut de manager obligatoire")
       res.status(403).send({
-        message: "Require Moderator Role!",
+        message: "Statut de manager obligatoire",
       });
     }
   });

@@ -119,14 +119,12 @@ export const usersBase = {
         usertoDelete.accessToken == null ||
         usertoDelete.roleToken == null
       ) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = usertoDelete.id),
           (myHead.accessToken = usertoDelete.accessToken),
           (myHead.roleToken = usertoDelete.roleToken);
       }
-      console.log("userDetail>>", usertoDelete);
       await axios
         .put(
           API_User_URL + "Admin/profile/getouts/" + usertoDelete.id,
@@ -148,12 +146,10 @@ export const usersBase = {
 
     // Utilisation du Store pour changer son rôle
     async changeRole({ commit }: { commit: any }, usertoChange) {
-      console.log('usertoChange >> ', usertoChange)
       if (
         usertoChange.accessToken == null ||
         usertoChange.roleToken == null
       ) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = usertoChange.id),

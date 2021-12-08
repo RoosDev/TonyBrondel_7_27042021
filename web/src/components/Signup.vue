@@ -13,11 +13,17 @@
         <div v-if="!successful" class="col-12">
           <div id="signupLogin" class="col-12">
             <label for="email" class="col-12">Votre adresse email : *</label>
-            <Field name="email" type="text" autocomplete="email" class="form-control col-12" value="tony@groupo.fr" />
+            <Field
+              name="email"
+              type="text"
+              autocomplete="email"
+              class="form-control col-12"
+              value="tony@groupo.fr"
+            />
           </div>
           <ErrorMessage name="email" class="error-feedback col-12" />
-          <div id="signupPassword" class=" col-12">
-            <label for="password" class=" col-12">Votre mot de passe : *</label>
+          <div id="signupPassword" class="col-12">
+            <label for="password" class="col-12">Votre mot de passe : *</label>
             <Field
               name="password"
               type="password"
@@ -27,25 +33,25 @@
             />
           </div>
           <ErrorMessage name="newPass" class="error-feedback col-12" />
-          <div id="signupfirstname" class=" col-12">
-            <label for="firstname" class=" col-12">Votre prénom : *</label>
+          <div id="signupfirstname" class="col-12">
+            <label for="firstname" class="col-12">Votre prénom : *</label>
             <Field name="firstname" type="text" class="form-control col-12" value="Paul" />
           </div>
           <ErrorMessage name="firstname" class="error-feedback col-12" />
-          <div id="signupLastName" class=" col-12">
-            <label for="LastName" class=" col-12">Votre nom de famille : *</label>
+          <div id="signupLastName" class="col-12">
+            <label for="LastName" class="col-12">Votre nom de famille : *</label>
             <Field name="lastname" type="text" class="form-control col-12" value="Pote" />
           </div>
           <ErrorMessage name="lastname" class="error-feedback col-12" />
-          <div id="signupjob" class=" col-12">
-            <label for="job" class=" col-12">Votre poste : *</label>
+          <div id="signupjob" class="col-12">
+            <label for="job" class="col-12">Votre poste : *</label>
             <Field name="job" type="text" class="form-control col-12" value="no sabe" />
           </div>
           <ErrorMessage name="job" class="error-feedback col-12" />
-          <div id="signupdivision" class=" col-12">
-            <label for="division" class=" col-12">Votre division : *</label>
+          <div id="signupdivision" class="col-12">
+            <label for="division" class="col-12">Votre division : *</label>
             <br />
-            <Field id="selectdivision" name="division" as="select" class=" col-12">
+            <Field id="selectdivision" name="division" as="select" class="col-12">
               <option value="ERR" disabled>Sélectionnez la division</option>
               <option value="Achats" selected>Achats</option>
               <option value="Deploiement">Deploiement</option>
@@ -59,25 +65,18 @@
             </Field>
           </div>
           <ErrorMessage name="division" class="error-feedback col-12" />
-          <div id="signupButtonMsg" class=" col-12">
+          <div id="signupButtonMsg" class="col-12">
             <button type="submit" class="btn btn-block" @click="sendButton">
-              <!-- <span v-show="loading" class="spinner-border spinner-border-sm"></span> -->
-              <span class=" col-12">S'inscrire</span>
+              <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+              <span class="col-12">S'inscrire</span>
             </button>
           </div>
         </div>
       </Form>
     </div>
     <div id="signupEnd" class="col-12 d-none">
-      <div id="iconSendSignup" class="col-12">
-      <div
-        id="alertBox"
-        v-if="msg"
-        class="alert col-12"
-        role="alert"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-        >Bienvenue, <br />Vous pouvez vous connecter à présent.</div>
-      </div>
+      <div id="iconSendSignup" class="col-12"></div>
+      <div id="textSendSignup"></div>
     </div>
   </div>
 </template>
@@ -122,10 +121,7 @@ const schemaSignup = yup.object().shape({
 
 // déclaration des variables
 const myStore: any = store;
-const myRouter: any = router;
 let loading: any = ref(false);
-let successful: any = false;
-let msg: any = '';
 
 // Fonction d'affichage du formulaire d'inscription
 const signButton = () => {
@@ -138,7 +134,7 @@ const signButton = () => {
 
 const sendButton = () => {
   let signupZone = document.querySelector('#signupZone') as HTMLButtonElement;
-let signupEnd = document.querySelector('#signupEnd') as HTMLButtonElement;
+  let signupEnd = document.querySelector('#signupEnd') as HTMLButtonElement;
 
   signupZone.classList.toggle('d-none')
   signupEnd.classList.toggle('d-none');
@@ -157,31 +153,21 @@ let signupEnd = document.querySelector('#signupEnd') as HTMLButtonElement;
 
 // Fonction d'envoi des données d'inscription
 const handleRegister = (user) => {
-let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElement;
+  let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElement;
+  let textSendSignup = document.querySelector('#textSendSignup') as HTMLButtonElement;
 
   myStore.dispatch("auth/register", user).then(
     (data) => {
-      console.log('data >>> ', data)
-      msg = data.message;
-      successful = true;
       loading = false;
       console.log('inscription ok !!')
-    },
-    setTimeout(() => {
-      iconSendSignup.innerHTML = `<svg class="w-6 h-6 svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
-    }, 3000),
 
+      iconSendSignup.innerHTML = `<svg class="w-6 h-6 svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`
+      textSendSignup.innerHTML = `Bienvenue, <br />Vous pouvez vous connecter à présent.`
+
+    },
     (error) => {
-      msg =
-        (error.response &&
-          error.response.data &&
-          error.response.data.msg) ||
-        error.msg ||
-        msg||
-        error.toString();
-      successful = false;
-      loading = false;
-      console.log('msg source >> ', msg)
+      textSendSignup.innerHTML = `Il semble qu'il y ait un problème. Ne seriez vous pas déja inscrit ?`
+      console.log('msg source >> ', error)
     }
   );
   // console.log('user >>', user)
@@ -258,8 +244,7 @@ let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElem
       }
     }
   }
-  #signupEnd{
-    background-color: yellowgreen;
+  #signupEnd {
     width: 100%;
     height: 100%;
     display: flex;
@@ -267,7 +252,6 @@ let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElem
     justify-content: center;
     align-items: center;
   }
-  
 
   label {
     font-size: 0.9em;
@@ -297,11 +281,19 @@ let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElem
   text-align: center;
 }
 
-.svg{
+#iconSendSignup {
+  width: 20%;
+}
+#textSendSignup{
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.svg {
   color: $groupo-color1;
   // font-size: 4.0em;
 }
-.rotate{
+.rotate {
   animation: rotation 500ms;
   animation-iteration-count: 100;
 }

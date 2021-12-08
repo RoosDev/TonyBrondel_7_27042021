@@ -2,7 +2,12 @@
   <div id="cartridge" class="cartridge">
     <div id="cartridge_Top" class="cartridge_Top">
       <div id="logo" class="logo">
-        <img id="logo_img" class="logo_img" src="../assets/logos/icon-above-font-transp.png" alt="Groupomania logo" />
+        <img
+          id="logo_img"
+          class="logo_img"
+          src="../assets/logos/icon-above-font-transp.png"
+          alt="Groupomania logo"
+        />
         <p></p>
       </div>
     </div>
@@ -13,7 +18,12 @@
         src="../../public/Public_Images/Profile/user.png"
         alt="Photo de profil"
       />
-      <img v-else id="pictureProfilDefault" class="pictureProfilMin" :src="'../../' + userDetails.photo_URL" />
+      <img
+        v-else
+        id="pictureProfilDefault"
+        class="pictureProfilMin"
+        :src="'../../' + userDetails.photo_URL"
+      />
       <p>{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
       <p>
         <em>{{ userDetails.job }}</em>
@@ -52,7 +62,6 @@ onMounted(() => {
 @import "../scss/variables.scss";
 
 @media (max-width: 1199.99px) {
-
   #cartridge {
     background: linear-gradient(
       125deg,
@@ -80,7 +89,7 @@ onMounted(() => {
 
     #logo {
       width: 90%;
-      height : 90%;
+      height: 90%;
       margin: 0;
       display: flex;
       flex-flow: row nowrap;
@@ -97,6 +106,8 @@ onMounted(() => {
   #profilBox {
     width: 30%;
     height: 90%;
+    min-height: 90%;
+    max-height: 90%;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
@@ -106,7 +117,8 @@ onMounted(() => {
     margin: auto;
 
     .pictureProfilMin {
-      width: 30%;
+      max-width: 30%;
+      max-height: 30%;
       margin: 0 auto 10px auto;
       border-radius: 50%;
     }
@@ -116,23 +128,21 @@ onMounted(() => {
     }
   }
   #cartridge_Bottom {
-  width: 40%;
-  height: 100%;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  margin: auto;
-}
-
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: auto;
+  }
 }
 
 @media (max-width: 767.99px) {
-#profilBox {
-  display : none;
+  #profilBox {
+    display: none;
+  }
 }
-}
-
 
 #cartridge {
   background-color: $groupo-colorLight2;
@@ -169,14 +179,17 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   width: 65%;
-  height: 200px;
+  height: 20%;
+  min-height: 300px;
+  max-height: 400px;
   border-radius: 15px;
   background-color: $color-white;
-  margin: -150px auto auto auto;
+  margin: -150px auto 35px auto;
   z-index: 50;
 
   .pictureProfilMin {
-    width: 30%;
+    max-width: 50%;
+    max-height: 50%;
     margin: 0 auto 10px auto;
     border-radius: 50%;
   }
@@ -193,6 +206,6 @@ onMounted(() => {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  margin: -25px auto 0 auto;
+  margin: -155px auto 0 auto;
 }
 </style>

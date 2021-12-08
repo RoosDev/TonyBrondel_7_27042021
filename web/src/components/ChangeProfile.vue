@@ -12,12 +12,23 @@
 
         <div id="signupLogin">
           <label for="email">Votre adresse email : *</label>
-          <Field name="email" type="text" autocomplete="email" class="form-control" :value="oldUserDetail.email" />
+          <Field
+            name="email"
+            type="text"
+            autocomplete="email"
+            class="form-control"
+            :value="oldUserDetail.email"
+          />
         </div>
         <ErrorMessage name="email" class="error-feedback" />
         <div id="signupfirstname">
           <label for="firstname">Votre prénom : *</label>
-          <Field name="firstname" type="text" class="form-control" :value="oldUserDetail.firstname" />
+          <Field
+            name="firstname"
+            type="text"
+            class="form-control"
+            :value="oldUserDetail.firstname"
+          />
         </div>
         <ErrorMessage name="firstname" class="error-feedback" />
         <div id="signupLastName">
@@ -36,7 +47,10 @@
           <Field id="selectdivision" as="select" name="division">
             <option value="ERR" disabled>Sélectionnez la division</option>
             <option value="Achats" :selected="oldUserDetail.division == 'Achats'">Achats</option>
-            <option value="Deploiement" :selected="oldUserDetail.division == 'Deploiement'">Deploiement</option>
+            <option
+              value="Deploiement"
+              :selected="oldUserDetail.division == 'Deploiement'"
+            >Deploiement</option>
             <option value="Direction" :selected="oldUserDetail.division == 'Direction'">Direction</option>
             <option value="Finance" :selected="oldUserDetail.division == 'Finance'">Finance</option>
             <option value="Foncier" :selected="oldUserDetail.division == 'Foncier'">Foncier</option>
@@ -50,11 +64,7 @@
 
         <div id="cleanZone"></div>
         <div id="divsendProfileButton">
-          <button
-            id="sendProfileButton"
-            class="col-9"
-            type="submit"
-          >Enregistrer</button>
+          <button id="sendProfileButton" class="col-9" type="submit">Enregistrer</button>
         </div>
       </div>
     </Form>
@@ -103,26 +113,30 @@ let oldUserDetail = computed(() => store.getters.currentUser)
 const sendMyNewProfile = (userDetail) => {
   const msgProfileAfterSent = document.querySelector('#msgProfileSent') as HTMLDivElement;
   const sendProfileButton = document.querySelector('#sendProfileButton') as HTMLButtonElement;
-
-  console.log(userDetail)
+  
   myStore.dispatch("changeProfile", userDetail)
     .then((data) => {
-        sendProfileButton.textContent = 'envoi en-cours ...';
-            msgProfileAfterSent.classList.remove("nokSent");
-            msgProfileAfterSent.classList.add("okSent");
-            msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
-            msgProfileAfterSent.classList.toggle("hidebox");
-            sendProfileButton.textContent = 'Enregistré';
-          console.log('Profil à jour ;)',);
+      sendProfileButton.textContent = 'envoi en-cours ...';
+      msgProfileAfterSent.classList.remove("nokSent");
+      msgProfileAfterSent.classList.add("okSent");
+      msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
+      msgProfileAfterSent.classList.toggle("hidebox");
+      sendProfileButton.textContent = 'Enregistré';
+      setTimeout(() => {
+        msgProfileAfterSent.classList.toggle("hidebox");
+        sendProfileButton.textContent = 'Enregistrer';
+      }, 4000)
+
+
     }),
 
-      (error) => {
-        msgProfileAfterSent.classList.toggle("hidebox");
-        msgProfileAfterSent.classList.remove("okSent");
-        msgProfileAfterSent.classList.add("nokSent");
-        msgProfileAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-        console.error("There was an error!", error);
-      }
+    (error) => {
+      msgProfileAfterSent.classList.toggle("hidebox");
+      msgProfileAfterSent.classList.remove("okSent");
+      msgProfileAfterSent.classList.add("nokSent");
+      msgProfileAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      console.error("There was an error!", error);
+    }
 }
 
 </script>

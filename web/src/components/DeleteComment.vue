@@ -15,8 +15,10 @@
 
 <script setup lang="ts">
 import store from '../store/index';
+import { useRouter } from "vue-router";
 
 const myStore: any = store;
+const myRouter: any = useRouter();
 
 const props = defineProps<{
   commentId: number,
@@ -42,8 +44,8 @@ console.log('comment suppr : ', props.commentId)
       messageAfterDelete.innerHTML = '<p>Message supprimé avec succès.</p>';
       sendButton.textContent = 'supprimé';
       messageAfterDelete.classList.toggle("hidebox");
-      // store.commit('SETFEEDLIST');
-      console.log('Post delete ;)')
+      store.commit('SETFEEDLIST');
+      myRouter.go('');
     })
     .catch(err => {
       sendButton.setAttribute("disabled", "");

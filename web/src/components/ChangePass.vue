@@ -77,8 +77,9 @@ const sendMyNewPass = (user) => {
   const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
 
   if (user.password == user.password2) {
-
-    myStore.dispatch("auth/changePass", user)
+// lancement de la modification du mot de passe
+    myStore.dispatch("changePass", user)
+    // ça fonctionne 
       .then((data) => {
         sendButton.textContent = 'envoi en-cours ...',
           setTimeout(() => {
@@ -89,14 +90,14 @@ const sendMyNewPass = (user) => {
             inputPass.value = '';
             inputPass2.value = '';
             sendButton.textContent = 'Envoyé';
-          }, 1500);
+          }, 100);
         setTimeout(() => {
           messageAfterSent.classList.toggle("hidebox");
           myStore.dispatch('auth/logout');
-          myRouter.push('');
-        }, 3000);
-          console.log('Mot de passe ok ;)')
+          myRouter.go('');
+        }, 2000);
       }),
+    // ça ne fonctionne pas 
       (error) => {
         messageAfterSent.classList.toggle("hidebox");
         messageAfterSent.classList.remove("okSent");
