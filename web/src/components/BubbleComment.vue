@@ -1,12 +1,8 @@
 <template>
-    <!-- <div
-        id="commentBubble"
-        class="col-12"
-    >-->
     <div
         :id="'bubbledeleteComment_' + props.theComment.id"
         class="bubbledeleteComment"
-        v-if="currentUserId == props.theComment.authorComment.id || myRole == 'okAGo'"
+        v-if="currentUserStore.id == props.theComment.authorComment.id || myRole == 'okAGo'"
     >
         <font-awesome-icon
             id="closeModalAwesome"
@@ -25,7 +21,6 @@
             <DeleteComment :commentId="props.theComment.id" :commentContent="props.theComment.content" />
         </div>
     </Modal>
-    <!-- </div> -->
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
@@ -42,7 +37,7 @@ const props = defineProps <{
 }>()
 
 // Définition de l'ID utilisateur (avec le localstorage)
-const currentUserId = computed(() => myStore.getters.theUserId);
+const currentUserStore = computed(() => myStore.state.auth.user);
 const currentUser = JSON.parse(localStorage.getItem("user")!);
 const myRole = currentUser.canOrNot!;
 

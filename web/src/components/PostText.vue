@@ -73,7 +73,7 @@ const sendMyPost = () => {
       setTimeout(() => {
         messageAfterSent.classList.toggle("hidebox");
         store.commit('SETFEEDLIST');
-        // myRouter.go('');
+        myRouter.go('');
       }, 2500);
     })
     .catch(error => {

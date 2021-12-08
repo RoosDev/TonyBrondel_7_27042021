@@ -13,9 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
+import store from '../store/index';
 import { useRouter } from "vue-router";
 
+const myStore: any = store;
 const myRouter: any = useRouter();
 
 const props = defineProps<{
@@ -25,9 +26,8 @@ const props = defineProps<{
 const deleteMyImage = () => {
   const messageAfterDelete = document.querySelector('#messageFormDeleteImage') as HTMLDivElement;
   const sendButton = document.querySelector('#confirmDeleteImage') as HTMLButtonElement;
-  const urlApi = "http://localhost:3001/api/feed/" + props.postId;
 
-  axios.delete(urlApi)
+myStore.dispatch("deletePost", props.postId)
     .then((res) => {
       sendButton.textContent = 'Suppression en-cours...';
       sendButton.setAttribute("disabled", "");
@@ -37,12 +37,11 @@ const deleteMyImage = () => {
         messageAfterDelete.classList.add("okSent");
         messageAfterDelete.innerHTML = '<p>Message supprimé avec succès.</p>';
         sendButton.textContent = 'supprimé';
-      }, 1500);
+      }, 1000);
       setTimeout(() => {
         messageAfterDelete.classList.toggle("hidebox");
         myRouter.go('');
-      }, 3000);
-      console.log('Post en ligne ;)' + res)
+      }, 2000);
     })
     .catch(err => {
       sendButton.setAttribute("disabled", "");

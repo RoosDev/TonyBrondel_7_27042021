@@ -27,6 +27,8 @@ const multer = require("../middlewares/multer_configPosts");
     router.get("/:id", [authJwt.verifyToken], feedGetCtrl.getOneFeed);
     // Liste de tous les commentaires d'un post
     router.get("/:id/comment", [authJwt.verifyToken], feedGetCtrl.getAllComments);
+    // Liste de tous les commentaires d'un post
+    // router.get("/comments", feedGetCtrl.gettheCommentsFeed);
     // Obtention du nombre de like
     // router.get("/countlikes", [authJwt.verifyToken], feedGetCtrl.countLikesPost);
     // Obtention de la liste des différents types de like

@@ -129,6 +129,18 @@ exports.getAllComments = ( async(req, res, next) => {
   }
 });
 
+// Sélection des commentaires qui son attachés à un post
+// exports.gettheCommentsFeed = ( async(req, res, next) => {
+//   console.log('recherche des commentaires')
+//   try{
+//     const data = await modelCommentList.findAll({include: ["authorComment"], where: {reference: {[Op.ne]: null} }, order: [['updatedAt', 'ASC']] }) 
+//     console.log('req data > ', data)
+//     return res.send( { data } );
+//   }catch(err){
+//     return res.status(500).json({message: "getAllComments : Une erreur s'est produite.", details: err});
+//   }
+// });
+
 // Sélection de l'ensemble des likes d un post
 // exports.getLikesPost = ( async(req, res, next) => {
 //   try{

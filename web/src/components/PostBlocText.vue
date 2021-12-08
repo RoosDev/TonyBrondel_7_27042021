@@ -4,8 +4,18 @@
       <div id="timeLikeMenuZone" class="col-12">
         <span id="timePost">
           <p>
-            <img id="pictureAuthor" v-if="!props.theAuthor.photo_URL"  src="../assets/user-male.png" alt="Profil Picture" />
-            <img id="pictureAuthorReal" v-else :src="'../../'+props.theAuthor.photo_URL" alt="Profil Picture" />
+            <img
+              id="pictureAuthor"
+              v-if="!props.theAuthor.photo_URL"
+              src="../assets/user-male.png"
+              alt="Profil Picture"
+            />
+            <img
+              id="pictureAuthorReal"
+              v-else
+              :src="'../../' + props.theAuthor.photo_URL"
+              alt="Profil Picture"
+            />
             {{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }} - le {{ formatDatePost(props.theDate) }}
           </p>
         </span>
@@ -15,10 +25,11 @@
             class="openMenuPostText"
             @click="toggleMenuPost()"
           >•••</button>
-          <div :id="menuDevelopChangePostText" class="menuPostDevelop hidebox">
+          <div :id="menuDevelopChangePostText" class="menuPostDevelopTxt hidebox">
             <button
-              :id="buttonChangePostText"
+              :id="buttonChangePostText"              
               class="menuPost_Change"
+              v-if="currentUser.id == props.theAuthor.id"
               @click="toggleModal_ChangePost(), toggleMenuPost()"
             >
               <p>Modifier</p>
@@ -153,7 +164,7 @@ const toggleMenuPost = () => {
         img {
           width: 50px;
         }
-        #pictureAuthorReal{
+        #pictureAuthorReal {
           border-radius: 50%;
         }
       }
@@ -169,41 +180,36 @@ const toggleMenuPost = () => {
         }
       }
 
-      .menuPostDevelop {
-        // #menuPostDevelop{
+      .menuPostDevelopTxt {
         position: absolute;
         width: 200px;
-        height: 90px;
         border-radius: 10px;
         box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
         background-color: #fff;
         z-index: 100;
+      }
 
-        .menuPost_Delete,
+      .menuPost_Delete,
+      .menuPost_Change {
+        display: block;
+        border: 0;
+        background-color: #fff;
+        width: 100%;
+        height: 50%;
+
         .menuPost_Change {
-          display: block;
-          border: 0;
-          background-color: #fff;
-          width: 100%;
-          height: 50%;
-          
+          border-radius: 10px 10px 0 0;
+        }
+        .menuPost_Delete {
+          border-radius: 0 0 10px 10px;
+        }
 
-          .menuPost_Change {
-            // #menuPost_Change {
-            border-radius: 10px 10px 0 0;
-          }
-          .menuPost_Delete {
-            // #menuPost_Delete {
-            border-radius: 0 0 10px 10px;
-          }
-
-          &:hover {
-            background-color: rgba($groupo-color1, 0.1);
-          }
-          p {
-            font-size: 1.1em;
-            padding: 5px;
-          }
+        &:hover {
+          background-color: rgba($groupo-color1, 0.1);
+        }
+        p {
+          font-size: 1.1em;
+          padding: 5px;
         }
       }
 
@@ -272,22 +278,19 @@ const toggleMenuPost = () => {
       justify-content: center;
       align-items: center;
 
-
-
       #PostZone {
         display: flex;
         height: 350px;
         line-height: 100%;
         margin: 0;
 
-         #thePostText {
+        #thePostText {
           max-height: 300px;
         }
       }
-      #commentZone{
+      #commentZone {
         display: flex;
         height: 400px;
-
       }
     }
 

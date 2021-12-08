@@ -13,10 +13,10 @@
         </span>
         <span id="menuPost" v-if="currentUser.id == props.theAuthor.id || myRole == 'okAGo'">
           <button :id="buttonDeleteImage" class="openMenuImage" @click="toggleMenuImage()">•••</button>
-          <div :id="menuDevelopChangeImage" class="menuPostDevelop hidebox">
+          <div :id="menuDevelopChangeImage" class="menuPostDevelopImg hidebox">
             <button
               :id="buttonDelete"
-              class="menuPost_Delete"
+              class="menuPost_DeleteImg"
               @click="toggleModal_DeleteImg(); toggleMenuImage()"
             >
               <p>Supprimer</p>
@@ -148,7 +148,33 @@ const toggleMenuImage = () => {
         }
       }
 
-   
+    .menuPostDevelopImg{
+        position: absolute;
+        width: 200px;
+        height: 45px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
+        background-color: #fff;
+        z-index: 100;
+
+    }
+      .menuPost_DeleteImg {
+        display: block;
+        border: 0;
+        background-color: #fff;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+
+        &:hover {
+          background-color: rgba($groupo-color1, 0.1);
+        }
+        p {
+          font-size: 1.1em;
+          padding: 5px;
+        }
+      }
+
 
       #menuDevelopChangeImage{
         height: 45px;
@@ -190,8 +216,9 @@ const toggleMenuImage = () => {
         
 
         #theImageOfThePost{
-          max-width: 100%;
-          max-height: 100%;
+          max-width: 98%;
+          max-height: 98%;
+          border-radius: 15px;
         }
       }
     }

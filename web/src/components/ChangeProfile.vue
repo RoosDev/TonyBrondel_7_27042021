@@ -8,26 +8,26 @@
       <div id="changeProfileContent">
         <h2>Modification de votre profil</h2>
         <Field name="id" type="hidden" :value="props.id" />
-        <Field name="photo_URL" type="hidden" :value="props.photo_URL" />
+        <Field name="photo_URL" type="hidden" :value="oldUserDetail.photo_URL" />
 
         <div id="signupLogin">
           <label for="email">Votre adresse email : *</label>
-          <Field name="email" type="text" autocomplete="email" class="form-control" :value="props.email" />
+          <Field name="email" type="text" autocomplete="email" class="form-control" :value="oldUserDetail.email" />
         </div>
         <ErrorMessage name="email" class="error-feedback" />
         <div id="signupfirstname">
           <label for="firstname">Votre prénom : *</label>
-          <Field name="firstname" type="text" class="form-control" :value="props.firstname" />
+          <Field name="firstname" type="text" class="form-control" :value="oldUserDetail.firstname" />
         </div>
         <ErrorMessage name="firstname" class="error-feedback" />
         <div id="signupLastName">
           <label for="LastName">Votre nom de famille : *</label>
-          <Field name="lastname" type="text" class="form-control" :value="props.lastname" />
+          <Field name="lastname" type="text" class="form-control" :value="oldUserDetail.lastname" />
         </div>
         <ErrorMessage name="lastname" class="error-feedback" />
         <div id="signupjob">
           <label for="job">Votre poste : *</label>
-          <Field name="job" type="text" class="form-control" :value="props.job" />
+          <Field name="job" type="text" class="form-control" :value="oldUserDetail.job" />
         </div>
         <ErrorMessage name="job" class="error-feedback" />
         <div id="signupdivision">
@@ -35,15 +35,15 @@
           <br />
           <Field id="selectdivision" as="select" name="division">
             <option value="ERR" disabled>Sélectionnez la division</option>
-            <option value="Achats">Achats</option>
-            <option value="Deploiement">Deploiement</option>
-            <option value="Direction" :selected="props.division == 'Direction'">Direction</option>
-            <option value="Finance" :selected="props.division == 'Finance'">Finance</option>
-            <option value="Foncier">Foncier</option>
-            <option value="Franchise">Franchise</option>
-            <option value="Logistique">Logistique</option>
-            <option value="Marketing">Marketing</option>
-            <option value="RH">RH</option>
+            <option value="Achats" :selected="oldUserDetail.division == 'Achats'">Achats</option>
+            <option value="Deploiement" :selected="oldUserDetail.division == 'Deploiement'">Deploiement</option>
+            <option value="Direction" :selected="oldUserDetail.division == 'Direction'">Direction</option>
+            <option value="Finance" :selected="oldUserDetail.division == 'Finance'">Finance</option>
+            <option value="Foncier" :selected="oldUserDetail.division == 'Foncier'">Foncier</option>
+            <option value="Franchise" :selected="oldUserDetail.division == 'Franchise'">Franchise</option>
+            <option value="Logistique" :selected="oldUserDetail.division == 'Logistique'">Logistique</option>
+            <option value="Marketing" :selected="oldUserDetail.division == 'Marketing'">Marketing</option>
+            <option value="RH" :selected="oldUserDetail.division == 'RH'">RH</option>
           </Field>
         </div>
         <ErrorMessage name="division" class="error-feedback" />
@@ -62,6 +62,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed } from 'vue';
 import store from '../store/index';
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -94,14 +95,9 @@ const schemaChangeProfile = yup.object().shape({
 
 const props = defineProps<{
   id: number,
-  firstname: string,
-  lastname: string,
-  email: string,
-  job: string,
-  division: string, 
-  photo_URL: string
 }>()
 
+let oldUserDetail = computed(() => store.getters.currentUser)
 
 // Fonction d'enregistrement du nouveau mot de passe
 const sendMyNewProfile = (userDetail) => {

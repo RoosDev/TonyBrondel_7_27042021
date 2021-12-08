@@ -3,10 +3,7 @@ import axios from "axios";
 let myHead = { id: "", accessToken: "", roleToken: "" };
 const API_User_URL = "http://localhost:3001/api/auth/";
 
-
 export const usersBase = {
-
-
 
   state: {
     userDetail: [],
@@ -33,9 +30,10 @@ export const usersBase = {
         },
         {
           headers: {
-            "x-access-token": user.accessToken!,
-            "x-role-token": user.roleToken!,
-          },
+            "x-access-token": myHead.accessToken,
+            "x-role-token": myHead.roleToken,
+            "id": myHead.id,
+        },
         }
       )        .then((theUsers: any) => {
         commit("SETUSERDETAIL", theUsers.data.data);
@@ -70,8 +68,9 @@ export const usersBase = {
           dataProfile,
           {
             headers: {
-              "x-access-token": myHead.accessToken!,
-              "x-role-token": myHead.roleToken!,
+              "x-access-token": myHead.accessToken,
+              "x-role-token": myHead.roleToken,
+              "id": myHead.id,
             },
           }
         )
@@ -103,8 +102,9 @@ export const usersBase = {
           },
           {
             headers: {
-              "x-access-token": myHead.accessToken!,
-              "x-role-token": myHead.roleToken!,
+              "x-access-token": myHead.accessToken,
+              "x-role-token": myHead.roleToken,
+              "id": myHead.id,
             },
           }
         )
@@ -135,8 +135,9 @@ export const usersBase = {
           },
           {
             headers: {
-              "x-access-token": myHead.accessToken!,
-              "x-role-token": myHead.roleToken!,
+              "x-access-token": myHead.accessToken,
+              "x-role-token": myHead.roleToken,
+              "id": myHead.id,
             },
           }
         )
@@ -169,8 +170,9 @@ export const usersBase = {
           },
           {
             headers: {
-              "x-access-token": myHead.accessToken!,
-              "x-role-token": myHead.roleToken!,
+              "x-access-token": myHead.accessToken,
+              "x-role-token": myHead.roleToken,
+              "id": myHead.id,
             },
           }
         )
@@ -187,16 +189,23 @@ export const usersBase = {
           (myHead.accessToken = userId.accessToken),
           (myHead.roleToken = userId.roleToken);
       }
+      try{
       await axios
         .get(API_User_URL + "profile/" + userId.id, {
           headers: {
-            "x-access-token": userId.accessToken,
-            "x-role-token": userId.roleToken,
-          },
+            "x-access-token": myHead.accessToken,
+            "x-role-token": myHead.roleToken,
+            "id": myHead.id,
+        },
         })
         .then((theUser: any) => {
           commit("SETUSERDETAIL", theUser.data.data);
-        });
+        });}
+        catch{
+          (error) => {
+            console.error("affichage fiche d un user : ", error)
+          }
+        }
     },
 
     async getUsers({ commit }: { commit: any }, userId) {
@@ -212,7 +221,8 @@ export const usersBase = {
         headers: {
           "x-access-token": myHead.accessToken,
           "x-role-token": myHead.roleToken,
-        },
+          "id": myHead.id,
+    },
       })
         .then((theUsers: any) => {
           commit("SETUSERS", theUsers.data.data);

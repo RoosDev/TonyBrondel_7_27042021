@@ -7,10 +7,10 @@
         </label>
         <textarea
           name="PutContent"
-          id="PutContent"
+          :id="'PutContent'+props.postId"
           cols="65"
           rows="6"
-          :value="theContent"
+          :value="props.theContent"
           autocapitalize="sentence"
           form="putTextForm"
           maxlength="500"
@@ -43,7 +43,7 @@ const currentUser = computed(() => myStore.state.auth.user);
 
 const sendMyPut = () => {
   const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
-  const PutContent = document.querySelector('#PutContent') as HTMLTextAreaElement;
+  const PutContent = document.querySelector('#PutContent'+props.postId) as HTMLTextAreaElement;
   const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
 
   const theChangedPost = {
@@ -55,24 +55,26 @@ const sendMyPut = () => {
   };
 
   myStore.dispatch("updatePost", theChangedPost)
-    .then((res) => {
-      sendButton.textContent = 'Modification en-cours...';
-      sendButton.setAttribute("disabled", "");
-      messageAfterSent.classList.toggle("hidebox");
-      messageAfterSent.classList.remove("nokSent");
-      messageAfterSent.classList.add("okSent");
-      messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
-      messageAfterSent.classList.toggle("hidebox");
-      sendButton.textContent = 'Poster';
-    })
-    .catch(error => {
-      sendButton.setAttribute("disabled", "");
-      messageAfterSent.classList.toggle("hidebox");
-      messageAfterSent.classList.remove("okSent");
-      messageAfterSent.classList.add("nokSent");
-      messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-      console.error("There was an error!", error);
-    });
+
+  console.log(theChangedPost)
+//     .then((res) => {
+//       sendButton.textContent = 'Modification en-cours...';
+//       sendButton.setAttribute("disabled", "");
+//       messageAfterSent.classList.toggle("hidebox");
+//       messageAfterSent.classList.remove("nokSent");
+//       messageAfterSent.classList.add("okSent");
+//       messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
+//       messageAfterSent.classList.toggle("hidebox");
+//       sendButton.textContent = 'Poster';
+//     })
+//     .catch(error => {
+//       sendButton.setAttribute("disabled", "");
+//       messageAfterSent.classList.toggle("hidebox");
+//       messageAfterSent.classList.remove("okSent");
+//       messageAfterSent.classList.add("nokSent");
+//       messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+//       console.error("There was an error!", error);
+//     });
 }
 
 const isPutValid = () => {

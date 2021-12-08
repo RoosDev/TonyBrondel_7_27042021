@@ -9,9 +9,11 @@ dotenv.config();
 const MY_APP_SECRET = process.env.APP_SECRET_KEY;
 
 verifyToken = (req, res, next) => {
+  // console.log('headers : ', req.headers)
   let token = req.headers["x-access-token"];
   let tokenRole = req.headers["x-role-token"];
   if (!token && !tokenRole) {
+
     return res.status(403).send({
       message: "Pas de Token ... Pas d'accès",
     });
@@ -21,7 +23,7 @@ verifyToken = (req, res, next) => {
         return res.status(401).send({
           message: "Accès non authorisé",
         });
-      }
+      }      
       req.email = decoded.email;
       next();
     });
@@ -29,14 +31,15 @@ verifyToken = (req, res, next) => {
 
 isProfileOwner = async (req, res, next) => {
   console.log("Voyons si c est son profil");
-  User.findByPk(req.body.id).then((theProfile) => {
-    console.log('is his profile - search >> ' , theProfile)
+  // console.log('headers inside check owner  >> ' , req.headers)
+User.findByPk(req.headers.id).then((theProfile) => {
+    // console.log('is his profile - search >> ' , theProfile)
     User.findOne({
       where: { email_Crypt: req.email },
     }).then((theUserProfile) => {
-      console.log('the user s profile >>  ' , theUserProfile)
+      // console.log('the user s profile >>  ' , theUserProfile)
       if (theUserProfile.id == theProfile.id) {
-        console.log('is the same >> ' , theUserProfile.id == theProfile.id )
+        // console.log('is the same >> ' , theUserProfile.id == theProfile.id )
         res.status(200);
         next();
         return theUserProfile;
@@ -53,21 +56,20 @@ isProfileOwner = async (req, res, next) => {
 isRessourceOwner = async (req, res, next) => {
   console.log("Voyons si c est l auteur");
   modelPostCommentList.findByPk(req.params.id).then((thePost) => {
-    console.log("thePost => ", thePost);
-
-    console.log(req.email);
+    // console.log("thePost => ", thePost);
+    // console.log(req.email);
     User.findOne({
       where: { email_Crypt: req.email },
     }).then((theUserAuthor) => {
-      console.log("req id admin >> ", thePost.identity_Id);
-      console.log("id user >> ", theUserAuthor.id);
+      // console.log("req id admin >> ", thePost.identity_Id);
+      // console.log("id user >> ", theUserAuthor.id);
       if (theUserAuthor.id == thePost.identity_Id) {
-        console.log("ça y est , on a les droits et pour pas cher en plus !");
+        // console.log("ça y est , on a les droits et pour pas cher en plus !");
         res.status(200);
         next();
         return theUserAuthor.role_Id;
       } else {
-        console.log("désolé , mais on passe son chemin !!");
+        // console.log("désolé , mais on passe son chemin !!");
         res.status(403).send({
           message: "Require Admin Role!",
         });
@@ -104,7 +106,7 @@ isManager = (req, res, next) => {
   console.log("Voyons si ce user est Manager");
   let tokenRole = req.headers["x-role-token"];
   jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {
-    console.log("decod role >> ", decod);
+    // console.log("decod role >> ", decod);
   });
   User.findOne({
     where: { email_Crypt: req.email },

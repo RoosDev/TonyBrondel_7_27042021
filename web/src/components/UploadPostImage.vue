@@ -48,7 +48,9 @@
 import { onMounted, ref } from "vue";
 import UploadService from "../services/UploadFilesService";
 import store from "../store/index";
+import { useRouter } from "vue-router";
 
+const myRouter: any = useRouter();
 
 let activeButton = ref(false);
 let currentImage: (any) = ref('');
@@ -93,6 +95,7 @@ const upload = () => {
       setTimeout(() => {
         messageUploadImg.classList.toggle("hidebox");
         store.commit('SETFEEDLIST');
+        myRouter.go('');
 
       }, 2500);
     })

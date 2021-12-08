@@ -40,7 +40,10 @@ dbConnect.post_comment_list = require("../models/feed_model")(
   Sequelize
 );
 // Connexion pour le flux des commentaires
-dbConnect.comment_list = require("../models/feed_model")(sequelize, Sequelize);
+dbConnect.comment_list = require("../models/feed_model")(
+  sequelize, 
+  Sequelize
+);
 
 // Connexion pour les likes des posts
 dbConnect.posts_like = require("../models/posts_like_model")(
@@ -49,13 +52,22 @@ dbConnect.posts_like = require("../models/posts_like_model")(
 );
 
 // Connexion pour la liste des likes
-dbConnect.likes_type = require("../models/likes_model")(sequelize, Sequelize);
+dbConnect.likes_type = require("../models/likes_model")(
+  sequelize, 
+  Sequelize
+);
 
 // Connexion pour les utilisateurs
-dbConnect.users = require("../models/user_model")(sequelize, Sequelize);
+dbConnect.users = require("../models/user_model")(
+  sequelize, 
+  Sequelize
+);
 
 // Connexion pour les roles utilisateurs
-dbConnect.role = require("../models/userRoles_model")(sequelize, Sequelize);
+dbConnect.role = require("../models/userRoles_model")(
+  sequelize, 
+  Sequelize
+);
 
 dbConnect.users.belongsToMany(dbConnect.role, {
   through: "users",

@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../store/index";
-import { computed } from 'vue'; 
+import { computed } from "vue";
 import { mapMutations } from "vuex";
 const myStore: any = store;
 
@@ -25,11 +25,20 @@ class UploadFilesService {
       },
       onUploadProgress,
     });
-    
   }
 
   uploadProfileImage(file, onUploadProgress) {
-    const myHead = JSON.parse(localStorage.getItem("user")!);
+    const storeCurrentUser = computed(() => myStore.state.auth.user);
+    const storageCurrentUser = JSON.parse(localStorage.getItem("user")!);
+    let currentUser: any;
+    if (!storeCurrentUser.value) {
+      currentUser = storageCurrentUser;
+    } else {
+      currentUser = storeCurrentUser.value;
+    }
+    
+    console.log(currentUser);
+    
     const formData = new FormData();
 
     console.log(formData);
@@ -42,8 +51,9 @@ class UploadFilesService {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          "x-access-token": myHead.accessToken,
-          "x-role-token": myHead.roleToken,
+          "x-access-token": currentUser.accessToken,
+          "x-role-token": currentUser.roleToken,
+          "id": currentUser.id,
         },
         onUploadProgress,
       }

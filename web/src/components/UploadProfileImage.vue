@@ -1,14 +1,14 @@
 <template>
-  <div id="ProfileImgImg" class="col-12">
-    <div id="ProfileImgImgForm" class="row">
-      <div id="ProfileImgImgContent" class="col-8">
+  <div id="ProfileImg" class="col-12">
+    <div id="ProfileImgForm" class="row">
+      <div id="ProfileImgContent" class="col-8">
         <h2 class="uploadImageH2">Votre photo de profil</h2>
-        <label class="btn btn-default p-0" id="labelSendPicture" for="myFileProfile">
+        <label class="btn btn-default p-0" id="labelSendPicture" for="myFile">
           Sélectionner un fichier
           <input
             type="file"
             accept="image/*.jpg, image/*.jpeg, image/*.png, image/*.gif"
-            id="myFileProfile"
+            id="myFile"
             @change="selectImage"
           />
         </label>
@@ -18,34 +18,30 @@
         <button
           id="buttonSendImage"
           class="btn btn-success btn-sm float-right"
-          :disabled="!activeButtonProfImg"
+          :disabled="!activeButtonProfile"
           @click="upload"
-        >Enregistrer {{ myFileNameProfImg }}</button>
+        >Enregistrer {{ myFileName }}</button>
       </div>
     </div>
 
     <div class="progress">
       <div
-        class="progress-bar progress-bar-striped progress-bar-animated progress-bar-info progressProfImg"
+        class="progress-bar progress-bar-striped progress-bar-animated progress-bar-info"
         role="progressbar"
-        :aria-valuenow="progressProfImg"
+        :aria-valuenow="progress"
         aria-valuemin="0"
         aria-valuemax="100"
-        :style="{ width: progressProfImg + '%' }"
-      >{{ progressProfImg }}%</div>
+        :style="{ width: progress + '%' }"
+      >{{ progress }}%</div>
     </div>
 
-    <div v-if="previewProfileImage">
-      <div id="previewImgProfileImg">
-        <img id="imgPreviewProfileImg" class="preview my-3" :src="previewProfileImage" />
+    <div v-if="previewImage">
+      <div id="previewImgPost">
+        <img id="imgPreviewPost" class="preview my-3" :src="previewImage" />
       </div>
     </div>
 
-    <div
-      id="uploadImgMessage"
-      class="alert alert-secondary hidebox"
-      role="alert"
-    >{{ messageProfImg }}</div>
+    <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ message }}</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -53,50 +49,57 @@ import { onMounted, ref } from "vue";
 import UploadService from "../services/UploadFilesService";
 import store from "../store/index";
 
-let activeButtonProfImg = ref(false);
-let currentProfImage: (any) = ref('');
-let myFileNameProfImg: (any) = ref()
-let previewProfileImage = ref('');
-let progressProfImg = ref(0);
-let messageProfImg = ref("");
+
+let activeButtonProfile = ref(false);
+let currentImage: (any) = ref('');
+let myFileName: (any) = ref()
+let previewImage = ref('');
+let progress = ref(0);
+let message = ref("");
 
 const selectImage = () => {
-  let myFileProfile = (document.querySelector('#myFileProfile') as HTMLInputElement).files!;
-  activeButtonProfImg.value = true
-  currentProfImage = myFileProfile.item(0)!;
-  myFileNameProfImg = myFileProfile.item(0)!.name;
-  previewProfileImage.value = URL.createObjectURL(currentProfImage);
-  progressProfImg.value = 0;
-  messageProfImg.value = "";
+  let myFile = (document.querySelector('#myFile') as HTMLInputElement).files!;
+  activeButtonProfile.value = true
+  currentImage = myFile.item(0)!;
+  myFileName = myFile.item(0)!.name;
+  previewImage.value = URL.createObjectURL(currentImage);
+  progress.value = 0;
+  message.value = "";
 };
 const upload = () => {
-  progressProfImg.value = 0;
+  progress.value = 0;
   const messageUploadImg = document.querySelector('#uploadImgMessage')! as HTMLDivElement;
   const buttonSendImage = document.querySelector('#buttonSendImage')! as HTMLButtonElement;
 
-  UploadService.uploadProfileImage(currentProfImage, (event) => {
-    progressProfImg.value = Math.round((100 * event.loaded) / event.total);
+  UploadService.uploadProfileImage(currentImage, (event) => {
+    progress.value = Math.round((100 * event.loaded) / event.total);
   })
 
     .then((response: any) => {
-      messageProfImg = response.data.messageProfImg;
+      message = response.data.message;
       // return UploadService.getFiles();
     })
     .then((images) => {
       buttonSendImage.textContent = 'Envoi en-cours...';
       buttonSendImage.setAttribute("disabled", "");
+      setTimeout(() => {
         messageUploadImg.classList.toggle("hidebox");
         messageUploadImg.classList.remove("nokSent");
         messageUploadImg.classList.add("okSent");
         messageUploadImg.innerHTML = '<p>Image postée</p>';
         messageUploadImg.classList.toggle("hidebox");
         buttonSendImage.textContent = 'Envoyé';
+      }, 1500);
+      setTimeout(() => {
+        messageUploadImg.classList.toggle("hidebox");
         store.commit('SETFEEDLIST');
+
+      }, 2500);
     })
     .catch((err) => {
-      progressProfImg.value = 0;
-      messageProfImg.value = "Could not upload the image! " + err;
-      currentProfImage = undefined;
+      progress.value = 0;
+      message.value = "Could not upload the image! " + err;
+      currentImage = undefined;
     });
 };
 
@@ -108,43 +111,39 @@ onMounted(() => {
 <style lang="scss">
 @import "../scss/variables.scss";
 
-#ProfileImgImg {
+#ProfileImg {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
 
-  #ProfileImgImgContent {
+  #ProfileImgContent {
     width: 100%;
   }
 
-  #divButtonUpload {
-    width: 100%;
-  }
-
-  #labelSendPicture {
-    display: block;
-    width: 300px;
-    height: 60px;
-    margin: 50px auto 50px auto;
-    padding: auto;
-    background: $ValidColor1;
-    color: $color-white;
-    transition: all 0.4s;
-    cursor: pointer;
-    border: 1px solid;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 1.5em;
-
-    &:hover {
-      font-weight: bold;
-      color: $groupo-color4;
-      border: 1px solid $groupo-color1;
+    #labelSendPicture {
+      display: block;
+      width: 300px;
+      height: 60px;
+      margin: 50px auto 50px auto;
+      padding: auto;
+      background: $ValidColor1;
+      color: $color-white;
+      transition: all 0.4s;
+      cursor: pointer;
+      border: 1px solid;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.5em;
+  
+      &:hover {
+        font-weight: bold;
+        color: $groupo-color4;
+        border: 1px solid $groupo-color1;
+      }
     }
-  }
 
-  #myFileProfile {
+  #myFile {
     display: block;
     width: 225px;
     top: 0;
@@ -197,17 +196,17 @@ onMounted(() => {
     margin-top: 50px;
   }
 }
-#previewImgProfileImg {
+#previewImgPost {
   width: 250px;
   height: 250px;
 
-  #imgPreviewProfileImg {
+  #imgPreviewPost {
     max-width: 95%;
     max-height: 95%;
   }
 }
 
-.progressProfImg {
+.progress {
   width: 80%;
   margin: 10px auto 30px auto;
 }

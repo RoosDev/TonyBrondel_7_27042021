@@ -41,10 +41,8 @@ onMounted(() => {
   const storageCurrentUser = JSON.parse(localStorage.getItem("user")!);
   let currentUser: any;
 if(!storeCurrentUser.value){
-  console.log('version localStorage')
   currentUser = storageCurrentUser
 }else{
-  console.log('version store')
   currentUser = storeCurrentUser.value
 }
 

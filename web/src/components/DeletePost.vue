@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
 import store from '../store/index';
 import { useRouter } from "vue-router";
 
@@ -27,11 +26,9 @@ const props = defineProps<{
 const deleteMyPost = () => {
   const messageAfterDelete = document.querySelector('#messageFormDelete') as HTMLDivElement;
   const sendButton = document.querySelector('#confirmDelete') as HTMLButtonElement;
-  // const urlApi = "http://localhost:3001/api/feed/" + props.postId;
 
   myStore.dispatch("deletePost", props.postId)
 
-  // axios.delete(urlApi)
     .then((res) => {
       console.log('debut suppression')
       sendButton.textContent = 'Suppression en-cours...';
@@ -49,7 +46,6 @@ const deleteMyPost = () => {
         store.commit('SETFEEDLIST');
         // myRouter.go('');
       }, 3000);
-      console.log('Post delete ;)' + res)
     })
     .catch(err => {
       sendButton.setAttribute("disabled", "");

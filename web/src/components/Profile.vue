@@ -81,6 +81,7 @@
 
 import { computed } from "vue";
 import { onMounted } from "vue";
+import { reactive } from "vue";
 import store from '../store/index';
 import ChangeProfile from '@/components/ChangeProfile.vue';
 import ChangeImageProfile from '@/components/UploadProfileImage.vue';
@@ -106,11 +107,17 @@ const [modalActive_DeleteProfile, toggleModal_DeleteProfile] = useModal()
 
 
 onMounted(() => {
-  // Récupération de l' ID de l'utilisateur
-  const currentUser = computed(() => myStore.state.auth.user);
-  const myId = currentUser.value.id!;
+  const storeCurrentUser = computed(() => myStore.state.auth.user);
+  const storageCurrentUser = JSON.parse(localStorage.getItem("user")!);
+  let currentUser: any;
+if(!storeCurrentUser.value){
+  currentUser = storageCurrentUser
+}else{
+  currentUser = storeCurrentUser.value
+}
+
   // Connexion au Store de l'application
-  myStore.dispatch("getUser", { id: myId })
+  myStore.dispatch("getUser", currentUser )
 })
 
 </script>

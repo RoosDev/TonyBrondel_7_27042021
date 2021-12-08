@@ -27,7 +27,7 @@ const { manager, verifySignUp, authJwt } = require("../middlewares");
     router.post("/login", userSignLogCtrl.login);
     
     // Données de profil d'un utilisateur
-    router.get("/profile/:id",  [authJwt.verifyToken], userGetCtrl.getOneProfile);
+    router.get("/profile/:id", [authJwt.verifyToken], userGetCtrl.getOneProfile);
     // Liste de tous les utilisateurs
     router.get("/profiles", [authJwt.verifyToken], userGetCtrl.getAllProfiles);
 

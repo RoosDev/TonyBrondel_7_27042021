@@ -45,8 +45,10 @@
 import { computed, ref } from 'vue';
 import store from '../store/index';
 import BubbleComment from '@/components/BubbleComment.vue';
+import { useRouter } from 'vue-router';
 
 const myStore: any = store;
+const myRouter: any = useRouter();
 
 const props = defineProps<{
   theIdPost: number,
@@ -54,14 +56,19 @@ const props = defineProps<{
 }>();
 
 // Définition de l'ID utilisateur (avec le localstorage)
-const currentUserId = computed(() => myStore.getters.theUserId);
+const currentUser = computed(() => myStore.state.auth.user);
 
+// récupération des commentaires 
+// const commentsList1 = computed(() => myStore.state.commentList);
+// console.log(commentsList1.value)
+// const commentsList = computed(() => store.getters.theComments.find(theComment => theComment.reference == props.theIdPost ))
+// console.log (' post id N°' , props.theIdPost, ' >>> ', commentsList.value)
 
 // Nouvel objet à envoyer en base
 let theNewComment = ref({
   theIdPost: props.theIdPost,
   content: '',
-  userId: currentUserId.value
+  userId: currentUser.value.id,
 });
 
 // Nom dynamique des id pour les commentaires
@@ -83,9 +90,14 @@ const sendMyComment = () => {
       // const myRouter: any = useRouter();
       sendCommentButton.innerHTML = `<svg class="w-6 h-6 rotate svgComment" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
       sendCommentButton.setAttribute("disabled", "");
+      setTimeout(() =>{
       commentContent.value = '';
       sendCommentButton.innerHTML = `<svg class="w-6 h-6 svgComment" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
       console.log('Commentaire enregistré ;)')
+      },1000 );
+      setTimeout(() =>{
+        myRouter.go('')
+      },1500 );
     })
     .catch(error => {
       sendCommentButton.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
@@ -104,8 +116,6 @@ const sendMyComment = () => {
 //     return false;
 //   }
 // });
-
-
 
 </script>
 <style lang="scss">
