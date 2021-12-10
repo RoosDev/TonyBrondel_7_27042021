@@ -10,7 +10,7 @@
         </p>
       </div>
       <Form @submit="handleRegister" :validation-schema="schemaSignup" class="col-12">
-        <div v-if="!successful" class="col-12">
+        <div class="col-12">
           <div id="signupLogin" class="col-12">
             <label for="email" class="col-12">Votre adresse email : *</label>
             <Field
@@ -18,7 +18,7 @@
               type="text"
               autocomplete="email"
               class="form-control col-12"
-              value="tony@groupo.fr"
+              placeholder="jean.pranhune@grouprama.fr"
             />
           </div>
           <ErrorMessage name="email" class="error-feedback col-12" />
@@ -29,23 +29,23 @@
               type="password"
               autocomplete="new-password"
               class="form-control col-12"
-              value="Azerty-12!"
+              placeholder="•••••••••"
             />
           </div>
           <ErrorMessage name="newPass" class="error-feedback col-12" />
           <div id="signupfirstname" class="col-12">
             <label for="firstname" class="col-12">Votre prénom : *</label>
-            <Field name="firstname" type="text" class="form-control col-12" value="Paul" />
+            <Field name="firstname" type="text" class="form-control col-12" placeholder="Jean" />
           </div>
           <ErrorMessage name="firstname" class="error-feedback col-12" />
           <div id="signupLastName" class="col-12">
             <label for="LastName" class="col-12">Votre nom de famille : *</label>
-            <Field name="lastname" type="text" class="form-control col-12" value="Pote" />
+            <Field name="lastname" type="text" class="form-control col-12" placeholder="Pranhune" />
           </div>
           <ErrorMessage name="lastname" class="error-feedback col-12" />
           <div id="signupjob" class="col-12">
             <label for="job" class="col-12">Votre poste : *</label>
-            <Field name="job" type="text" class="form-control col-12" value="no sabe" />
+            <Field name="job" type="text" class="form-control col-12" placeholder="Photographe" />
           </div>
           <ErrorMessage name="job" class="error-feedback col-12" />
           <div id="signupdivision" class="col-12">
@@ -53,7 +53,7 @@
             <br />
             <Field id="selectdivision" name="division" as="select" class="col-12">
               <option value="ERR" disabled>Sélectionnez la division</option>
-              <option value="Achats" selected>Achats</option>
+              <option value="Achats">Achats</option>
               <option value="Deploiement">Deploiement</option>
               <option value="Direction">Direction</option>
               <option value="Finance">Finance</option>

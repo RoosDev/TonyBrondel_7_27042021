@@ -14,7 +14,7 @@
           type="text"
           autocomplete="email"
           class="form-control col-12"
-          value="tony@groupo.fr"
+          placeholder="jean.pranhune@grouporama.fr"
         />
         <!-- <input type="email" name="email" id="email" autocomplete="email" required> -->
       </div>
@@ -27,7 +27,7 @@
           type="password"
           autocomplete="current-password"
           class="form-control col-12"
-          value="Azerty-12!"
+          placeholder="•••••••••"
         />
         <!-- <input type="password" name="current-password" id="password" autocomplete="current-password" required> -->
       </div>
