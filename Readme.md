@@ -10,18 +10,18 @@
 
 ### **FRONT END** <br />
 <img src="./readme/vueJS.png" width="150px" alt="VueJS 3.23 - SFC - Script Setup & Composition API"> with
-<img src="./readme/Typescript.png" width="113px" alt="TypeScript - FrontEnd">
-<img src="./readme/html5.png" width="100px" alt="HTML5">
-<img src="./readme/css3.png" width="100px" alt="CSS3">
+<img src="./readme/Typescript.png" width="70px" alt="TypeScript - FrontEnd">
+<img src="./readme/html5.png" width="60px" alt="HTML5">
+<img src="./readme/css3.png" width="60px" alt="CSS3">
 <img src="./readme/sass.png" width="100px" alt="SASS">
 <br />
 <br />
 <br />
 
 ### **BACK END** <br />
-<img src="./readme/nodeJS.png" width="150px" alt="NodeJS v16.x">
+<img src="./readme/nodeJS.png" width="120px" alt="NodeJS v16.x">
 <img src="./readme/expressJS.png" width="150px" alt="Express">
-<img src="./readme/sequelize-logo.png" width="100px" alt="Sequelize">
+<img src="./readme/sequelize-logo.png" width="60px" alt="Sequelize">
 <img src="./readme/Axios.png" width="150px" alt="Axios">
  <br />
  <br />
