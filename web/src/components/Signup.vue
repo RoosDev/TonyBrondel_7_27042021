@@ -140,16 +140,7 @@ const sendButton = () => {
   signupEnd.classList.toggle('d-none');
 }
 
-
 //  // Inscription
-
-
-// fonction de login
-// const loggedIn = computed(() => myStore.state.auth.status.loggedIn);
-// if (loggedIn.value) {
-//   myRouter.push('/Home');
-// }
-
 // Fonction d'envoi des données d'inscription
 const handleRegister = (user) => {
   let iconSendSignup = document.querySelector('#iconSendSignup') as HTMLButtonElement;
@@ -165,6 +156,7 @@ const handleRegister = (user) => {
     },
     (error) => {
       textSendSignup.innerHTML = `Il semble qu'il y ait un problème. Ne seriez vous pas déja inscrit ?`
+      console.log(error)
     }
   );
 }

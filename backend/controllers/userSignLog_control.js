@@ -21,12 +21,7 @@ const CRYPT_OutLen = process.env.Crypto_OutPutLength;
 
 // POST pour un nouvel utilisateur
 exports.signup = async (req, res, next) => {
-  // lancement de la recherche de l'utilisateur avant création
 
-  // const existOrNot = await modelUsers.findOne({
-  //   attributes: {exclude: ["firstname", "lastname"] },
-  //   include: [{ where: { email_H: email_visible } }],
-  // });
   try {
     // Récupération des valeur utilisateur
     const email_visible = req.body.email;
@@ -81,9 +76,9 @@ exports.signup = async (req, res, next) => {
         role_Id: 1,
         active: 1,
       };
+      console.log(theUser);
       try {
         const data = await modelUsers.create(theUser);
-        console.log('Utilisateur créé. ');
         
         return res
           .send({ data })
@@ -146,7 +141,7 @@ exports.login = async (req, res, next) => {
         console.log("On vous a trouvé, on check le pass");
       } else {
         console.log("email inconnu.");
-        return res.status(404).send({ 
+        return res.sendStatus(404, { 
           message: "Nous n'arrivons pas à vous trouver. Etes vous inscrit ?"});
       }
   

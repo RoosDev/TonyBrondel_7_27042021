@@ -6,9 +6,6 @@ const app = require("./app");
 const dotenv = require("dotenv");
 const fs = require('fs');
 
-// import du module
-// import { existsSync } from 'fs';
-
 // Chargement des variables d'environnement 
 dotenv.config();
 const APP_PORTS = process.env.PORTS;

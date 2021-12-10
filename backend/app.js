@@ -12,7 +12,7 @@ const app = express();
 const feedRoutes = require("./routes/feed_routes");
 const usersRoutes = require('./routes/users_routes');
 
-// Synchronisation des models et de la base (DEV ONLY)
+// // Synchronisation des models et de la base (DEV ONLY)
 // dbConnect.sequelize.sync({ alter: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
@@ -23,7 +23,6 @@ try {
 } catch (error) {
   console.error("La DB n a pas trouvé le lapin blanc", error);
 }
-
 
 global.__basedir = __dirname;
 // Gestion des headers
@@ -54,13 +53,7 @@ app.use(
   "/Public_Images",
   express.static(path.join(__dirname, "/Public_Images"))
 );
-// app.use(function(req, res, next) {
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "x-access-token, Origin, Content-Type, Accept"
-//   );
-//   next();
-// });
+
 app.use("/api/auth", usersRoutes);
 app.use("/api/feed", feedRoutes);
 
