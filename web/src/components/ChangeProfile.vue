@@ -10,7 +10,7 @@
         <Field name="id" type="hidden" :value="props.id" />
         <Field name="photo_URL" type="hidden" :value="oldUserDetail.photo_URL" />
 
-        <div id="signupLogin">
+        <div id="changeLogin" class>
           <label for="email">Votre adresse email : *</label>
           <Field
             name="email"
@@ -21,7 +21,7 @@
           />
         </div>
         <ErrorMessage name="email" class="error-feedback" />
-        <div id="signupfirstname">
+        <div id="changefirstname">
           <label for="firstname">Votre prénom : *</label>
           <Field
             name="firstname"
@@ -31,17 +31,17 @@
           />
         </div>
         <ErrorMessage name="firstname" class="error-feedback" />
-        <div id="signupLastName">
+        <div id="changeLastName">
           <label for="LastName">Votre nom de famille : *</label>
           <Field name="lastname" type="text" class="form-control" :value="oldUserDetail.lastname" />
         </div>
         <ErrorMessage name="lastname" class="error-feedback" />
-        <div id="signupjob">
+        <div id="changejob">
           <label for="job">Votre poste : *</label>
           <Field name="job" type="text" class="form-control" :value="oldUserDetail.job" />
         </div>
         <ErrorMessage name="job" class="error-feedback" />
-        <div id="signupdivision">
+        <div id="changedivision">
           <label for="division">Votre division : *</label>
           <br />
           <Field id="selectdivision" as="select" name="division">
@@ -113,7 +113,7 @@ let oldUserDetail = computed(() => store.getters.currentUser)
 const sendMyNewProfile = (userDetail) => {
   const msgProfileAfterSent = document.querySelector('#msgProfileSent') as HTMLDivElement;
   const sendProfileButton = document.querySelector('#sendProfileButton') as HTMLButtonElement;
-  
+
   myStore.dispatch("changeProfile", userDetail)
     .then((data) => {
       sendProfileButton.textContent = 'envoi en-cours ...';
@@ -122,10 +122,6 @@ const sendMyNewProfile = (userDetail) => {
       msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
       msgProfileAfterSent.classList.toggle("hidebox");
       sendProfileButton.textContent = 'Enregistré';
-      setTimeout(() => {
-        msgProfileAfterSent.classList.toggle("hidebox");
-        sendProfileButton.textContent = 'Enregistrer';
-      }, 4000)
 
 
     }),
@@ -149,8 +145,10 @@ const sendMyNewProfile = (userDetail) => {
 
 form {
   border: 0;
+  width: 100%;
 
   #changeProfileContent {
+    width: 100%;
     border: 0;
     display: flex;
     flex-flow: column nowrap;
@@ -161,12 +159,18 @@ form {
       width: 80%;
       text-align: center;
     }
+
+    div[id*="change"] {
+      width: 100%;
+      text-align: center;
+    }
+
     input {
       background-color: $groupo-color4;
       color: $groupo-colorLight1;
-      width: 300px;
+      width: 60%;
       height: 30px;
-      margin: 15px;
+      margin: 15px auto 15px auto;
       border: 0;
       border-radius: 10px;
       padding-left: 10px;
@@ -181,8 +185,10 @@ form {
     select {
       background-color: $groupo-color4;
       color: $groupo-colorLight1;
-      width: 300px;
+      width: 60%;
       height: 30px;
+      margin-right: auto;
+      margin-left: auto;
       border: 0;
       border-radius: 10px;
       padding-left: 10px;
@@ -249,6 +255,41 @@ form {
   background-color: #ffc8c8;
   p {
     color: #650000;
+  }
+}
+
+@media (max-width: 767.99px) {
+  form {
+    #changeProfileContent {
+      input {
+        width: 70%;
+      }
+      select {
+        width: 70%;
+      }
+      #divsendProfileButton {
+        #sendProfileButton {
+          width: 70%;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 575.99px) {
+  form {
+    #changeProfileContent {
+      input {
+        width: 90%;
+      }
+      select {
+        width: 90%;
+      }
+      #divsendProfileButton {
+        #sendProfileButton {
+          width: 90%;
+        }
+      }
+    }
   }
 }
 </style>

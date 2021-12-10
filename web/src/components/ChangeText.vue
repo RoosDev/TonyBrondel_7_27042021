@@ -7,10 +7,10 @@
         </label>
         <textarea
           name="PutContent"
-          :id="'PutContent'+props.postId"
-          cols="65"
+          :id="'PutContent' + props.postId"
           rows="6"
           :value="props.theContent"
+          class="PutContentTextarea"
           autocapitalize="sentence"
           form="putTextForm"
           maxlength="500"
@@ -43,7 +43,7 @@ const currentUser = computed(() => myStore.state.auth.user);
 
 const sendMyPut = () => {
   const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
-  const PutContent = document.querySelector('#PutContent'+props.postId) as HTMLTextAreaElement;
+  const PutContent = document.querySelector('#PutContent' + props.postId) as HTMLTextAreaElement;
   const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
 
   const theChangedPost = {
@@ -55,26 +55,22 @@ const sendMyPut = () => {
   };
 
   myStore.dispatch("updatePost", theChangedPost)
-
-  console.log(theChangedPost)
-//     .then((res) => {
-//       sendButton.textContent = 'Modification en-cours...';
-//       sendButton.setAttribute("disabled", "");
-//       messageAfterSent.classList.toggle("hidebox");
-//       messageAfterSent.classList.remove("nokSent");
-//       messageAfterSent.classList.add("okSent");
-//       messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
-//       messageAfterSent.classList.toggle("hidebox");
-//       sendButton.textContent = 'Poster';
-//     })
-//     .catch(error => {
-//       sendButton.setAttribute("disabled", "");
-//       messageAfterSent.classList.toggle("hidebox");
-//       messageAfterSent.classList.remove("okSent");
-//       messageAfterSent.classList.add("nokSent");
-//       messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-//       console.error("There was an error!", error);
-//     });
+    .then((data) => {
+      sendButton.textContent = 'Modification en-cours...';
+      sendButton.setAttribute("disabled", "");
+      messageAfterSent.classList.toggle("hidebox");
+      messageAfterSent.classList.remove("nokSent");
+      messageAfterSent.classList.add("okSent");
+      messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
+    }),
+    (error) => {
+      sendButton.setAttribute("disabled", "");
+      messageAfterSent.classList.toggle("hidebox");
+      messageAfterSent.classList.remove("okSent");
+      messageAfterSent.classList.add("nokSent");
+      messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      console.error("There was an error!", error);
+    }
 }
 
 const isPutValid = () => {
@@ -96,48 +92,57 @@ const isPutValid = () => {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  
+  #putTextForm {
+    width: 100%;
 
-  label {
-    display: block;
-    margin: 35px auto 0 auto;
-    text-align: center;
-  }
+    #PutwriteContent {
+      width: 100%;
+      label {
+        display: block;
+        margin: 35px auto 0 auto;
+        text-align: center;
+      }
 
-  #PutContent {
-    display: block;
-    resize: none;
-    margin: 50px auto 0 auto;
-    border: 1px solid rgba($groupo-color4, 0.5);
-    background-color: rgba($groupo-color4, 0.2);
-    border-radius: 10px;
+      .PutContentTextarea {
+        display: block;
+        align-self: center;
+        width: 85%;
+        resize: none;
+        margin: 50px auto 0 auto;
+        border: 1px solid rgba($groupo-color4, 0.5);
+        background-color: rgba($groupo-color4, 0.2);
+        border-radius: 10px;
 
-    &:hover {
-      background-color: transparent;
-    }
-  }
+        &:hover {
+          background-color: transparent;
+        }
+      }
 
-  button {
-    display: block;
-    height: 40px;
-    margin: 70px auto 50px auto;
-    border: 1px solid $groupo-color1;
-    border-radius: 10px;
-    background-color: #92ff92;
-    color: #006500;
+      button {
+        display: block;
+        height: 40px;
+        margin: 70px auto 50px auto;
+        border: 1px solid $groupo-color1;
+        border-radius: 10px;
+        background-color: #92ff92;
+        color: #006500;
 
-    &:hover {
-      border: 1px solid #006500;
-      border-radius: 10px;
-      background-color: rgba($likeColor, 0.5);
-      font-weight: bold;
-    }
+        &:hover {
+          border: 1px solid #006500;
+          border-radius: 10px;
+          background-color: rgba($likeColor, 0.5);
+          font-weight: bold;
+        }
 
-    &:disabled {
-      border: 1px solid #650000;
-      border-radius: 10px;
-      background-color: rgba($groupo-color4, 0.2);
-      font-style: italic;
-      color: $groupo-color1;
+        &:disabled {
+          border: 1px solid #650000;
+          border-radius: 10px;
+          background-color: rgba($groupo-color4, 0.2);
+          font-style: italic;
+          color: $groupo-color1;
+        }
+      }
     }
   }
 

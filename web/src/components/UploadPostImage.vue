@@ -35,10 +35,8 @@
       >{{ progress }}%</div>
     </div>
 
-    <div v-if="previewImage">
-      <div id="previewImgPost">
-        <img id="imgPreviewPost" class="preview my-3" :src="previewImage" />
-      </div>
+    <div id="previewImgPost" v-if="previewImage">
+      <img id="imgPreviewPost" class="preview my-3" :src="previewImage" />
     </div>
 
     <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ message }}</div>
@@ -120,6 +118,10 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
 
+  #PostImgForm {
+    width: 100%;
+  }
+
   #PostImgContent {
     width: 100%;
   }
@@ -127,10 +129,16 @@ onMounted(() => {
   #divButtonUpload {
     width: 100%;
   }
+  .uploadImageH2 {
+    font-size: 1.4em;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-top: 50px;
+  }
 
   #labelSendPicture {
     display: block;
-    width: 300px;
+    width: 50%;
     height: 60px;
     margin: 50px auto 50px auto;
     padding: auto;
@@ -152,10 +160,9 @@ onMounted(() => {
 
   #myFile {
     display: block;
-    width: 225px;
     top: 0;
     left: 0;
-    margin: 50px auto 0 auto;
+    margin: 20px auto 0 auto;
     border: 1px solid rgba($groupo-color1, 0.5);
     background-color: rgba($groupo-color4, 0.2);
     border-radius: 10px;
@@ -171,7 +178,7 @@ onMounted(() => {
 
   #quickDisplayImg {
     display: block;
-    margin: 25px auto 25px auto;
+    margin: 10px auto 10px auto;
     text-align: center;
     font-size: 1.2em;
     color: $groupo-color4;
@@ -181,7 +188,7 @@ onMounted(() => {
     display: block;
     width: 150px;
     height: 50px;
-    margin: 10px auto 20px auto;
+    margin: 10px auto 10px auto;
     border: 1px solid $groupo-color1;
     border-radius: 10px;
     background-color: rgba($groupo-color4, 0.2);
@@ -195,26 +202,43 @@ onMounted(() => {
       font-weight: bold;
     }
   }
+  #previewImgPost {
+    max-width: 60%;
+    max-height: 60%;
+    margin: 5px;
 
-  .uploadImageH2 {
-    font-size: 1.4em;
-    text-decoration: underline;
-    font-weight: bold;
-    margin-top: 50px;
+    #imgPreviewPost {
+      max-width: 95%;
+      max-height: 95%;
+      margin: 0;
+    }
+  }
+
+  #uploadImgMessage {
+    width: 75%;
+    height: 30px;
+    margin: 10px;
   }
 }
-#previewImgPost {
-  width: 250px;
-  height: 250px;
-
-  #imgPreviewPost {
-    max-width: 95%;
-    max-height: 95%;
-  }
-}
-
 .progress {
   width: 80%;
   margin: 10px auto 30px auto;
+}
+
+@media (max-width: 767.99px) {
+  #PostImg {
+    #labelSendPicture {
+      width: 75%;
+    }
+    #previewImgPost {
+      max-width: 95%;
+      max-height: 95%;
+
+      #imgPreviewPost {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
 }
 </style>

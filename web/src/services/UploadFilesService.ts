@@ -9,9 +9,7 @@ class UploadFilesService {
     const myHead = JSON.parse(localStorage.getItem("user")!);
     const formData = new FormData();
 
-    console.log(formData);
     formData.append("file", file);
-    console.log("file", file);
 
     //   return myStore.dispatch("createPostImage", formData,
     //     onUploadProgress,);
@@ -36,14 +34,10 @@ class UploadFilesService {
     } else {
       currentUser = storeCurrentUser.value;
     }
-    
-    console.log(currentUser);
-    
+
     const formData = new FormData();
 
-    console.log(formData);
     formData.append("file", file);
-    console.log("file", file);
 
     return axios.put(
       "http://localhost:3001/api/auth/upload/profile",
@@ -53,7 +47,7 @@ class UploadFilesService {
           "Content-Type": "multipart/form-data",
           "x-access-token": currentUser.accessToken,
           "x-role-token": currentUser.roleToken,
-          "id": currentUser.id,
+          id: currentUser.id,
         },
         onUploadProgress,
       }

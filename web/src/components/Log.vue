@@ -73,7 +73,6 @@ const handleLogin = (user) => {
       myRouter.push('/Home');
     },
       (error) => {
-        console.log('response error >> ', error)
         alertBox.innerHTML = `Il semble qu'il y ait un problème.`
       }
     );

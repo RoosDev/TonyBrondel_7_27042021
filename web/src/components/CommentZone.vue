@@ -21,7 +21,6 @@
           name="sendTxtComment"
           :id="textareaSendPost"
           class="sendPost"
-          cols="70"
           rows="2"
           v-model="theNewComment.content"
           maxlength="350"
@@ -60,9 +59,7 @@ const currentUser = computed(() => myStore.state.auth.user);
 
 // récupération des commentaires 
 // const commentsList1 = computed(() => myStore.state.commentList);
-// console.log(commentsList1.value)
 // const commentsList = computed(() => store.getters.theComments.find(theComment => theComment.reference == props.theIdPost ))
-// console.log (' post id N°' , props.theIdPost, ' >>> ', commentsList.value)
 
 // Nouvel objet à envoyer en base
 let theNewComment = ref({
@@ -88,16 +85,15 @@ const sendMyComment = () => {
   myStore.dispatch("createComment", theNewComment.value)
     .then(() => {
       // const myRouter: any = useRouter();
-      sendCommentButton.innerHTML = `<svg class="w-6 h-6 rotate svgComment" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
+      sendCommentButton.innerHTML = `<svg class="rotate svgComment" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
       sendCommentButton.setAttribute("disabled", "");
-      setTimeout(() =>{
-      commentContent.value = '';
-      sendCommentButton.innerHTML = `<svg class="w-6 h-6 svgComment" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
-      console.log('Commentaire enregistré ;)')
-      },1000 );
-      setTimeout(() =>{
+      setTimeout(() => {
+        commentContent.value = '';
+        sendCommentButton.innerHTML = `<svg class="svgComment" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`;
+      }, 1000);
+      setTimeout(() => {
         myRouter.go('')
-      },1500 );
+      }, 1500);
     })
     .catch(error => {
       sendCommentButton.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
@@ -179,19 +175,22 @@ const sendMyComment = () => {
   .CommentSend {
     height: 60px;
     width: 95%;
-    margin: 0 auto 5px auto;
+    margin: 3px;
     border-top: 1px solid $groupo-color3;
     align-self: baseline;
     padding-top: 10px;
 
     .textareaZone {
       height: 50px;
+      width: 85%;
+      margin: 0;
       border-radius: 10px 0 0 10px;
       background-color: $groupo-colorLight3;
 
       .sendPost {
         background-color: transparent;
-        margin: 5px auto 0 auto;
+        width: 100%;
+        margin: 3px 0 2px 0;
         font-size: 0.8em;
         border-radius: 10px;
         border: none;
@@ -209,7 +208,7 @@ const sendMyComment = () => {
     }
 
     .buttonSendZone {
-      width: 75px;
+      width: 15%;
       height: 50px;
       border-radius: 0 10px 10px 0;
       background-color: $groupo-colorLight3;
@@ -219,17 +218,22 @@ const sendMyComment = () => {
       .svgComment {
         border: 0;
         background-color: transparent;
-        margin: auto;
         color: $groupo-color1;
         border: 0;
         background-color: transparent;
-        margin: auto;
+        margin: auto auto auto 0;
         color: $groupo-color1;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .styleButtonAwesome {
           margin: auto;
-          font-size: 2.7em;
+          margin-left: -50%;
+          font-size: 2.5em;
           z-index: 5;
+          text-align: center;
         }
         &:hover {
           .styleButtonAwesome {
@@ -245,7 +249,7 @@ const sendMyComment = () => {
   width: 25px;
   height: 25px;
   margin: -12px auto auto -12px;
-  z-index: 150;
+  z-index: 500;
 }
 
 .hidebox {
@@ -268,57 +272,51 @@ const sendMyComment = () => {
 @media (max-width: 991.99px) {
   #commentZone {
     height: 400px;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 0;
     margin-bottom: 5px;
 
     #CommentList {
       height: 325px;
-      align-items: center;
-      top: 5px;
-      margin-top: 0;
-      margin-bottom: 0px;
-      overflow-y: auto;
-      scrollbar-width: 5px;
-      scrollbar-color: $groupo-color1;
 
       .CommentSend {
         height: 75px;
 
         .textareaZone {
           height: 75px;
-
-          .sendPost {
-            background-color: transparent;
-            margin: 5px auto 0 auto;
-            font-size: 0.8em;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            resize: none;
-
-            &:hover {
-              border-bottom: 1px solid rgba($groupo-color1, 0.3);
-            }
-
-            &:focus {
-              border-bottom: 1px solid rgba($groupo-color1, 0.6);
-            }
-          }
-        }
-
-        .buttonSendZone {
-          width: 75px;
-          height: 50px;
-          border-radius: 0 10px 10px 0;
-          background-color: $groupo-colorLight3;
-          line-height: 100%;
         }
       }
     }
   }
+}
+@media (max-width: 575.99px) {
+  #commentZone {
+    .CommentSend {
+      height: 40px;
+      margin: 3px;
+      .textareaZone {
+        height: 40px;
+        .sendPost {
+          margin-top: 5px;
+        }
+      }
+      .buttonSendZone {
+        height: 40px;
+        .buttonForm {
+          margin-top: 5px;
+          .styleButtonAwesome {
+            margin-left: -50%;
+          }
+        }
+      }
+    }
+  }
+  .bubbledeleteComment {
+  // position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: -5px auto auto -5px;
+  z-index: 500;
+}
+
+
 }
 </style>

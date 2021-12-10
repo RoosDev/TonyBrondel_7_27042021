@@ -91,4 +91,11 @@ if(!storeCurrentUser.value){
     overflow-y: scroll;
   }
 }
+
+@media (max-width: 767.99px) {
+  #feedcontent {
+    font-size: 0.8em;
+  }
+}
+
 </style>

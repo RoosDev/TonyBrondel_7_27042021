@@ -1,20 +1,26 @@
 <template lang="fr">
-  <div id="sendPost__Global" class="row">
-    <img id="pictureProfilMin" src="../assets/ampoule-clean-small.png" alt="Profil Picture">
-    <div id="sendPostAction" class="col-12 col-xl-8">
-      <div id="sendBox__Title">
-        <p>C'est le moment ... Quelle partie de vous veut s'exprimer ?</p>
-      </div>
-      <div id="sendBox__Type">
-        <div id="sendBox__T--text" class="col-12 col-md-4 sendBox__T">
-          <button type="button" @click="toggleModal_Txt"><font-awesome-icon :icon="['fas', 'edit']" id='fontawesome-icon'/>mon côté litteraire</button>
+        <div id="sendPost__Global" class="row">
+                <div id="sendPostPicture" >
+                        <img id="pictureSendMsg" src="../assets/ampoule-clean-small.png" alt="Une idée">
+                </div>
+                <div id="sendPostAction" >
+                        <div id="sendBox__Title" class="col-12" >
+                          <p>C'est le moment ... Quelle partie de vous veut s'exprimer ?</p>
+                        </div>
+                        <div id="sendBox__Type">
+                                <div id="sendBox__T--text" class="col-6 sendBox__T">
+                                  <button type="button" @click="toggleModal_Txt" class="col-10" >
+                                        <font-awesome-icon :icon="['fas', 'edit']" id='fontawesome-icon' /><p>mon côté litteraire</p>
+                                  </button>
+                                </div>
+                                <div  id="sendBox__T--img" class="col-6 sendBox__T">
+                                  <button type="button" @click="toggleModal_Img" class="col-10">
+                                        <font-awesome-icon :icon="['fas', 'image']" id='fontawesome-icon' /><p>mon côté artiste</p>
+                                  </button>
+                                </div>
+                        </div>
+                </div>
         </div>
-        <div  id="sendBox__T--img" class="col-12 col-md-4 sendBox__T">
-          <button type="button" @click="toggleModal_Img"><font-awesome-icon :icon="['fas', 'image']" id='fontawesome-icon' />mon côté artiste</button>
-        </div>
-      </div>
-    </div>
-  </div>
     <Modal @close="toggleModal_Txt" :modalActive="modalActive_Txt">
       <div class="modal-content"> 
         <PostText />
@@ -62,27 +68,30 @@ const [modalActive_Img, toggleModal_Img] = useModal();
 
 //  CSS de la page classique
 #sendPost__Global {
+  width: 75%;
+  min-height: 100px;
+  max-height: 125px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
   margin: 10px auto 20px auto;
-  z-index: 0;
+  border: 0;
+  background-color: $color-white;
+  border-radius: 50px;
 
-  #pictureProfilMin {
-    width: 125px;
-    margin: 5px -125px 5px 70px;
-    z-index: 5;
+  #sendPostPicture {
+    width: 15%;
+    #pictureSendMsg {
+      max-width: 50%;
+      max-height: 50%;
+      margin: auto auto auto 25px;
+    }
   }
-
   #sendPostAction {
+    width: 85%;
     text-align: right;
-    margin-top: 25px auto 20px -30px;
-    border: 0;
-    background-color: $color-white;
-    border-radius: 50px;
-    z-index: 0;
+    margin-top: 25px auto 20px auto;
 
     #sendBox__Title {
       p {
@@ -97,11 +106,10 @@ const [modalActive_Img, toggleModal_Img] = useModal();
     #sendBox__Type {
       display: flex;
       flex-flow: row nowrap;
-      justify-content: center;
+      justify-content: space-evenly;
       align-items: center;
 
       button {
-        width: 200px;
         height: 35px;
         margin: 10px 20px 10px 20px;
         border: 1px solid $groupo-color1;
@@ -112,82 +120,76 @@ const [modalActive_Img, toggleModal_Img] = useModal();
         &:hover {
           background-color: $groupo-color4;
           color: $groupo-colorLight1;
-          margin: 7px 23px 7px -3px;
+          margin: 13px 17px 7px 23px;
           box-shadow: 5px 5px 15px $groupo-color3;
         }
 
         #fontawesome-icon {
           margin-right: 20px;
         }
+
+        p {
+          display: inline;
+        }
       }
     }
   }
 }
 
-@media (max-width: 1199.99px) {
+@media (max-width: 991.99px) {
   #sendPost__Global {
-    width: 90%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: $color-white;
-    border-radius: 20px;
-    margin: 5px auto 10px auto;
-    z-index: 0;
+    font-size: 0.8em;
+  }
+}
+@media (max-width: 767.99px) {
+  #sendPost__Global {
+    justify-content: center;
 
-    #pictureProfilMin {
-      width: 20%;
-      margin: auto;
-      z-index: 5;
+    #sendPostPicture {
+      display: none;
     }
-
     #sendPostAction {
-      width: 80%;
-      text-align: right;
-      margin-top: 5px auto 5px auto;
-      border: 0;
-      z-index: 0;
-
-      #sendBox__Title {
-        p {
-          font-size: 0.9em;
-          color: $groupo-color2;
-          text-align: center;
-          margin-top: 10px;
-          font-weight: bold;
+      width: 95%;
+      margin: auto;
+      text-align: center;
+      #sendBox__Title{
+        margin-bottom: 0;
+        p{
+          margin: 0;
         }
       }
-
       #sendBox__Type {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-around;
-        align-items: center;
-
-        .sendBox__T{
-          width: 45%;
+        margin-top: 0;
         button {
-          width: 90%;
           height: 35px;
-          margin: 10px auto 10px auto;
-          border: 1px solid $groupo-color1;
-          border-radius: 10px;
-          background-color: $groupo-colorLight1;
-          color: $groupo-color1;
-          font-size: 0.9em;
+          margin: 3px;
 
           &:hover {
-            background-color: $groupo-color4;
-            color: $groupo-colorLight1;
-            margin: 7px 23px 7px -3px;
-            box-shadow: 5px 5px 15px $groupo-color3;
+            margin: 6px 0px 0px 6px;
           }
-
           #fontawesome-icon {
-            margin-right: 5px;
+            display: none;
           }
-        }}
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 575.99px) {
+  #sendPost__Global {
+    font-size: 0.7em;
+
+    #sendBox__Type {
+      button {
+        height: 40px;
+
+        #fontawesome-icon {
+          display: inline;
+        }
+        p {
+          display: none;
+        }
       }
     }
   }

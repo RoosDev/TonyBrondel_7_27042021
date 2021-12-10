@@ -49,7 +49,7 @@ const { manager, verifySignUp, authJwt } = require("../middlewares");
 // Autorisé pour les managers
 
     // Modification d'un role utilisateur
-    router.put("/Admin/profile/role/:id", [authJwt.verifyToken, (authJwt.isManager || authJwt.isAdmin)], userUpdateCtrl.updateRole);
+    router.put("/Admin/profile/role/:id", [authJwt.verifyToken, authJwt.isManager], userUpdateCtrl.updateRole);
 
 
 

@@ -1,6 +1,6 @@
 <template>
-    <nav class="col-10">
-        <router-link to="/Home" class="col-6 navLink">
+    <nav class="col-12 col-md-10">
+        <router-link to="/Home" class="col-3 col-md-6 navLink">
             <div class="sizeSvg">
                 <svg
                     fill="none"
@@ -20,7 +20,7 @@
                 <p>News</p>
             </div>
         </router-link>
-        <router-link to="/Profile" class="col-6 navLink">
+        <router-link to="/Profile" class="col-3 col-md-6 navLink">
             <div class="sizeSvg">
                 <svg fill="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -34,7 +34,7 @@
                 <p>Mon profil</p>
             </div>
         </router-link>
-        <router-link to="/Admin" class="col-6 navLink">
+        <router-link to="/Admin" class="col-3 col-md-6 navLink">
             <div class="sizeSvg">
                 <svg fill="currentColor" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -47,7 +47,7 @@
                 <p v-else>Annuaire</p>
             </div>
         </router-link>
-        <a @click.prevent="logOut" class="col-6 navLink">
+        <a @click.prevent="logOut" class="col-3 col-md-6 navLink">
             <div class="sizeSvg">
                 <svg
                     fill="none"
@@ -92,7 +92,7 @@ const logOut = () => {
 
 nav {
     height: 25vh;
-    margin-top : 100px;
+    margin-top: 100px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
@@ -168,6 +168,74 @@ nav {
         align-items: center;
         margin-right: auto;
         margin-left: auto;
+    }
+}
+@media (max-width: 575.99px) {
+    nav {
+        // height: 15vh;
+        margin-top: 62px;
+        a {
+            color: $groupo-color4;
+            border: 1px solid transparent;
+            margin: 0;
+
+            &:hover {
+                text-decoration: wavy;
+                border: 1px solid $groupo-color4;
+                border-radius: 15px;
+            }
+        }
+        .navLink {
+            width: 60px;
+            p {
+                font-size: 0.6em;
+            }
+
+            .sizeSvg {
+                width: 65px;
+                height: 30px;
+
+                svg {
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+        }
+
+    }
+}
+@media (max-width: 329.99px) {
+    nav {
+        // height: 15vh;
+        margin-top: 62px;
+        a {
+            color: $groupo-color4;
+            border: 1px solid transparent;
+            margin: 0;
+
+            &:hover {
+                text-decoration: wavy;
+                border: 1px solid $groupo-color4;
+                border-radius: 10px;
+            }
+        }
+        .navLink {
+            width: 50px;
+            p {
+                font-size: 0.4em;
+            }
+
+            .sizeSvg {
+                width: 50px;
+                height: 30px;
+
+                svg {
+                    width: 30px;
+                    height: 35px;
+                }
+            }
+        }
+
     }
 }
 </style>

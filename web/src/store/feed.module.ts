@@ -15,7 +15,6 @@ export const feed = {
     // Récupération de tous les posts
     async getPosts({ commit }: { commit: any }, userDatas) {
       if (userDatas.accessToken == null || userDatas.roleToken == null) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = userDatas.id),
@@ -27,8 +26,8 @@ export const feed = {
           headers: {
             "x-access-token": myHead.accessToken,
             "x-role-token": myHead.roleToken,
-            "id": myHead.id,
-        },
+            id: myHead.id,
+          },
         })
         .then((thePosts: any) => {
           commit("SETFEEDLIST", thePosts.data.data);
@@ -37,7 +36,6 @@ export const feed = {
 
     async createPost({ commit }: { commit: any }, theNewPost) {
       if (theNewPost.accessToken == null || theNewPost.roleToken == null) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = theNewPost.id),
@@ -49,8 +47,8 @@ export const feed = {
           headers: {
             "x-access-token": myHead.accessToken,
             "x-role-token": myHead.roleToken,
-            "id": myHead.id,
-        },
+            id: myHead.id,
+          },
         })
         .then(
           (thePosts: any) => {
@@ -67,7 +65,6 @@ export const feed = {
         theChangedPost.accessToken == null ||
         theChangedPost.roleToken == null
       ) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = theChangedPost.id),
@@ -79,21 +76,19 @@ export const feed = {
           headers: {
             "x-access-token": myHead.accessToken,
             "x-role-token": myHead.roleToken,
-            "id": myHead.id,
-        },
+            id: myHead.id,
+          },
         })
         .then(
           (thePosts: any) => {
-            console.log("the post answer > ", thePosts.data.data);
-            console.log("theChangedPost answer > ", theChangedPost);
             if (thePosts.data.data == 1) {
               axios
                 .get(API_FEED_URL, {
                   headers: {
                     "x-access-token": myHead.accessToken,
                     "x-role-token": myHead.roleToken,
-                    "id": myHead.id,
-                        },
+                    id: myHead.id,
+                  },
                 })
                 .then((thePosts: any) => {
                   commit("SETFEEDLIST", thePosts.data.data);
@@ -108,7 +103,6 @@ export const feed = {
 
     async deletePost({ commit }: { commit: any }, postToDelete) {
       if (postToDelete.accessToken == null || postToDelete.roleToken == null) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = postToDelete.id),
@@ -120,12 +114,11 @@ export const feed = {
           headers: {
             "x-access-token": myHead.accessToken,
             "x-role-token": myHead.roleToken,
-            "id": myHead.id,
-        },
+            id: myHead.id,
+          },
         })
         .then(
           (thePosts: any) => {
-            console.log("delete on the way");
             commit("SETFEEDLIST", thePosts.data.data);
           },
           (error) => {
@@ -150,15 +143,11 @@ export const feed = {
     //       },
     //     })
     //     .then((theComments: any) => {
-    //       console.log('comment list avant envoi >> ',theComments.data.data )
     //       commit("SETCOMMENTLIST", theComments.data.data);
     //     });
     // },
 
-    
     async createComment({ commit }: { commit: any }, theNewComment) {
-      console.log("et c est parti pour un nouveau commentaire");
-      console.log("commentaire :: ", theNewComment);
       if (
         theNewComment.accessToken == null ||
         theNewComment.roleToken == null
@@ -177,27 +166,22 @@ export const feed = {
             headers: {
               "x-access-token": myHead.accessToken,
               "x-role-token": myHead.roleToken,
-              "id": myHead.id,
+              id: myHead.id,
             },
           }
         )
         .then(
           (theComment: any) => {
-            console.log("les données : ", theComment);
-            console.log("j ai les données, lancement de recherche");
             if (theComment.data.data == 1) {
-              console.log("comment value = 1");
               axios
                 .get(API_FEED_URL, {
                   headers: {
                     "x-access-token": myHead.accessToken,
                     "x-role-token": myHead.roleToken,
-                    "id": myHead.id,
-                        },
+                    id: myHead.id,
+                  },
                 })
                 .then((thePosts: any) => {
-                  console.log("retour de la recherche");
-
                   commit("SETFEEDLIST", thePosts.data.data);
                 });
             }
@@ -209,12 +193,10 @@ export const feed = {
     },
 
     async deleteComment({ commit }: { commit: any }, commentToDelete) {
-      console.log("comment to delete :: ", commentToDelete);
       if (
         commentToDelete.accessToken == null ||
         commentToDelete.roleToken == null
       ) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = commentToDelete.id),
@@ -231,7 +213,6 @@ export const feed = {
         })
         .then(
           (thePosts: any) => {
-            console.log("delete on the way");
             commit("SETFEEDLIST", thePosts.data.data);
           },
           (error) => {
@@ -261,7 +242,6 @@ export const feed = {
     },
 
     CREATEPOST(state: any, thePost: any) {
-      console.log("post in mutation >> ", thePost);
       state.feedList.push(thePost);
     },
   },

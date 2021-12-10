@@ -1,15 +1,15 @@
 <template>
   <router-view />
-  <div id="cartridge" class="d-none d-sm-flex col-12 col-xl-3">
+  <div id="cartridge" class="col-12 col-xl-3">
     <router-view class="cartridge col-12 col-md-3" name="navMenu"></router-view>
   </div>
-  <div id="divPage" class="d-none d-sm-flex col-12 col-xl-9">
+  <div id="divPage" class="col-12 col-xl-9">
     <router-view name="thePage"></router-view>
   </div>
-  <div id="appnoncompatible" class="col-11 d-sm-none">
+  <!-- <div id="appnoncompatible">
     <p>La résolution de votre écran est incompatible avec cette application pour un usage optimal.</p>
     <p>Veuillez changé d'écran.</p>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
@@ -61,40 +61,67 @@ onMounted(() => {
   ::-webkit-scrollbar-thumb:hover {
     background: $groupo-color1;
   }
-}
-@media screen and (max-width: 1199px) {
   template {
     display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
+    flex-flow: row nowrap;
+    justify-content: space-between;
     align-items: flex-start;
-    width: 100vw;
+    height: 100vh;
 
     #cartridge {
-      width: 100vw;
+      height: 100vh;
+      display: flex;
     }
 
     #divPage {
+      position: fixed;
+      display: flex;
+      margin: 0;
+      height: 100%;
+    }
+    // #appnoncompatible {
+      
+    //   display: none;
+      
+    // }
+  }
+}
+@media (max-width: 1199px) {
+  #app {
+    template {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      align-items: flex-start;
       width: 100vw;
+
+      #cartridge {
+        width: 100vw;
+      }
+
+      #divPage {
+        width: 100vw;
+      }
+      // #appnoncompatible {
+      //   display: none;
+      // }
     }
   }
 }
+// @media (max-width: 265px) {
+//   #app {
+//     #cartridge {
+//       display: none;
+//     }
 
-template {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  height: 100vh;
-
-  #cartridge {
-    height: 100vh;
-  }
-
-  #divPage {
-    position: fixed;
-    margin: 0;
-    height: 100%;
-  }
-}
+//     #divPage {
+//       display: none;
+//     }
+    // #appnoncompatible {
+    //   display: flex;
+    //   flex-flow: column nowrap;
+    //   height: 100vh;
+    // }
+//   }
+// }
 </style>

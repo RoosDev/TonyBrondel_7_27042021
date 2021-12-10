@@ -146,6 +146,7 @@ form {
   border: 0;
 
   #changePassContent {
+    width: 100%;
     border: 0;
     display: flex;
     flex-flow: column nowrap;
@@ -156,12 +157,16 @@ form {
       width: 80%;
       text-align: center;
     }
+    div[id*="div"]{
+      width: 100%;
+      text-align: center;
+    }
     input {
       background-color: $groupo-color4;
       color: $groupo-colorLight1;
-      width: 300px;
+      width: 75%;
       height: 30px;
-      margin: 15px;
+      margin: 15px auto 15px auto ;
       border: 0;
       border-radius: 10px;
       padding-left: 10px;
@@ -181,7 +186,7 @@ form {
       align-items: center;
 
       #sendButton {
-        width: 300px;
+        width: 75%;
         height: 40px;
         margin: 20px auto 20px auto;
         border: 1px solid $groupo-color1;
@@ -225,4 +230,24 @@ form {
     color: #650000;
   }
 }
+@media (max-width: 575.99px) {
+
+form {
+  font-size: 0.8em;
+  #changePassContent {
+    em{
+      font-size: 0.8em;
+    }
+    input {
+      width: 90%;
+    }
+    #divSendButton {
+      #sendButton {
+        width: 90%;
+      }
+    }
+  }
+}
+}
+
 </style>

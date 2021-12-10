@@ -29,13 +29,11 @@ const deleteMyPost = () => {
   const messageAfterDelete = document.querySelector('#messageFormDelete') as HTMLDivElement;
   const sendButton = document.querySelector('#confirmDelete') as HTMLButtonElement;
 
-console.log('comment suppr : ', props.commentId)
 
   myStore.dispatch("deleteComment", props.commentId)
 
     // axios.delete(urlApi)
     .then((res) => {
-      console.log('debut suppression')
       sendButton.textContent = 'Suppression en-cours...';
       sendButton.setAttribute("disabled", "");
       messageAfterDelete.classList.toggle("hidebox");

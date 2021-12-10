@@ -60,18 +60,14 @@ const sendNewRole = (usertoChange) => {
   myStore.dispatch("changeRole", usertoChange)
     .then(() => {
       sendRoleButton.textContent = 'envoi en-cours ...',
-        setTimeout(() => {
           msgRoleAfterSent.classList.remove("nokSent");
           msgRoleAfterSent.classList.add("okSent");
           msgRoleAfterSent.innerHTML = '<p>Rôle mis à jour</p>';
           msgRoleAfterSent.classList.toggle("hidebox");
           sendRoleButton.textContent = 'Enregistré';
-        }, 1500),
         setTimeout(() => {
-          msgRoleAfterSent.classList.toggle("hidebox");
           myRouter.go('');
-        }, 3000),
-        console.log('Rôle à jour ;)')
+        }, 2000)
     }),
 
     (error) => {
@@ -121,9 +117,10 @@ h2 {
 }
 
 form {
+  width: 100%;
   border: 0;
-
   #changeRoleContent {
+    width: 100%;
     border: 0;
     display: flex;
     flex-flow: column nowrap;
@@ -134,6 +131,8 @@ form {
       width: 80%;
       text-align: center;
     }
+    #divrole{
+      width: 80%;
     label {
       font-size: 1.1em;
       margin-top: 15px;
@@ -159,7 +158,7 @@ form {
     select {
       background-color: $groupo-color4;
       color: $groupo-colorLight1;
-      width: 300px;
+      width: 85%;
       height: 30px;
       border: 0;
       border-radius: 10px;
@@ -171,7 +170,7 @@ form {
         background-color: $groupo-colorLight1;
         color: $groupo-color4;
       }
-    }
+    }}
 
     #divsendRoleButton {
       width: 100%;
@@ -181,7 +180,7 @@ form {
       align-items: center;
 
       #sendRoleButton {
-        width: 300px;
+        width: 90%;
         height: 40px;
         margin: 20px auto 20px auto;
         border: 1px solid $groupo-color1;
@@ -229,4 +228,19 @@ form {
     color: #650000;
   }
 }
+
+@media (max-width: 575.99px) {
+  #changeRoleContent {
+    p {
+      font-size: 0.9em;
+    }
+    #divrole{
+      label {
+      font-size: 0.9em;
+
+      }
+    }
+  }
+}
+
 </style>

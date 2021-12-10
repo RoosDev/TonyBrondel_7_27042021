@@ -50,7 +50,6 @@ const deleteMyProfile = () => {
         msgProfileAfterSent.classList.toggle("hidebox");
         myRouter.go('');
       }, 1000);
-      console.log('Profil supprimé :(');
     }),
 
     (error) => {
@@ -83,7 +82,7 @@ form {
   height: 60px;
 
 p {
-    font-size: 1.5em;
+    font-size: 1.4em;
     color: $groupo-color1;
     text-align: center;
     font-weight: bold;

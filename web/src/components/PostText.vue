@@ -8,7 +8,6 @@
         <textarea
           name="PostContent"
           id="PostContent"
-          cols="53"
           rows="6"
           v-model="theNewPost.content"
           autocapitalize="sentence"
@@ -58,7 +57,6 @@ const sendMyPost = () => {
   myStore.dispatch("createPost", theNewPost)
     // Actions à mener lors du clic sur le bouton envoi
     .then((data) => {
-      console.log('res > ', data)
       sendButton.textContent = 'Envoi en-cours...';
       sendButton.setAttribute("disabled", "");
       setTimeout(() => {
@@ -112,47 +110,55 @@ const isCommentValid = computed(() => {
   justify-content: center;
   align-items: center;
 
-  label {
-    display: block;
-    margin: 35px auto 0 auto;
-    text-align: center;
-  }
+  #postTextForm {
+    width: 100%;
+    #PostwriteContent {
+      width: 100%;
 
-  textarea {
-    display: block;
-    resize: none;
-    margin: 50px auto 0 auto;
-    border: 1px solid rgba($groupo-color4, 0.5);
-    background-color: rgba($groupo-color4, 0.2);
-    border-radius: 10px;
+      label {
+        display: block;
+        margin: 35px auto 0 auto;
+        text-align: center;
+      }
 
-    &:hover {
-      background-color: transparent;
-    }
-  }
+      textarea {
+        display: block;
+        resize: none;
+        width: 85%;
+        margin: 50px auto 0 auto;
+        border: 1px solid rgba($groupo-color4, 0.5);
+        background-color: rgba($groupo-color4, 0.2);
+        border-radius: 10px;
 
-  button {
-    display: block;
-    height: 40px;
-    margin: 70px auto 50px auto;
-    border: 1px solid $groupo-color1;
-    border-radius: 10px;
-    background-color: #92ff92;
-    color: #006500;
+        &:hover {
+          background-color: transparent;
+        }
+      }
 
-    &:hover {
-      border: 1px solid #006500;
-      border-radius: 10px;
-      background-color: rgba($likeColor, 0.5);
-      font-weight: bold;
-    }
+      button {
+        display: block;
+        height: 40px;
+        margin: 70px auto 50px auto;
+        border: 1px solid $groupo-color1;
+        border-radius: 10px;
+        background-color: #92ff92;
+        color: #006500;
 
-    &:disabled {
-      border: 1px solid #650000;
-      border-radius: 10px;
-      background-color: rgba($groupo-color4, 0.2);
-      font-style: italic;
-      color: $groupo-color1;
+        &:hover {
+          border: 1px solid #006500;
+          border-radius: 10px;
+          background-color: rgba($likeColor, 0.5);
+          font-weight: bold;
+        }
+
+        &:disabled {
+          border: 1px solid #650000;
+          border-radius: 10px;
+          background-color: rgba($groupo-color4, 0.2);
+          font-style: italic;
+          color: $groupo-color1;
+        }
+      }
     }
   }
 

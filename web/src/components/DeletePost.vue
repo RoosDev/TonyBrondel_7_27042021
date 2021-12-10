@@ -29,8 +29,8 @@ const deleteMyPost = () => {
 
   myStore.dispatch("deletePost", props.postId)
 
-    .then((res) => {
-      console.log('debut suppression')
+    .then((data) => {
+      store.commit('SETFEEDLIST');
       sendButton.textContent = 'Suppression en-cours...';
       sendButton.setAttribute("disabled", "");
       setTimeout(function () {
@@ -39,25 +39,19 @@ const deleteMyPost = () => {
         messageAfterDelete.classList.add("okSent");
         messageAfterDelete.innerHTML = '<p>Message supprimé avec succès.</p>';
         sendButton.textContent = 'supprimé';
-      }, 1500);
+      }, 1000);
       setTimeout(() => {
-        messageAfterDelete.classList.toggle("hidebox");
-        console.log('yep c est delete')
-        store.commit('SETFEEDLIST');
         myRouter.go('');
-      }, 3000);
-    })
-    .catch(err => {
+      }, 2000);
+    }),
+    (error) => {
       sendButton.setAttribute("disabled", "");
       messageAfterDelete.classList.toggle("hidebox");
       messageAfterDelete.classList.remove("okSent");
       messageAfterDelete.classList.add("nokSent");
       messageAfterDelete.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-      setTimeout(function () {
-        messageAfterDelete.classList.toggle("hidebox");
-      }, 5000);
-      console.error("There was an error!", err);
-    });
+      console.error("Une erreur s est produire :", error);
+    }
 }
 
 </script>

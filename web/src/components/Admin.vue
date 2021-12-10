@@ -5,21 +5,21 @@
       <thead>
         <tr>
           <th scope="col">Nom</th>
-          <th scope="col">Email</th>
+          <th scope="col" class="hideIfVeryTooSmall">Email</th>
           <th scope="col" class="hideIfTooSmall">Job</th>
           <th scope="col" class="hideIfSmall">Division</th>
-          <th scope="col" v-if="myRole == 'okAGo'">Responsabilité</th>
-          <th id="ActionTitle" scope="col" v-if="myRole == 'okAGo'">Actions</th>
+          <th scope="col" v-if="myRole == 'okAGo' || myRole == 'okMGo'">Responsabilité</th>
+          <th id="ActionTitle" scope="col" v-if="myRole == 'okAGo' || myRole == 'okMGo'">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr id="RowUser" v-for="user in usersList" :key="user.id">
           <td scope="row" id="NameUser">{{ user.firstname + ' ' + user.lastname }}</td>
-          <td id="emailUser"> <a :href="'mailto:'+user.email" class="lienEmail">{{ user.email }}</a></td>
+          <td id="emailUser" class="hideIfVeryTooSmall"> <a :href="'mailto:'+user.email" class="lienEmail">{{ user.email }}</a></td>
           <td id="jobUser" class="hideIfTooSmall">{{ user.job }}</td>
           <td id="divisionUser" class="hideIfSmall">{{ user.division }}</td>
-          <td id="roleUser" class="txtcenter" v-if="myRole == 'okAGo'">{{ user.role.role_name }}</td>
-          <td id="actionsAdmin" class="txtcenter" v-if="myRole == 'okAGo'">
+          <td id="roleUser" class="txtcenter" v-if="myRole == 'okAGo' || myRole == 'okMGo'">{{ user.role.role_name }}</td>
+          <td id="actionsAdmin" class="txtcenter" v-if="myRole == 'okAGo' || myRole == 'okMGo'">
             <ButtonRole
               :idToChange="user.id"
               :name="user.firstname + ' ' + user.lastname"
@@ -27,6 +27,7 @@
               :role="user.roleId"
             />
             <ButtonDelete
+              v-if="myRole == 'okAGo'"
               :idToDelete="user.id"
               :name="user.firstname + ' ' + user.lastname"
               :email="user.email"
@@ -49,7 +50,6 @@ const myStore: any = store;
 
 //Connexion au store pour récupération des informations
 const usersList = computed(() => myStore.state.users.usersList);
-
   // Récupération du role de l'utilisateur
   const currentUser:any = JSON.parse(localStorage.getItem("user")!);
   const myRole:string = currentUser.canOrNot!;
@@ -92,7 +92,7 @@ h2 {
   }
 }
 
-txtcenter {
+.txtcenter {
   text-align: center;
 }
 
@@ -140,4 +140,23 @@ button {
     display: none;
   }
 }
+
+@media (max-width: 575.99px) {
+  .hideIfVeryTooSmall {
+    display: none;
+  }
+}
+
+@media (max-width: 329.99px) {
+  #TableUser {
+    th{
+      font-size: 0.8em;
+    }td{
+      font-size: 0.8em;
+    }
+  }
+}
+
+
+
 </style>

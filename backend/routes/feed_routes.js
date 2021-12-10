@@ -38,7 +38,7 @@ const multer = require("../middlewares/multer_configPosts");
 
 // Autorisé pour l utilisateur lui meme
     //     Modification d'un post dans le feed
-    router.put("/:id", [authJwt.verifyToken, (authJwt.isRessourceOwner || authJwt.isAdmin)], feedUpdateCtrl.UpdatePost);
+    router.put("/:id", [authJwt.verifyToken, isRessourceOwnerOrAdmin], feedUpdateCtrl.UpdatePost);
 
 
 // Autorisé pour l utilisateur lui meme et les administrateurs
@@ -46,9 +46,9 @@ const multer = require("../middlewares/multer_configPosts");
 
     // // Liste des routes pour supprimer quelque chose :
     //     // Suppression d'un post dans le feed
-    router.delete("/:id", [authJwt.verifyToken,(authJwt.isRessourceOwner || authJwt.isAdmin)], feedDropCtrl.deleteOnePost);
+    router.delete("/:id", [authJwt.verifyToken,isRessourceOwnerOrAdmin], feedDropCtrl.deleteOnePost);
     //     // Suppression d'un commentaire dans le feed
-    router.delete("/:id/comment", [authJwt.verifyToken,(authJwt.isRessourceOwner || authJwt.isAdmin)], feedDropCtrl.deleteOnePost);
+    router.delete("/:id/comment", [authJwt.verifyToken,isRessourceOwnerOrAdmin], feedDropCtrl.deleteOnePost);
     //     // Suppression d'un like
     // router.delete("/:id/like",  [authJwt.verifyToken, authJwt.isRessourceOwner, authJwt.isAdmin], feedDropCtrl.deleteOneLike);
 

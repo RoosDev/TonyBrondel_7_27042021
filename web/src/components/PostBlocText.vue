@@ -3,21 +3,23 @@
     <div id="postBloc">
       <div id="timeLikeMenuZone" class="col-12">
         <span id="timePost">
-          <p>
-            <img
-              id="pictureAuthor"
-              v-if="!props.theAuthor.photo_URL"
-              src="../assets/user-male.png"
-              alt="Profil Picture"
-            />
-            <img
-              id="pictureAuthorReal"
-              v-else
-              :src="'../../' + props.theAuthor.photo_URL"
-              alt="Profil Picture"
-            />
-            {{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }} - le {{ formatDatePost(props.theDate) }}
-          </p>
+          <img
+            id="pictureAuthor"
+            class="timePostImg"
+            v-if="!props.theAuthor.photo_URL"
+            src="../assets/person.png"
+            alt="Profil Picture"
+          />
+          <img
+            id="pictureAuthorReal"
+            class="timePostImg"
+            v-else
+            :src="'../../' + props.theAuthor.photo_URL"
+            alt="Profil Picture"
+          />
+          <p
+            class="timePostText"
+          >{{ props.theAuthor.firstname + ' ' + props.theAuthor.lastname }} - le {{ formatDatePost(props.theDate) }}</p>
         </span>
         <span id="menuPost" v-if="currentUser.id == props.theAuthor.id || myRole == 'okAGo'">
           <button
@@ -27,7 +29,7 @@
           >•••</button>
           <div :id="menuDevelopChangePostText" class="menuPostDevelopTxt hidebox">
             <button
-              :id="buttonChangePostText"              
+              :id="buttonChangePostText"
               class="menuPost_Change"
               v-if="currentUser.id == props.theAuthor.id"
               @click="toggleModal_ChangePost(), toggleMenuPost()"
@@ -153,63 +155,69 @@ const toggleMenuPost = () => {
       justify-content: space-between;
       align-items: center;
 
-      p {
-        text-align: left;
-        font-size: 0.9em;
-        font-style: italic;
-        font-weight: bold;
-        color: $groupo-color4;
-        margin: 0;
-
-        img {
+      #timePost {
+        width: 85%;
+        .timePostImg {
           width: 50px;
         }
         #pictureAuthorReal {
           border-radius: 50%;
         }
-      }
-
-      .openMenuPostText {
-        margin: 0 auto 0 150px;
-        border: 0 solid $groupo-color1;
-        border-radius: 5px;
-        background-color: transparent;
-
-        &:hover {
-          text-shadow: 2px 2px 5px rgba($groupo-color2, 1);
+        .timePostText {
+          display: inline;
+          text-align: left;
+          font-size: 0.9em;
+          font-style: italic;
+          font-weight: bold;
+          color: $groupo-color4;
+          margin: 0;
         }
       }
+      #menuPost {
+        width: 15%;
+        .openMenuPostText {
+          margin: 0 10px 0 auto;
+          border: 0 solid $groupo-color1;
+          border-radius: 5px;
+          background-color: transparent;
 
-      .menuPostDevelopTxt {
-        position: absolute;
-        width: 200px;
-        border-radius: 10px;
-        box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
-        background-color: #fff;
-        z-index: 100;
-      }
+          &:hover {
+            text-shadow: 2px 2px 5px rgba($groupo-color2, 1);
+          }
+        }
 
-      .menuPost_Delete,
-      .menuPost_Change {
-        display: block;
-        border: 0;
-        background-color: #fff;
-        width: 100%;
-        height: 50%;
+        .menuPostDevelopTxt {
+          position: absolute;
+          width: 200px;
+          right: 50px;
+          border-radius: 10px;
+          box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
+          background-color: #fff;
+          z-index: 100;
+        }
 
+        .menuPost_Delete,
         .menuPost_Change {
-          border-radius: 10px 10px 0 0;
-        }
-        .menuPost_Delete {
-          border-radius: 0 0 10px 10px;
-        }
+          display: block;
+          border: 0;
+          background-color: #fff;
+          width: 100%;
+          height: 50%;
 
-        &:hover {
-          background-color: rgba($groupo-color1, 0.1);
-        }
-        p {
-          font-size: 1.1em;
-          padding: 5px;
+          .menuPost_Change {
+            border-radius: 10px 10px 0 0;
+          }
+          .menuPost_Delete {
+            border-radius: 0 0 10px 10px;
+          }
+
+          &:hover {
+            background-color: rgba($groupo-color1, 0.1);
+          }
+          p {
+            font-size: 1.1em;
+            padding: 5px;
+          }
         }
       }
 
@@ -235,7 +243,7 @@ const toggleMenuPost = () => {
 
       #thePostText {
         width: 95%;
-        height: 300px;
+        height: 250px;
         margin-left: auto;
         margin-right: auto;
         text-align: center;
@@ -267,37 +275,85 @@ const toggleMenuPost = () => {
 
 @media (max-width: 991.99px) {
   #fullBloc {
-    height: 770px;
-    background-color: $color-white;
-    margin: 20px auto 0 30px;
-    border-left: 1px solid $groupo-color1;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
 
     #postBloc {
-      display: flex;
       flex-flow: column nowrap;
-      justify-content: center;
-      align-items: center;
+
+      #timeLikeMenuZone {
+        margin-left: -50px;
+      }
 
       #PostZone {
         display: flex;
-        height: 350px;
+        height: 175px;
         line-height: 100%;
         margin: 0;
 
         #thePostText {
-          max-height: 300px;
+          max-height: 125px;
         }
       }
       #commentZone {
         display: flex;
-        height: 400px;
+        height: 300px;
       }
     }
+  }
+}
+@media (max-width: 575.99px) {
+  #fullBloc {
+    margin: 0 auto 0 auto;
+    font-size: 0.8em;
+    #postBloc {
+      #timeLikeMenuZone {
+        margin-left: 0px;
+        #menuPost {
+          .menuPostDevelopTxt {
+            width: 100px;
+          }
+        }
+      }
+      #PostZone {
+        height: 250px;
 
-    #postFooter {
-      width: 60%;
-      border-bottom: 1px solid $groupo-color1;
-      margin: 0 auto 0 auto;
+        #thePostText {
+          max-height: 200px;
+        }
+      }
+      #commentZone {
+        display: flex;
+        height: 300px;
+      }
+    }
+  }
+}
+@media (max-width: 329.99px) {
+  #fullBloc {
+    margin: 0 auto 0 10px;
+
+    #postBloc {
+      #timeLikeMenuZone {
+        #menuPost {
+          .menuPostDevelopTxt {
+            right: 15px;
+          }
+        }
+      }
+
+      #PostZone {
+        height: 275px;
+
+        #thePostText {
+          max-height: 225px;
+        }
+      }
+      #commentZone {
+        display: flex;
+        height: 300px;
+      }
     }
   }
 }

@@ -41,15 +41,14 @@ const deleteMyProfile = () => {
         msgProfileAfterSent.innerHTML = '<p>Profil Supprimé</p>';
         msgProfileAfterSent.classList.toggle("hidebox");
         deleteProfileButton.textContent = 'Au revoir';
-      }, 1500)
+      }, 1000)
     })
     .then((data) => {
       setTimeout(() => {
         msgProfileAfterSent.classList.toggle("hidebox");
         localStorage.removeItem("user");
         myRouter.go('');
-      }, 4000);
-      console.log('Profil supprimé :(', data);
+      }, 2000);
     }),
 
     (error) => {

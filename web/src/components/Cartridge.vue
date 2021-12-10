@@ -15,7 +15,7 @@
       <img
         v-if="!userDetails.photo_URL"
         class="pictureProfilMin"
-        src="../../public/Public_Images/Profile/user.png"
+        src="../assets/person.png"
         alt="Photo de profil"
       />
       <img
@@ -142,6 +142,22 @@ onMounted(() => {
   #profilBox {
     display: none;
   }
+}
+
+@media (max-width: 575.99px) {
+
+  #cartridge {
+  background-color: $groupo-colorLight2;
+  width: 100%;
+  min-height: 50px;
+  max-height: 75px;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+}
+
+
 }
 
 #cartridge {

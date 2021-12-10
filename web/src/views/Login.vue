@@ -2,7 +2,7 @@
   <div id="darkSide" class="col-12">
     <div
       id="connectZone"
-      class="d-none d-sm-flex flex-column flex-md-row col-11 col-sm-11 col-md-11 col-lg-8 col-xl-6"
+      class=" d-sm-flex flex-column flex-md-row col-11 col-sm-11 col-md-11 col-lg-8 col-xl-6"
     >
       <div id="connectZone__Login" class="col-12 col-md-5">
         <Log />
@@ -15,10 +15,10 @@
       </div>
     </div>
   </div>
-  <div id="appnoncompatible" class="col-10 d-sm-none">
+  <!-- <div id="appnoncompatible" class="col-10 d-sm-none">
     <p>La résolution de votre écran est incompatible avec cette application pour un usage optimal.</p>
     <p>Veuillez changé d'écran.</p>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">

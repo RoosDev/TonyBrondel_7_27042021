@@ -14,7 +14,6 @@ export const usersBase = {
     // Utilisation du Store pour changer son mot de passe
     async changePass({ commit }: { commit: any }, user) {
       if (user.accessToken == null || user.roleToken == null) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = user.id),
@@ -44,15 +43,12 @@ export const usersBase = {
     // Utilisation du Store pour changer son propre profil
     async changeProfile({ commit }: { commit: any }, userDetail) {
       if (userDetail.accessToken == null || userDetail.roleToken == null) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
-        console.log('pouet pouet'), 
         (myHead.id = userDetail.id),
           (myHead.accessToken = userDetail.accessToken),
           (myHead.roleToken = userDetail.roleToken);
       }
-      console.log('my head change profile >> ', myHead)
       const dataProfile = {
         id: userDetail.id,
         email: userDetail.email,
@@ -75,7 +71,6 @@ export const usersBase = {
           }
         )
         .then((theUser: any) => {
-          console.log('retour pour theUser >', theUser.data.data)
           if(theUser.data.data == 1){
           commit("SETUSERDETAIL", dataProfile);
         }else{
@@ -87,7 +82,6 @@ export const usersBase = {
     // Utilisation du Store pour supprimer son propre profil
     async deleteProfile({ commit }: { commit: any }, userDetail) {
       if (userDetail.accessToken == null || userDetail.roleToken == null) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = userDetail.id),
@@ -156,7 +150,6 @@ export const usersBase = {
           (myHead.accessToken = usertoChange.accessToken),
           (myHead.roleToken = usertoChange.roleToken);
       }
-      console.log('myHead >> ', myHead)
       await axios
         .put(
           API_User_URL + "Admin/profile/role/" + usertoChange.idToChange,
@@ -206,7 +199,6 @@ export const usersBase = {
 
     async getUsers({ commit }: { commit: any }, userId) {
       if (userId.accessToken == null || userId.roleToken == null) {
-        console.log("my head is null");
         myHead = JSON.parse(localStorage.getItem("user")!);
       } else {
         (myHead.id = userId.id),

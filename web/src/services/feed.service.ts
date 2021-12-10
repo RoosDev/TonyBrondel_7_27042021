@@ -31,7 +31,6 @@ class FeedService {
   // }
 
   // createPost(theNewPost) {
-  //   console.log('new post inside >> ',theNewPost);
   //   return axios.post(API_FEED_URL, theNewPost,
   //     {
   //       headers: {
