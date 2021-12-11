@@ -105,6 +105,7 @@ nav {
         margin: 0;
 
         &:hover {
+            color: $groupo-color2;
             text-decoration: wavy;
             border: 1px solid $groupo-color4;
             border-radius: 15px;
@@ -168,6 +169,15 @@ nav {
         align-items: center;
         margin-right: auto;
         margin-left: auto;
+        a {
+            color: $groupo-colorLight3;
+            border: 1px solid transparent;
+            margin: 0;
+
+            &:hover {
+                background-color: $groupo-colorLight3;
+            }
+        }
     }
 }
 @media (max-width: 575.99px) {
@@ -201,7 +211,6 @@ nav {
                 }
             }
         }
-
     }
 }
 @media (max-width: 329.99px) {
@@ -235,7 +244,6 @@ nav {
                 }
             }
         }
-
     }
 }
 </style>
