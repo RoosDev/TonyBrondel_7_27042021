@@ -76,17 +76,15 @@ exports.signup = async (req, res, next) => {
         role_Id: 1,
         active: 1,
       };
-      console.log(theUser);
       try {
         const data = await modelUsers.create(theUser);
-        
         return res
           .send({ data })
           .status(201);
       } catch (err) {
         return res
           .status(500)
-          .send({
+          .json({
             error:
               "Une erreur s'est produite, nous n'avons pas pu vous enregistrer.",
             details: err,
@@ -95,7 +93,7 @@ exports.signup = async (req, res, next) => {
       }
     }else{
       console.log('Email trouvé, pas besoin de s inscrire')
-      return err.status(409).send({
+      return err.status(409).json({
         message:
           "Il semble que nous nous soyons déjà croisé. Avez vous oublié ?",
       });

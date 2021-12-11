@@ -3,11 +3,15 @@ DROP TABLE IF EXISTS users_roles;
 CREATE TABLE `users_roles` (
   `id` int unsigned NOT NULL,
   `role_Name` varchar(50) NOT NULL,
-  `image_URL` varchar(255) NOT NULL,
+  `image_URL` varchar(255) NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `users_roles` VALUES ('1', 'user', null, null, null);
+INSERT INTO `users_roles` VALUES ('2', 'manager', null, null, null);
+INSERT INTO `users_roles` VALUES ('3', 'admin', null, null, null);
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE `users` (
