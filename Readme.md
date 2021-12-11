@@ -1,12 +1,12 @@
 # **Groupomania**  --  *by RoosDev* 
 
-## Projet 7 - OpenClassRooms  -- *Créer un réseau social d'entreprise*
+## Project 7 - OpenClassRooms  -- *Create a corporate Social Network*
 ---
 
-![Groupomania App - Responsive](./readme/Readme-Grouporama-800.png "Aperçu des Devices")
+![Groupomania App - Responsive](./readme/Readme-Grouporama-800.png "Responsive Design")
 
 ---
-## **Les Technologies**
+## **The Techno.**
 ---
 
 ### **FRONT END** <br />
@@ -22,44 +22,45 @@
  <br />
 
 ---
-## **Installation**
+## **Install & run**
 ---
 
-1. Cloner le repository complet
+1. Clone the repository
 
-* ### Le BACK END
-2. Créer la base de données et ses tables.
-   1. Pour cela aller dans le dossier : **/DB**
-   2. Importer le fichier présent dans ce dossier dans MySQL
-   3. L'ensemble des éléments de connexion à la base de donnée sont présent dans le fichier : /backend/.env 
-3. Dans une console :
-   1. se rendre dans le dossier : /backend
-   2. lancer la commande :   <br /> 
+* ### The BACK END
+2. Create Database and tables.
+   1. Go in folder : **/DB**
+   2. Import in MySQL the .sql file
+   3. All settings to connect to the Database must be updated in the file  : **/backend/.env**
+3. In a Shell :
+   1. Go in folder : **/backend**
+   2. Run *(to install)* :   <br /> 
     **``` npm install ```**
-   3. lancer node server.js
+   3. then run *(to start)*:<br /> 
+    **``` node server.js ```**
 
-=> La console devrait vous afficher :<br /> 
+=> In the Shell you should read  :<br /> 
       *``` Executing (default): SELECT 1+1 AS result```*
 
-* ### Le FRONT END
-4. Dans une console :
-   1. se rendre dans le dossier : **/web**
-   2. lancer la commande :<br /> 
+* ### The FRONT END
+4. In a shell :
+   1. Go in folder : **/web**
+   2. Run *(to start)*:<br /> 
    **``` npm run serve ```**<br /> 
-   *(si vous souhaiter générer la version de prod, utiliser la commande : **```npm run build```** )*
+   *(if you want to build the web version to published, you can use : **```npm run build```** )*
     
 ---
-## **Administration**
+## **Admin**
 ---
 
-Pour créer l'administrateur initial: 
+To create the first administrator : 
 
-1. Rendez-vous sur la page d'accueil : http://localhost:8080 
-2. Inscrivez vous comme n'importe quel utilisateur via le formulaire
-3. Allez dans MySql 
-   1. entrer sur la table *groupo_prod*   =>   <br />  **``` use groupo_prod;```**
-   2. puis accéder à la table *users* 
-   3. sur la ligne de votre utilisateur passer le *role_Id* à 3 <br /> avec la commande *(si votre utilisateur a l'id 1)*: <br />
+1. Go on the homepage : http://localhost:8080 
+2. Sign Up, like a classic user
+3. Go in MySql 
+   1. select the Database *groupo_prod*   =>   <br />  **``` use groupo_prod;```**
+   2. On the table : *users* 
+   3. Change the *role_Id* to 3 on your user record<br /> , to do the update you can use : *(if your user have the id 1)*: <br />
     **```UPDATE users SET role_Id = 3 WHERE id = 1; ```**
 
 ---
