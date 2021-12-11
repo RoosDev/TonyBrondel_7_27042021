@@ -159,7 +159,6 @@ nav {
         background-color: #fff;
     }
 }
-
 @media (max-width: 1199.99px) {
     nav {
         height: 90%;
