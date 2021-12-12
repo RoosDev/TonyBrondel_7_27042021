@@ -43,7 +43,7 @@
                 </svg>
             </div>
             <div class="svgText">
-                <p v-if="myRole == 'okAGo'">Admin.</p>
+                <p v-if="myRole == 'okAGo' || myRole == 'okMGo'">Admin.</p>
                 <p v-else>Annuaire</p>
             </div>
         </router-link>

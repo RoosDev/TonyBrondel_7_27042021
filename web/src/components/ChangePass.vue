@@ -118,7 +118,6 @@ const sendMyNewPass = (user) => {
 
     setTimeout(() => {
       messageAfterSent.classList.toggle("hidebox");
-      myRouter.go();
     }, 4000)
   }
 
