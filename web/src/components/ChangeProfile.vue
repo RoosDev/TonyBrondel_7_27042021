@@ -122,8 +122,6 @@ const sendMyNewProfile = (userDetail) => {
       msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
       msgProfileAfterSent.classList.toggle("hidebox");
       sendProfileButton.textContent = 'Enregistré';
-
-
     }),
 
     (error) => {

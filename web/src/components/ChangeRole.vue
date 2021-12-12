@@ -22,8 +22,8 @@
         <ErrorMessage name="role" class="error-feedback" />
 
         <div id="cleanZone"></div>
-        <div id="divsendRoleButton">
-          <button id="sendRoleButton" class="col-9" type="submit">Enregistrer</button>
+        <div id="divsendRoleToChangeButton">
+          <button id="sendRoleToChangeButton" class="col-9" type="submit">Enregistrer</button>
         </div>
       </div>
     </Form>
@@ -32,7 +32,6 @@
 </template>
 <script setup lang="ts">
 import store from '../store/index';
-import { computed, reactive } from 'vue';
 import { useRouter } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -53,33 +52,40 @@ const props = defineProps<{
   email: string,
 }>()
 
+
 // Fonction d'enregistrement du nouveau mot de passe
 const sendNewRole = (usertoChange) => {
   const msgRoleAfterSent = document.querySelector('#msgRoleSent') as HTMLDivElement;
-  const sendRoleButton = document.querySelector('#sendRoleButton') as HTMLButtonElement;
+  const sendRoleToChangeButton = document.querySelector('#sendRoleToChangeButton') as HTMLButtonElement;
+  
   myStore.dispatch("changeRole", usertoChange)
-    .then(() => {
-      sendRoleButton.textContent = 'envoi en-cours ...',
-          msgRoleAfterSent.classList.remove("nokSent");
-          msgRoleAfterSent.classList.add("okSent");
-          msgRoleAfterSent.innerHTML = '<p>Rôle mis à jour</p>';
-          msgRoleAfterSent.classList.toggle("hidebox");
-          sendRoleButton.textContent = 'Enregistré';
-        setTimeout(() => {
-          myRouter.go('');
-        }, 2000)
-    }),
+    .then((response) => {
+      console.log('response > ', response)
+      sendRoleToChangeButton.textContent = 'envoi en-cours ...';
+      msgRoleAfterSent.classList.remove("nokSent");
+      msgRoleAfterSent.classList.add("okSent");
+      msgRoleAfterSent.innerHTML = '<p>Rôle mis à jour</p>';
+      msgRoleAfterSent.classList.toggle("hidebox");
+      sendRoleToChangeButton.textContent = 'Enregistré';
+      myRouter.go('');
+    })
 
-    (error) => {
+    .catch((error) => {
+      let msgError = (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+      console.log('msg error> ', msgError)
       msgRoleAfterSent.classList.toggle("hidebox");
       msgRoleAfterSent.classList.remove("okSent");
       msgRoleAfterSent.classList.add("nokSent");
-      msgRoleAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      msgRoleAfterSent.innerHTML = '<p>'+msgError+'</p>';
       setTimeout(function () {
         msgRoleAfterSent.classList.toggle("hidebox");
       }, 3500);
       console.error("There was an error!", error);
-    }
+    });
 }
 
 // const isFormProfilValid = computed((user) => {
@@ -172,14 +178,14 @@ form {
       }
     }}
 
-    #divsendRoleButton {
+    #divsendRoleToChangeButton {
       width: 100%;
       display: flex;
       flex-flow: column nowrap;
       justify-content: center;
       align-items: center;
 
-      #sendRoleButton {
+      #sendRoleToChangeButton {
         width: 90%;
         height: 40px;
         margin: 20px auto 20px auto;

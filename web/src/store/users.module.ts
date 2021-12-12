@@ -156,6 +156,7 @@ export const usersBase = {
           {
             idToChange: usertoChange.idToChange,
             role: usertoChange.role,
+            idAdmin: myHead.id,
           },
           {
             headers: {
@@ -167,7 +168,12 @@ export const usersBase = {
         )
         .then((theUser: any) => {
           commit("SETUSERS", theUser.data.data);
-        });
+        },
+        (error) => {
+          console.log(error)
+          return Promise.reject(error);
+        }
+);
     },
 
     async getUser({ commit }: { commit: any }, userId) {
