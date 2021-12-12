@@ -177,8 +177,8 @@ exports.updateRole = async (req, res, next) => {
   try {
     if (findAdministrator.id == req.body.idToChange) {
       console.log("Vous ne pouvez pas modifier votre propre rôle.")
-        return res.status(401).send({ 
-        message: "Vous ne pouvez pas accorder un rôle supérieur au votre."})
+      return res.status(401).send({ 
+        message: "Vous ne pouvez pas modifier votre propre rôle.  "})
     } else {
   
       if( findAdministrator.role_Id < theRole.role_Id){

@@ -23,11 +23,11 @@
 
         <div id="cleanZone"></div>
         <div id="divsendRoleToChangeButton">
-          <button id="sendRoleToChangeButton" class="col-9" type="submit">Enregistrer</button>
+          <button :id="'sendRoleToChangeButton'+props.idToChange" class="col-9 sendRoleToChangeButton" type="submit">Enregistrer</button>
         </div>
       </div>
     </Form>
-    <div id="msgRoleSent" class="hidebox"></div>
+    <div :id="'msgRoleSent'+props.idToChange" class="hidebox msgRoleSent"></div>
   </div>
 </template>
 <script setup lang="ts">
@@ -55,8 +55,8 @@ const props = defineProps<{
 
 // Fonction d'enregistrement du nouveau mot de passe
 const sendNewRole = (usertoChange) => {
-  const msgRoleAfterSent = document.querySelector('#msgRoleSent') as HTMLDivElement;
-  const sendRoleToChangeButton = document.querySelector('#sendRoleToChangeButton') as HTMLButtonElement;
+  const msgRoleAfterSent = document.querySelector('#msgRoleSent'+props.idToChange) as HTMLDivElement;
+  const sendRoleToChangeButton = document.querySelector('#sendRoleToChangeButton'+props.idToChange) as HTMLButtonElement;
   
   myStore.dispatch("changeRole", usertoChange)
     .then((response) => {
@@ -76,7 +76,6 @@ const sendNewRole = (usertoChange) => {
               error.response.data.message) ||
             error.message ||
             error.toString();
-      console.log('msg error> ', msgError)
       msgRoleAfterSent.classList.toggle("hidebox");
       msgRoleAfterSent.classList.remove("okSent");
       msgRoleAfterSent.classList.add("nokSent");
@@ -84,7 +83,6 @@ const sendNewRole = (usertoChange) => {
       setTimeout(function () {
         msgRoleAfterSent.classList.toggle("hidebox");
       }, 3500);
-      console.error("There was an error!", error);
     });
 }
 
@@ -185,7 +183,7 @@ form {
       justify-content: center;
       align-items: center;
 
-      #sendRoleToChangeButton {
+      .sendRoleToChangeButton {
         width: 90%;
         height: 40px;
         margin: 20px auto 20px auto;
@@ -208,7 +206,7 @@ form {
   height: 40px;
 }
 
-#msgRoleSent {
+.msgRoleSent {
   width: 70%;
   margin-right: auto;
   margin-left: auto;
@@ -247,6 +245,9 @@ form {
       }
     }
   }
+}
+.hidebox {
+  display: none;
 }
 
 </style>

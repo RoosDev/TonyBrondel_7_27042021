@@ -58,7 +58,12 @@ exports.signup = async (req, res, next) => {
     });
     // res.send(existOrNot);
     console.log('recherche de l existance de l email ...')
-    if (existOrNot === null) {
+    if (existOrNot != null) {
+      return res.status(409).send({
+        message:
+          "Il semble que nous nous soyons déjà croisé. Avez vous oublié ?",
+      })
+    } else {
       console.log('Cet email n existe pas, lancement de l inscription ...')
       ///-------------------------------------------------------/
       /// Lancement de la création de l'utilisateur
@@ -84,26 +89,20 @@ exports.signup = async (req, res, next) => {
       } catch (err) {
         return res
           .status(500)
-          .json({
-            error:
+          .send({
+            message:
               "Une erreur s'est produite, nous n'avons pas pu vous enregistrer.",
             details: err,
           })
           ;
       }
-    }else{
-      console.log('Email trouvé, pas besoin de s inscrire')
-      return err.status(409).json({
-        message:
-          "Il semble que nous nous soyons déjà croisé. Avez vous oublié ?",
-      });
     }
   } catch (err) {
     return res
       .status(500)
       .send({
-        error:
-          "Erreur 500 : Une erreur s'est produite, veuillez réessayer dans quelques instants.",
+        message:
+          "Une erreur s'est produite, veuillez réessayer dans quelques instants.",
       })
     ;
   }
