@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { Sequelize } = require("sequelize");
+const { comment_list } = require("../config/db.config");
 const dbConnect  = require('../config/db.config');
 const modelPostList = dbConnect.post_comment_list;
 const modelCommentList = dbConnect.comment_list;
@@ -66,7 +67,7 @@ exports.getAllFeeds = ( async(req, res, next) => {
                 { model: modelPostsLike, as: 'like_list', attributes:['id'], include:[{ model: modelLikesType, as: 'LikeType', attributes:['like_name', 'image_URL']}]},
                ],
       where: {reference: null }, 
-      order: [['updatedAt', 'DESC']] ,
+      order: [['updatedAt', 'DESC'],['comment_list', 'updatedAt', 'ASC']] ,
     }) 
 
     res.send( { data } );
