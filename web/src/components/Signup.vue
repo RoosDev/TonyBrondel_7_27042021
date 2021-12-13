@@ -151,13 +151,13 @@ const handleRegister = (user) => {
     })
     .catch((error) => {
       let msgError = (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-      textSendSignup.innerHTML = msgError||`Il semble qu'il y ait un problème. Ne seriez vous pas déja inscrit ?`
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+      textSendSignup.innerHTML = msgError || `Il semble qu'il y ait un problème. Ne seriez vous pas déja inscrit ?`
     }
-  );
+    );
 }
 
 </script>
@@ -271,7 +271,7 @@ const handleRegister = (user) => {
 #iconSendSignup {
   width: 20%;
 }
-#textSendSignup{
+#textSendSignup {
   font-size: 1.3em;
   text-align: center;
 }

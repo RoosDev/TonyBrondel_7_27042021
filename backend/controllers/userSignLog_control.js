@@ -138,14 +138,15 @@ exports.login = async (req, res, next) => {
         console.log("On vous a trouvé, on check le pass");
       } else {
         console.log("email inconnu.");
-        return res.sendStatus(404, { 
-          message: "Nous n'arrivons pas à vous trouver. Etes vous inscrit ?"});
+        return res.status(401).send({
+          accessToken: null,
+          message: "Nous n'arrivons pas à vous trouver. Etes vous inscrit ?" });
       }
       if(findForLogin.active != 0){
         console.log("Le compte est actif");
       } else {
         console.log("Compte inactif.");
-        return res.sendStatus(404, { 
+        return res.status(401).send({ 
           message: "Ce compte a été supprimé. Vous devez vous réinscrire."});
       }
         // Lancement de la vérification du mot de passe
