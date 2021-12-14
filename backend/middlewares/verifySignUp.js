@@ -6,20 +6,19 @@ const CryptoJS = require("crypto-js");
 // // Mise en place des variables d'environnement
 const dotenv = require("dotenv");
 dotenv.config();
-const CRYPT_PASS = process.env.Crypto_Passphrase;
+const CRYPT_OutLen = process.env.Crypto_OutPutLength;
 
 
 checkDuplicateEmail = (req, res, next) => {
 
-  const email_Cryp = CryptoJS.AES.encrypt(
-    req.body.email,
-    CRYPT_PASS
-  ).toString();
+  const email_Hash = CryptoJS.SHA3(req.body.email, {
+    outputLength: CRYPT_OutLen,
+  }).toString();
 
     // Email
     User.findOne({
       where: {
-        email_Crypt: email_Cryp
+        email_H: email_Hash
       }
     }).then(user => {
       if (user) {

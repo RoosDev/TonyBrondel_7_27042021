@@ -67,18 +67,18 @@ exports.getOutProfil = async (req, res, next) => {
     let posterId = 0;
     await modelUsers
       .findOne({
-        where: { email_Crypt: req.email },
+        where: { email_H: req.email },
       })
       .then(async (user) => {
         posterId = user.id;
-        const emailDeleteUnique = "injoignable" + posterId;
+        const emailDeleteUnique = "supprimé-Out" + posterId;
 
         // Définition du profil anonymisé pour suppression
         const theDeleteProfile = {
           firstname: "Utilisateur",
           lastname: "supprimé",
           email_H: emailDeleteUnique,
-          email_Crypt: "injoignable",
+          email_Crypt: emailDeleteUnique,
           password_H: "aucun mot de passe  - DeletePassword_Hash",
           job: "no job",
           photo_URL: null,
@@ -116,15 +116,6 @@ exports.getOutProfil = async (req, res, next) => {
 //*******************************************************************//
 exports.getOutProfilAdmin = async (req, res, next) => {
   try {
-    // récupération de l'id User
-    // let posterId = 0;
-    // await modelUsers
-    //   .findOne({
-    //     where: { email_Crypt: req.email },
-    //   })
-    //   .then(async (user) => {
-    //     posterId = user.id;
-
     const emailDeleteUnique = "injoignable" + req.body.id;
     // Définition du profil anonymisé pour suppression
     const theDeleteProfileAdmin = {
@@ -243,14 +234,13 @@ exports.UpdatePassword = async (req, res, next) => {
     res.send({ data });
     (data) => {
       if (data == 1) {
-        return (res.statusMessage = "Modification enregistrée");
+        return res.send({message: "Modification enregistrée"});
       } else {
-        return (res.statusMessage = "Modification impossible.");
+        return res.send({message: "Modification impossible"});
       }
     };
   } catch (err) {
-    return (res.sendStatus(500).statusMessage =
-      err.message || "Une erreur s'est produite. Veuillez réessayer.");
+    return res.status(500).send({message: "Une erreur s'est produite. Veuillez réessayer."});
   }
 };
 

@@ -99,7 +99,6 @@ const sendMyNewEmail = (user) => {
         sendButton.removeAttribute("disabled");
         messageAfterSent.classList.toggle("hidebox");
       }, 4000);
-      console.error("There was an error!", error);
     })
 
 }

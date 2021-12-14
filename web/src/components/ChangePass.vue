@@ -32,11 +32,16 @@
         </div>
         <ErrorMessage name="password2" class="error-feedback" />
         <div id="divSendButton">
-          <button id="sendButton" class="col-9" type="submit" :disabled="!isFormValid">Enregistrer</button>
+          <button
+            id="sendButtonToDelete"
+            class="col-9"
+            type="submit"
+            :disabled="!isFormValid"
+          >Enregistrer</button>
         </div>
       </div>
     </Form>
-    <div id="msgFormSent" class="hidebox"></div>
+    <div id="msgFormSentToDelete" class="hidebox">yoppp</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -71,54 +76,64 @@ const password2 = '';
 
 // Fonction d'enregistrement du nouveau mot de passe
 const sendMyNewPass = (user) => {
-  const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
+  const messageAfterSentToDelete = document.querySelector('#msgFormSentToDelete') as HTMLDivElement;
   const inputPass = document.querySelector('.inputPass') as HTMLInputElement;
   const inputPass2 = document.querySelector('.inputPass2') as HTMLInputElement;
-  const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
+  const sendButtonToDelete = document.querySelector('#sendButtonToDelete') as HTMLButtonElement;
 
   if (user.password == user.password2) {
-// lancement de la modification du mot de passe
+    // lancement de la modification du mot de passe
     myStore.dispatch("changePass", user)
-    // ça fonctionne 
+      // ça fonctionne 
       .then((data) => {
-        sendButton.textContent = 'envoi en-cours ...',
+        sendButtonToDelete.textContent = 'envoi en-cours ...',
           setTimeout(() => {
-            messageAfterSent.classList.remove("nokSent");
-            messageAfterSent.classList.add("okSent");
-            messageAfterSent.innerHTML = '<p>Nouveau mot de passe enregistré <br /> Déconnexion en-cours...</p>';
-            messageAfterSent.classList.toggle("hidebox");
+            messageAfterSentToDelete.classList.remove("nokSent");
+            messageAfterSentToDelete.classList.add("okSent");
+            messageAfterSentToDelete.innerHTML = '<p>Nouveau mot de passe enregistré <br /> Déconnexion en-cours...</p>';
+            messageAfterSentToDelete.classList.toggle("hidebox");
             inputPass.value = '';
             inputPass2.value = '';
-            sendButton.textContent = 'Envoyé';
+            sendButtonToDelete.textContent = 'Envoyé';
           }, 100);
         setTimeout(() => {
-          messageAfterSent.classList.toggle("hidebox");
+          messageAfterSentToDelete.classList.toggle("hidebox");
           myStore.dispatch('auth/logout');
           myRouter.go('');
         }, 2000);
-      }),
-    // ça ne fonctionne pas 
-      (error) => {
-        messageAfterSent.classList.toggle("hidebox");
-        messageAfterSent.classList.remove("okSent");
-        messageAfterSent.classList.add("nokSent");
-        messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      })
+      // ça ne fonctionne pas 
+      .catch((error) => {
+        sendButtonToDelete.setAttribute("disabled", "");
+
+        let msgError = (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+          error.message ||
+          error.toString();
+        if (msgError == undefined || msgError == null) {
+          msgError = `Une erreur s'est produite. Veuillez réessayer.`
+        }
+        messageAfterSentToDelete.classList.toggle("hidebox");
+        messageAfterSentToDelete.classList.remove("okSent");
+        messageAfterSentToDelete.classList.add("nokSent");
+        messageAfterSentToDelete.innerHTML = '<p>' + msgError + '</p>';
         setTimeout(function () {
-          messageAfterSent.classList.toggle("hidebox");
+          sendButtonToDelete.removeAttribute("disabled");
+          messageAfterSentToDelete.classList.toggle("hidebox");
         }, 4000);
-        console.error("There was an error!", error);
-      }
+      })
   } else {
-    messageAfterSent.classList.remove("okSent");
-    messageAfterSent.classList.add("nokSent");
-    messageAfterSent.classList.toggle("hidebox");
-    messageAfterSent.innerHTML = '<p>Erreur de mot de passe.</p>';
+    messageAfterSentToDelete.classList.remove("okSent");
+    messageAfterSentToDelete.classList.add("nokSent");
+    messageAfterSentToDelete.classList.toggle("hidebox");
+    messageAfterSentToDelete.innerHTML = '<p>Les mots de passes doivent être identiques.</p>';
     inputPass.value = '';
     inputPass2.value = '';
 
     setTimeout(() => {
-      messageAfterSent.classList.toggle("hidebox");
-    }, 4000)
+      messageAfterSentToDelete.classList.toggle("hidebox");
+    }, 3000)
   }
 
 }
@@ -156,7 +171,7 @@ form {
       width: 80%;
       text-align: center;
     }
-    div[id*="div"]{
+    div[id*="div"] {
       width: 100%;
       text-align: center;
     }
@@ -165,7 +180,7 @@ form {
       color: $groupo-colorLight1;
       width: 75%;
       height: 30px;
-      margin: 15px auto 15px auto ;
+      margin: 15px auto 15px auto;
       border: 0;
       border-radius: 10px;
       padding-left: 10px;
@@ -184,7 +199,7 @@ form {
       justify-content: center;
       align-items: center;
 
-      #sendButton {
+      #sendButtonToDelete {
         width: 75%;
         height: 40px;
         margin: 20px auto 20px auto;
@@ -203,21 +218,21 @@ form {
     }
   }
 }
-#msgFormSent {
-  width: 70%;
+#msgFormSentToDelete {
+  width: 80%;
   margin-right: auto;
   margin-left: auto;
   height: 50px;
   border-radius: 15px;
   p {
-    font-size: 1em;
+    font-size: 0.9em;
     text-align: center;
     font-weight: bold;
     margin-top: 7px;
     margin-bottom: 10px;
   }
 }
-.hidebox{
+.hidebox {
   display: none;
 }
 .okSent {
@@ -233,23 +248,21 @@ form {
   }
 }
 @media (max-width: 575.99px) {
-
-form {
-  font-size: 0.8em;
-  #changePassContent {
-    em{
-      font-size: 0.8em;
-    }
-    input {
-      width: 90%;
-    }
-    #divSendButton {
-      #sendButton {
+  form {
+    font-size: 0.8em;
+    #changePassContent {
+      em {
+        font-size: 0.8em;
+      }
+      input {
         width: 90%;
+      }
+      #divSendButton {
+        #sendButtonToDelete {
+          width: 90%;
+        }
       }
     }
   }
 }
-}
-
 </style>

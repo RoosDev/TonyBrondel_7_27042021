@@ -17,14 +17,14 @@
           placeholder="Saisissez ici votre prose..."
         ></textarea>
         <button
-          id="sendButton"
+          id="sendButtonToChangePost"
           class="col-9"
           type="submit"
           :disabled="!isPutValid"
         >Enregistrer les modifications</button>
       </div>
     </form>
-    <div id="msgFormSent" class="hidebox"></div>
+    <div id="msgFormSentToChangePost" class="hidebox"></div>
   </div>
 </template>
 
@@ -42,9 +42,9 @@ const myStore: any = store;
 const currentUser = computed(() => myStore.state.auth.user);
 
 const sendMyPut = () => {
-  const messageAfterSent = document.querySelector('#msgFormSent') as HTMLDivElement;
+  const messageAfterSent = document.querySelector('#msgFormSentToChangePost') as HTMLDivElement;
   const PutContent = document.querySelector('#PutContent' + props.postId) as HTMLTextAreaElement;
-  const sendButton = document.querySelector('#sendButton') as HTMLButtonElement;
+  const sendButtonToChangePost = document.querySelector('#sendButtonToChangePost') as HTMLButtonElement;
 
   const theChangedPost = {
     postId: props.postId,
@@ -56,21 +56,31 @@ const sendMyPut = () => {
 
   myStore.dispatch("updatePost", theChangedPost)
     .then((data) => {
-      sendButton.textContent = 'Modification en-cours...';
-      sendButton.setAttribute("disabled", "");
+      sendButtonToChangePost.textContent = 'Modification en-cours...';
+      sendButtonToChangePost.setAttribute("disabled", "");
       messageAfterSent.classList.toggle("hidebox");
       messageAfterSent.classList.remove("nokSent");
       messageAfterSent.classList.add("okSent");
       messageAfterSent.innerHTML = '<p>Modification enregistrée.</p>';
-    }),
-    (error) => {
-      sendButton.setAttribute("disabled", "");
+      sendButtonToChangePost.textContent = 'Modification enregistrée';
+
+    })
+    .catch((error) => {
+        let msgError = (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+          error.message ||
+          error.toString();
+        if (msgError == undefined || msgError == null) {
+          msgError = `Une erreur s'est produite. Veuillez réessayer.`
+        }
+      sendButtonToChangePost.setAttribute("disabled", "");
       messageAfterSent.classList.toggle("hidebox");
       messageAfterSent.classList.remove("okSent");
       messageAfterSent.classList.add("nokSent");
-      messageAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      messageAfterSent.innerHTML = '<p>' + msgError + '</p>';
       console.error("There was an error!", error);
-    }
+    })
 }
 
 const isPutValid = () => {
@@ -152,7 +162,7 @@ const isPutValid = () => {
     font-weight: bold;
   }
 
-  #msgFormSent {
+  #msgFormSentToChangePost {
     width: 70%;
     height: 40px;
     border-radius: 15px;
