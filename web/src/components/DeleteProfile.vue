@@ -1,8 +1,15 @@
 <template>
+<<<<<<< HEAD
   <div id="DeleteMyProfile" class="col-12">
     <form id="DeleteMyProfileForm" v-on:submit.prevent="deleteMyProfile">
       <div id="messageDeleteMyProfile">
         <h2>Souhaitez-vous vraiment supprimer votre profil ?</h2>
+=======
+  <div id="ChangeProfile" class="col-12">
+    <form id="DeleteMyProfileForm" v-on:submit.prevent="deleteMyProfile">
+      <div id="messageDeleteMyProfile">
+        <p>Souhaitez-vous vraiment supprimer votre profil ?</p>
+>>>>>>> 1fccfdd (** FRONT END **)
       </div>
       <div id="cleanZone"></div>
       <div id="divDeleteMyProfileButton">
