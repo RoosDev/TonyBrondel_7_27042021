@@ -8,14 +8,14 @@
             class="timePostImg"
             v-if="!props.theAuthor.photo_URL"
             src="../assets/person.png"
-            alt="Profil Picture"
+            alt="Photo de profil"
           />
           <img
             id="pictureAuthorReal"
             class="timePostImg"
             v-else
             :src="'../../' + props.theAuthor.photo_URL"
-            alt="Profil Picture"
+            :alt="'Photo de ' + props.theAuthor.firstname + ' ' + props.theAuthor.lastname"
           />
           <p
             class="timePostText"
@@ -36,7 +36,11 @@
       </div>
       <div id="PostZoneImg" class="col-12 col-lg-6">
         <section id="thePostImg" class="col-12">
-          <img id="theImageOfThePost" :src="'http://localhost:8080/' + props.theImgPost" alt />
+          <img
+            id="theImageOfThePost"
+            :src="'http://localhost:8080/' + props.theImgPost"
+            :alt="'Un post en image par' + props.theAuthor.firstname + ' ' + props.theAuthor.lastname"
+          />
         </section>
       </div>
       <div id="commentZone" class="col-12 col-lg-6">
@@ -114,31 +118,38 @@ const toggleMenuImage = () => {
 <style lang="scss">
 @import "../scss/variables.scss";
 
-#fullBloc {
+article[id="fullBloc"] {
   #postBloc {
     #timeLikeMenuZone {
-
-      #menuPost{
-        .openMenuImage{
+      #menuPost {
+        .openMenuImage {
           margin: 0 10px 0 auto;
+          border: 0px;
+          border-radius: 15px;
+          background-color: transparent;
+
+          &:hover {
+            text-shadow: 2px 2px 5px rgba($groupo-color2, 1);
+          }
         }
       }
 
       .menuPost_DeleteImg {
-        display: block;
-        border: 0;
-        background-color: #fff;
-        width: 100%;
-        height: 100%;
-        border-radius: 10px;
+          display: block;
+          border: 0;
+          width: 100%;
+          height: 50%;
+          border-radius: 10px;
+          box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
+          z-index: 100;
 
         &:hover {
           background-color: rgba($groupo-color1, 0.1);
         }
-        p {
-          font-size: 1.1em;
-          padding: 5px;
-        }
+          p {
+            font-size: 1.1em;
+            margin : 5px auto 5px auto;
+          }
       }
 
       .menuPostDevelopImg {
@@ -204,7 +215,7 @@ const toggleMenuImage = () => {
   #fullBloc {
     #postBloc {
       #timeLikeMenuZone {
-         #menuPost {
+        #menuPost {
           .menuPostDevelopImg {
             width: 100px;
           }

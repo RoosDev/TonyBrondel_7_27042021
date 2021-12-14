@@ -27,7 +27,7 @@ const deleteMyImage = () => {
   const messageAfterDelete = document.querySelector('#messageFormDeleteImage') as HTMLDivElement;
   const sendButton = document.querySelector('#confirmDeleteImage') as HTMLButtonElement;
 
-myStore.dispatch("deletePost", props.postId)
+  myStore.dispatch("deletePost", props.postId)
     .then((res) => {
       sendButton.textContent = 'Suppression en-cours...';
       sendButton.setAttribute("disabled", "");
@@ -59,25 +59,39 @@ myStore.dispatch("deletePost", props.postId)
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../scss/variables.scss";
 
-#PostText {
+#DeleteImage {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  #postImageForm {
+    width: 100%;
+    #PostImageContent {
+      width: 100%;
+      label {
+        width: 100%;
 
-  h2 {
-    font-size: 1.4em;
-    text-decoration: underline;
-    font-weight: bold;
+        h2 {
+          width: 100%;
+          font-size: 1.4em;
+          text-decoration: underline;
+          font-weight: bold;
+          color: $groupo-color5;
+          text-align: center;
+          margin-top: 25px;
+        }
+      }
+    }
   }
 }
 #confirmDeleteImage {
   display: block;
   height: 60px;
-  margin: 70px auto 50px auto;
+  margin: 45px auto 45px auto;
   border: 1px solid $groupo-color1;
   border-radius: 10px;
   background-color: #c8ffc8;

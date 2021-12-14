@@ -9,7 +9,7 @@
   <!-- <div id="appnoncompatible">
     <p>La résolution de votre écran est incompatible avec cette application pour un usage optimal.</p>
     <p>Veuillez changé d'écran.</p>
-  </div> -->
+  </div>-->
 </template>
 
 <script setup lang="ts">
@@ -80,9 +80,9 @@ onMounted(() => {
       height: 100%;
     }
     // #appnoncompatible {
-      
+
     //   display: none;
-      
+
     // }
   }
 }
@@ -102,12 +102,14 @@ onMounted(() => {
       #divPage {
         width: 100vw;
       }
+      
       // #appnoncompatible {
       //   display: none;
       // }
     }
   }
 }
+
 // @media (max-width: 265px) {
 //   #app {
 //     #cartridge {
@@ -117,11 +119,11 @@ onMounted(() => {
 //     #divPage {
 //       display: none;
 //     }
-    // #appnoncompatible {
-    //   display: flex;
-    //   flex-flow: column nowrap;
-    //   height: 100vh;
-    // }
+// #appnoncompatible {
+//   display: flex;
+//   flex-flow: column nowrap;
+//   height: 100vh;
+// }
 //   }
 // }
 </style>

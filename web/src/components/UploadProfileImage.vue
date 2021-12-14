@@ -133,7 +133,7 @@ onMounted(() => {
 });
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../scss/variables.scss";
 
 #ProfileImg {
@@ -163,8 +163,10 @@ onMounted(() => {
   .uploadImageH2 {
     font-size: 1.4em;
     text-decoration: underline;
+    text-align: center;
     font-weight: bold;
-    margin-top: 15px;
+    margin-top: 30px;
+    color: $groupo-color5;
   }
 
   #labelSendPicture {
@@ -173,18 +175,18 @@ onMounted(() => {
     height: 45px;
     margin: 25px auto 25px auto;
     padding: auto;
-    background: $ValidColor1;
-    color: $color-white;
+    background: $groupo-color5;
+    color: $ValidColor1;
     transition: all 0.4s;
     cursor: pointer;
     border: 1px solid;
     border-radius: 10px;
     text-align: center;
-    font-size: 1.4em;
+    font-size: 1.5em;
 
     &:hover {
       font-weight: bold;
-      color: $groupo-color4;
+      color: $groupo-colorLight3;
       border: 1px solid $groupo-color1;
     }
   }
@@ -275,7 +277,7 @@ onMounted(() => {
     overflow-y: scroll;
     #labelSendPicture {
       width: 75%;
-      font-size: 0.8em;
+      font-size: 1.0em;
     }
     #previewImgPost {
       max-width: 95%;

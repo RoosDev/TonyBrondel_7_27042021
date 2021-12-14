@@ -156,8 +156,10 @@ onMounted(() => {
   .uploadImageH2 {
     font-size: 1.4em;
     text-decoration: underline;
+    text-align: center;
     font-weight: bold;
     margin-top: 30px;
+    color: $groupo-color5;
   }
 
   #labelSendPicture {
@@ -166,8 +168,8 @@ onMounted(() => {
     height: 45px;
     margin: 25px auto 25px auto;
     padding: auto;
-    background: $ValidColor1;
-    color: $color-white;
+    background: $groupo-color5;
+    color: $ValidColor1;
     transition: all 0.4s;
     cursor: pointer;
     border: 1px solid;
@@ -177,7 +179,7 @@ onMounted(() => {
 
     &:hover {
       font-weight: bold;
-      color: $groupo-color4;
+      color: $groupo-colorLight3;
       border: 1px solid $groupo-color1;
     }
   }
@@ -226,8 +228,8 @@ onMounted(() => {
     }
   }
   #previewImgPost {
-    max-width: 60%;
-    max-height: 60%;
+    max-width: 50%;
+    max-height: 50%;
     margin: 5px;
 
     #imgPreviewPost {

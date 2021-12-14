@@ -1,8 +1,8 @@
 <template>
-  <div id="ChangeProfile" class="col-12">
+  <div id="DeleteMyProfile" class="col-12">
     <form id="DeleteMyProfileForm" v-on:submit.prevent="deleteMyProfile">
       <div id="messageDeleteMyProfile">
-        <p>Souhaitez-vous vraiment supprimer votre profil ?</p>
+        <h2>Souhaitez-vous vraiment supprimer votre profil ?</h2>
       </div>
       <div id="cleanZone"></div>
       <div id="divDeleteMyProfileButton">
@@ -32,7 +32,7 @@ const deleteMyProfile = () => {
   const currentUser = computed(() => myStore.state.auth.user);
   const myUserDetails = reactive(currentUser.value);
 
-  myStore.dispatch("deleteProfile", myUserDetails )
+  myStore.dispatch("deleteProfile", myUserDetails)
     .then((data) => {
       deleteMyProfileButton.textContent = 'envoi en-cours ...';
       setTimeout(() => {
@@ -64,60 +64,65 @@ const deleteMyProfile = () => {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../scss/variables.scss";
 
-#modal-content {
-  border: 0;
-}
+  #DeleteMyProfileForm {
+    width: 100%;
+    border: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
 
-form {
-  border: 0;
-}
-#messageDeleteMyProfile {
-  width: 95%;
-  margin-right: auto;
-  margin-left: auto;
-  height: 60px;
+    #messageDeleteMyProfile {
+      width: 100%;
+      border: 0;
+      margin-right: auto;
+      margin-left: auto;
+      height: 60px;
+      h2 {
+        width: 100%;
+        font-size: 1.4em;
+        text-decoration: underline;
+        font-weight: bold;
+        color: $groupo-color5;
+        text-align: center;
+        margin-top: 25px;
+      }
+    }
+    #cleanZone {
+      height: 40px;
+    }
 
-p {
-    font-size: 1.5em;
-    color: $groupo-color1;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-}
-#divDeleteMyProfileButton {
-  width: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
+    #divDeleteMyProfileButton {
+      width: 100%;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
 
-  #deleteMyProfileButton {
-    width: 80%;
-    height: 60px;
-    margin: 20px auto 20px auto;
-    border: 1px solid $groupo-color3;
-    font-weight: bold;
-    border-radius: 10px;
-    background-color: rgba($groupo-color1, 0.3);
-    color: $groupo-color3;
+      #deleteMyProfileButton {
+        width: 80%;
+        height: 60px;
+        margin: 50px auto 20px auto;
+        border: 1px solid $groupo-color3;
+        font-weight: bold;
+        border-radius: 10px;
+        background-color: rgba($groupo-color1, 0.3);
+        color: $groupo-color3;
+        font-size: 1.2em;
 
-    &:hover {
-      background-color: $groupo-color4;
-      margin: 17px auto 23px auto;
-      box-shadow: 5px 5px 15px $groupo-color3;
-      color: $groupo-color1;
+
+        &:hover {
+          background-color: $groupo-color4;
+          margin: 17px auto 23px auto;
+          box-shadow: 5px 5px 15px $groupo-color3;
+          color: $groupo-color1;
+        }
+      }
     }
   }
-}
-#cleanZone {
-  height: 40px;
-}
-
 .okSent {
   background-color: #c8ffc8;
   p {
@@ -128,6 +133,18 @@ p {
   background-color: #ffc8c8;
   p {
     color: #650000;
+  }
+}
+@media (max-width: 575.99px) {
+  #DeleteMyProfileForm {
+
+    #divDeleteMyProfileButton {
+
+      #deleteMyProfileButton {
+        width: 90%;
+        font-size: 0.9em;
+      }
+    }
   }
 }
 </style>

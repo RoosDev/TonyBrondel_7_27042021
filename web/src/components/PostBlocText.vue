@@ -15,7 +15,7 @@
             class="timePostImg"
             v-else
             :src="'../../' + props.theAuthor.photo_URL"
-            alt="Profil Picture"
+            :alt="'Photo de ' + props.theAuthor.firstname + ' ' + props.theAuthor.lastname"
           />
           <p
             class="timePostText"
@@ -30,7 +30,7 @@
           >•••</button>
           <div :id="menuDevelopChangePostText" class="menuPostDevelopTxt hidebox">
             <button
-            name="Modifier le post"
+              name="Modifier le post"
               :id="buttonChangePostText"
               class="menuPost_Change"
               v-if="currentUser.id == props.theAuthor.id"
@@ -39,7 +39,7 @@
               <p>Modifier</p>
             </button>
             <button
-            name="Supprimer le post"
+              name="Supprimer le post"
               :id="buttonDeletePostText"
               class="menuPost_Delete"
               @click="toggleModal_DeletePost(), toggleMenuPost()"
@@ -138,7 +138,7 @@ const toggleMenuPost = () => {
 <style lang="scss">
 @import "../scss/variables.scss";
 
-#fullBloc {
+article[id="fullBloc"] {
   height: 400px;
   background-color: $color-white;
   margin: 0 auto 0 50px;
@@ -177,11 +177,13 @@ const toggleMenuPost = () => {
         }
       }
       #menuPost {
+        text-align: right;
+
         width: 15%;
         .openMenuPostText {
           margin: 0 10px 0 auto;
-          border: 0 solid $groupo-color1;
-          border-radius: 5px;
+          border: 0px;
+          border-radius: 15px;
           background-color: transparent;
 
           &:hover {
@@ -195,7 +197,7 @@ const toggleMenuPost = () => {
           right: 50px;
           border-radius: 10px;
           box-shadow: 2px 2px 15px rgba($groupo-color4, 0.3);
-          background-color: #fff;
+          background-color: $color-white;
           z-index: 100;
         }
 
@@ -203,24 +205,23 @@ const toggleMenuPost = () => {
         .menuPost_Change {
           display: block;
           border: 0;
-          background-color: #fff;
           width: 100%;
           height: 50%;
-
-          .menuPost_Change {
-            border-radius: 10px 10px 0 0;
-          }
-          .menuPost_Delete {
-            border-radius: 0 0 10px 10px;
-          }
 
           &:hover {
             background-color: rgba($groupo-color1, 0.1);
           }
           p {
             font-size: 1.1em;
-            padding: 5px;
+            margin : 5px auto 5px auto;
           }
+        }
+        .menuPost_Change {
+          border-radius: 10px 10px 0 0;
+          border-bottom: 1px dotted $groupo-color1;
+        }
+        .menuPost_Delete {
+          border-radius: 0 0 10px 10px;
         }
       }
 

@@ -59,8 +59,8 @@
         <ErrorMessage name="division" class="error-feedback" />
 
         <div id="cleanZone"></div>
-        <div id="divsendProfileButton">
-          <button id="sendProfileButton" class="col-9" type="submit">Enregistrer</button>
+        <div id="divsendChangeProfileButton">
+          <button id="sendChangeProfileButton" class="col-9" type="submit">Enregistrer</button>
         </div>
       </div>
     </Form>
@@ -103,16 +103,16 @@ let oldUserDetail = computed(() => store.getters.currentUser)
 // Fonction d'enregistrement du nouveau mot de passe
 const sendMyNewProfile = (userDetail) => {
   const msgProfileAfterSent = document.querySelector('#msgProfileSent') as HTMLDivElement;
-  const sendProfileButton = document.querySelector('#sendProfileButton') as HTMLButtonElement;
+  const sendChangeProfileButton = document.querySelector('#sendChangeProfileButton') as HTMLButtonElement;
 
   myStore.dispatch("changeProfile", userDetail)
     .then((data) => {
-      sendProfileButton.textContent = 'envoi en-cours ...';
+      sendChangeProfileButton.textContent = 'envoi en-cours ...';
       msgProfileAfterSent.classList.remove("nokSent");
       msgProfileAfterSent.classList.add("okSent");
       msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
       msgProfileAfterSent.classList.toggle("hidebox");
-      sendProfileButton.textContent = 'Enregistré';
+      sendChangeProfileButton.textContent = 'Enregistré';
     })
 
     .catch((error) => {
@@ -134,104 +134,117 @@ const sendMyNewProfile = (userDetail) => {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../scss/variables.scss";
 
-#modal-content {
-  border: 0;
-}
-
-form {
-  border: 0;
+#ChangeProfile {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 
-  #changeProfileContent {
+  #changeProfileForm {
     width: 100%;
     border: 0;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
 
-    #changeLogin {
+    #changeProfileContent {
       width: 100%;
-      margin: 10px auto 10px auto;
-      p {
-        width: 100%;
-        text-align: center;
-        font-weight: bold;
-        em {
-          font-weight: normal;
-        }
-      }
-    }
-    p {
-      width: 80%;
-      text-align: center;
-    }
-
-    div[id*="change"] {
-      width: 100%;
-      text-align: center;
-    }
-
-    input {
-      background-color: $groupo-color4;
-      color: $groupo-colorLight1;
-      width: 60%;
-      height: 30px;
-      margin: 5px auto 8px auto;
       border: 0;
-      border-radius: 10px;
-      padding-left: 7px;
-      padding-right: 7px;
-      font-size: 0.9em;
-
-      &:focus {
-        background-color: $groupo-colorLight1;
-        color: $groupo-color4;
-      }
-    }
-    select {
-      background-color: $groupo-color4;
-      color: $groupo-colorLight1;
-      width: 60%;
-      height: 30px;
-      margin-right: auto;
-      margin-left: auto;
-      border: 0;
-      border-radius: 10px;
-      padding-left: 7px;
-      padding-right: 7px;
-      font-size: 0.9em;
-
-      &:focus {
-        background-color: $groupo-colorLight1;
-        color: $groupo-color4;
-      }
-    }
-
-    #divsendProfileButton {
-      width: 100%;
       display: flex;
       flex-flow: column nowrap;
       justify-content: center;
       align-items: center;
+      h2 {
+        width: 100%;
+        font-size: 1.4em;
+        text-decoration: underline;
+        font-weight: bold;
+        color: $groupo-color5;
+        text-align: center;
+        margin-top: 25px;
+      }
 
-      #sendProfileButton {
-        width: 300px;
-        height: 40px;
-        margin: 5px auto 20px auto;
-        border: 1px solid $groupo-color1;
+      #changeLogin {
+        width: 100%;
+        margin: 10px auto 10px auto;
+        p {
+          width: 100%;
+          text-align: center;
+          font-weight: bold;
+          em {
+            font-weight: normal;
+          }
+        }
+      }
+      p {
+        width: 80%;
+        text-align: center;
+      }
+
+      div[id*="change"] {
+        width: 100%;
+        text-align: center;
+      }
+
+      input {
+        background-color: $groupo-color4;
+        color: $groupo-colorLight1;
+        width: 60%;
+        height: 30px;
+        margin: 5px auto 8px auto;
+        border: 0;
         border-radius: 10px;
-        background-color: $groupo-colorLight1;
-        color: $groupo-color1;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 0.9em;
 
-        &:hover {
-          background-color: $groupo-color4;
-          color: $groupo-colorLight1;
-          margin: 2px auto 23px auto;
-          box-shadow: 5px 5px 15px $groupo-color3;
+        &:focus {
+          background-color: $groupo-colorLight1;
+          color: $groupo-color4;
+        }
+      }
+      select {
+        background-color: $groupo-color4;
+        color: $groupo-colorLight1;
+        width: 60%;
+        height: 30px;
+        margin-right: auto;
+        margin-left: auto;
+        border: 0;
+        border-radius: 10px;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 0.9em;
+
+        &:focus {
+          background-color: $groupo-colorLight1;
+          color: $groupo-color4;
+        }
+      }
+
+      #divsendChangeProfileButton {
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+
+        #sendChangeProfileButton {
+          width: 70%;
+          height: 40px;
+          margin: 5px auto 20px auto;
+          border: 1px solid $groupo-color1;
+          border-radius: 10px;
+          background-color: $groupo-colorLight1;
+          color: $groupo-color1;
+
+          &:hover {
+            background-color: $groupo-color4;
+            color: $groupo-colorLight1;
+            margin: 2px auto 23px auto;
+            box-shadow: 5px 5px 15px $groupo-color3;
+          }
         }
       }
     }
@@ -273,7 +286,7 @@ form {
     #changeProfileContent {
       #changeLogin {
         p {
-          display: none
+          display: none;
         }
       }
 
@@ -283,8 +296,8 @@ form {
       select {
         width: 70%;
       }
-      #divsendProfileButton {
-        #sendProfileButton {
+      #divsendChangeProfileButton {
+        #sendChangeProfileButton {
           width: 70%;
         }
       }
@@ -301,8 +314,8 @@ form {
       select {
         width: 90%;
       }
-      #divsendProfileButton {
-        #sendProfileButton {
+      #divsendChangeProfileButton {
+        #sendChangeProfileButton {
           width: 90%;
         }
       }

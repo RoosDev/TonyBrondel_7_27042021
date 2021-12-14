@@ -45,7 +45,9 @@
 * ### The FRONT END
 4. In a shell :
    1. Go in folder : **/web**
-   2. Run *(to start)*:<br /> 
+   2. Run *(to install)* :   <br /> 
+    **``` npm install ```**
+   3. Run *(to start)*:<br /> 
    **``` npm run serve ```**<br /> 
    *(if you want to build the web version to published, you can use : **```npm run build```** )*
     
