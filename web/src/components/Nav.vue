@@ -47,7 +47,7 @@
                 <p v-else>Annuaire</p>
             </div>
         </router-link>
-        <a @click.prevent="logOut" class="col-3 col-md-6 navLink">
+        <router-link @click.prevent="logOut" to="/" class="col-3 col-md-6 navLink">
             <div class="sizeSvg">
                 <svg
                     fill="none"
@@ -66,7 +66,7 @@
             <div class="svgText">
                 <p>Déconnexion</p>
             </div>
-        </a>
+        </router-link>
     </nav>
 </template>
 <script setup lang="ts">

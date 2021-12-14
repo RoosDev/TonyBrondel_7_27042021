@@ -9,18 +9,14 @@
         <h2>Modification de votre profil</h2>
         <Field name="id" type="hidden" :value="props.id" />
         <Field name="photo_URL" type="hidden" :value="oldUserDetail.photo_URL" />
+        <Field name="email" type="hidden" :value="oldUserDetail.email" />
 
         <div id="changeLogin" class>
-          <label for="email">Votre adresse email : *</label>
-          <Field
-            name="email"
-            type="text"
-            autocomplete="email"
-            class="form-control"
-            :value="oldUserDetail.email"
-          />
+          <p>
+            Votre email :
+            <em>{{ oldUserDetail.email }}</em>
+          </p>
         </div>
-        <ErrorMessage name="email" class="error-feedback" />
         <div id="changefirstname">
           <label for="firstname">Votre prénom : *</label>
           <Field
@@ -80,11 +76,6 @@ import * as yup from "yup";
 const myStore: any = store;
 
 const schemaChangeProfile = yup.object().shape({
-  email: yup
-    .string()
-    .required("Email obligatoire")
-    .email("Email invalide")
-    .max(75, "maximum 75 caractères!"),
   firstname: yup
     .string()
     .required("Prénom obligatoire")
@@ -122,15 +113,24 @@ const sendMyNewProfile = (userDetail) => {
       msgProfileAfterSent.innerHTML = '<p>Profil mis à jour</p>';
       msgProfileAfterSent.classList.toggle("hidebox");
       sendProfileButton.textContent = 'Enregistré';
-    }),
+    })
 
-    (error) => {
+    .catch((error) => {
+      let msgError = (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(msgError);
       msgProfileAfterSent.classList.toggle("hidebox");
       msgProfileAfterSent.classList.remove("okSent");
       msgProfileAfterSent.classList.add("nokSent");
-      msgProfileAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
-      console.error("There was an error!", error);
-    }
+      msgProfileAfterSent.innerHTML = '<p>' + msgError + '</p>';
+      setTimeout(() => {
+        msgProfileAfterSent.classList.toggle("hidebox");
+
+      }, 3500)
+    })
 }
 
 </script>
@@ -153,6 +153,18 @@ form {
     justify-content: center;
     align-items: center;
 
+    #changeLogin {
+      width: 100%;
+      margin: 10px auto 10px auto;
+      p {
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+        em {
+          font-weight: normal;
+        }
+      }
+    }
     p {
       width: 80%;
       text-align: center;
@@ -168,11 +180,11 @@ form {
       color: $groupo-colorLight1;
       width: 60%;
       height: 30px;
-      margin: 15px auto 15px auto;
+      margin: 5px auto 8px auto;
       border: 0;
       border-radius: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 7px;
+      padding-right: 7px;
       font-size: 0.9em;
 
       &:focus {
@@ -189,8 +201,8 @@ form {
       margin-left: auto;
       border: 0;
       border-radius: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 7px;
+      padding-right: 7px;
       font-size: 0.9em;
 
       &:focus {
@@ -209,7 +221,7 @@ form {
       #sendProfileButton {
         width: 300px;
         height: 40px;
-        margin: 20px auto 20px auto;
+        margin: 5px auto 20px auto;
         border: 1px solid $groupo-color1;
         border-radius: 10px;
         background-color: $groupo-colorLight1;
@@ -218,7 +230,7 @@ form {
         &:hover {
           background-color: $groupo-color4;
           color: $groupo-colorLight1;
-          margin: 17px auto 23px auto;
+          margin: 2px auto 23px auto;
           box-shadow: 5px 5px 15px $groupo-color3;
         }
       }
@@ -233,14 +245,14 @@ form {
   width: 70%;
   margin-right: auto;
   margin-left: auto;
-  height: 50px;
+  max-height: 40px;
   border-radius: 15px;
   p {
     font-size: 1em;
     text-align: center;
     font-weight: bold;
     margin-top: 7px;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
   }
 }
 .okSent {
@@ -259,6 +271,12 @@ form {
 @media (max-width: 767.99px) {
   form {
     #changeProfileContent {
+      #changeLogin {
+        p {
+          display: none
+        }
+      }
+
       input {
         width: 70%;
       }
@@ -273,6 +291,7 @@ form {
     }
   }
 }
+
 @media (max-width: 575.99px) {
   form {
     #changeProfileContent {

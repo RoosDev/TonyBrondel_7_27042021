@@ -1,5 +1,5 @@
 <template>
-  <div id="cartridge" class="cartridge">
+  <header id="cartridge" class="cartridge">
     <div id="cartridge_Top" class="cartridge_Top">
       <div id="logo" class="logo">
         <img
@@ -11,7 +11,7 @@
         <p></p>
       </div>
     </div>
-    <div id="profilBox" class="profilBox">
+    <aside id="profilBox" class="profilBox">
       <img
         v-if="!userDetails.photo_URL"
         class="pictureProfilMin"
@@ -23,17 +23,18 @@
         id="pictureProfilDefault"
         class="pictureProfilMin"
         :src="'../../' + userDetails.photo_URL"
+        alt="Photo de profil"
       />
       <p>{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
       <p>
         <em>{{ userDetails.job }}</em>
       </p>
-    </div>
+    </aside>
 
     <div id="cartridge_Bottom">
       <NavComponent />
     </div>
-  </div>
+  </header>
 </template>
 
 <script setup lang="ts">

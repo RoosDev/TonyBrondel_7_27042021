@@ -39,7 +39,33 @@ export const usersBase = {
       });
 
     },
+    // Utilisation du Store pour changer son mot de passe
+    async changeEmail({ commit }: { commit: any }, user) {
+      if (user.accessToken == null || user.roleToken == null) {
+        myHead = JSON.parse(localStorage.getItem("user")!);
+      } else {
+        (myHead.id = user.id),
+          (myHead.accessToken = user.accessToken),
+          (myHead.roleToken = user.roleToken);
+      }
+      await axios.put(
+        API_User_URL + "myProfile/email/" + user.id,
+        {
+          id: user.id,
+          email: user.newEmail,
+        },
+        {
+          headers: {
+            "x-access-token": myHead.accessToken,
+            "x-role-token": myHead.roleToken,
+            "id": myHead.id,
+        },
+        }
+      )        .then((theUsers: any) => {
+        commit("SETUSERDETAIL", theUsers.data.data);
+      });
 
+    },
     // Utilisation du Store pour changer son propre profil
     async changeProfile({ commit }: { commit: any }, userDetail) {
       if (userDetail.accessToken == null || userDetail.roleToken == null) {

@@ -38,7 +38,7 @@ verifyToken = (req, res, next) => {
 isProfileOwner = async (req, res, next) => {
   User.findByPk(req.headers.id).then((theProfile) => {
     User.findOne({
-      where: { email_Crypt: req.email },
+      where: { email_H: req.email },
     }).then((theUserProfile) => {
       if (theUserProfile.id == theProfile.id) {
         res.status(200);
@@ -57,12 +57,12 @@ isProfileOwner = async (req, res, next) => {
 isProfileOwnerOrAdmin = async (req, res, next) => {
   User.findByPk(req.headers.id).then((theProfile) => {
     User.findOne({
-      where: { email_Crypt: req.email },
+      where: { email_H: req.email },
     }).then((theUserProfile) => {
       let tokenRole = req.headers["x-role-token"];
       jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {});
       User.findOne({
-        where: { email_Crypt: req.email },
+        where: { email_H: req.email },
       }).then((user) => {
         req.userId = user.id;
         req.role = user.role_Id;
@@ -84,7 +84,7 @@ isProfileOwnerOrAdmin = async (req, res, next) => {
 isRessourceOwner = async (req, res, next) => {
   modelPostCommentList.findByPk(req.params.id).then((thePost) => {
     User.findOne({
-      where: { email_Crypt: req.email },
+      where: { email_H: req.email },
     }).then((theUserAuthor) => {
       if (theUserAuthor.id == thePost.identity_Id) {
         res.status(200);
@@ -103,12 +103,12 @@ isRessourceOwner = async (req, res, next) => {
 isRessourceOwnerOrAdmin = async (req, res, next) => {
   modelPostCommentList.findByPk(req.params.id).then((thePost) => {
     User.findOne({
-      where: { email_Crypt: req.email },
+      where: { email_H: req.email },
     }).then((theUserAuthor) => {
       let tokenRole = req.headers["x-role-token"];
       jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {});
       User.findOne({
-        where: { email_Crypt: req.email },
+        where: { email_H: req.email },
       }).then((user) => {
         req.userId = user.id;
         req.role = user.role_Id;
@@ -131,7 +131,7 @@ isAdmin = async (req, res, next) => {
   let tokenRole = req.headers["x-role-token"];
   jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {});
   User.findOne({
-    where: { email_Crypt: req.email },
+    where: { email_H: req.email },
   }).then((user) => {
     req.userId = user.id;
     req.role = user.role_Id;
@@ -151,7 +151,7 @@ isManager = (req, res, next) => {
   jwt.verify(tokenRole, MY_APP_SECRET, (err, decod) => {
   });
   User.findOne({
-    where: { email_Crypt: req.email },
+    where: { email_H: req.email },
   }).then((user) => {
     req.userId = user.id;
     req.role = user.role_Id;

@@ -8,7 +8,7 @@ const uploadFiles = async (req, res) => {
     // console.log(" lancement upload file : req.file = >> " , req.file);
     let posterId = 0;
     await User.findOne({
-      where: { email_Crypt: req.email },
+      where: { email_H: req.email },
     })
     .then( async (user) => {
       posterId = user.id;

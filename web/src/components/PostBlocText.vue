@@ -1,5 +1,5 @@
 <template>
-  <div id="fullBloc" class="col-11 col-lg-10">
+  <article id="fullBloc" class="col-11 col-lg-10">
     <div id="postBloc">
       <div id="timeLikeMenuZone" class="col-12">
         <span id="timePost">
@@ -8,7 +8,7 @@
             class="timePostImg"
             v-if="!props.theAuthor.photo_URL"
             src="../assets/person.png"
-            alt="Profil Picture"
+            alt="'Photo de profil "
           />
           <img
             id="pictureAuthorReal"
@@ -23,12 +23,14 @@
         </span>
         <span id="menuPost" v-if="currentUser.id == props.theAuthor.id || myRole == 'okAGo'">
           <button
+            name="Ouverture du sous menu du post"
             :id="buttonChangeDeletePostText"
             class="openMenuPostText"
             @click="toggleMenuPost()"
           >•••</button>
           <div :id="menuDevelopChangePostText" class="menuPostDevelopTxt hidebox">
             <button
+            name="Modifier le post"
               :id="buttonChangePostText"
               class="menuPost_Change"
               v-if="currentUser.id == props.theAuthor.id"
@@ -37,6 +39,7 @@
               <p>Modifier</p>
             </button>
             <button
+            name="Supprimer le post"
               :id="buttonDeletePostText"
               class="menuPost_Delete"
               @click="toggleModal_DeletePost(), toggleMenuPost()"
@@ -47,9 +50,9 @@
         </span>
       </div>
       <div id="PostZone" class="col-12 col-lg-6">
-        <div id="thePostText" class="col-12">
+        <section id="thePostText" class="col-12">
           <p>{{ theTxtPost }}</p>
-        </div>
+        </section>
       </div>
       <div id="commentZone" class="col-12 col-lg-6">
         <CommentZone
@@ -62,7 +65,7 @@
     <div id="postFooter" class="col-6">
       <p></p>
     </div>
-  </div>
+  </article>
   <Modal @close="toggleModal_ChangePost" :modalActive="modalActive_ChangePost">
     <div class="modal-content">
       <ChangeText :postId="theIdPost" :theContent="theTxtPost" />

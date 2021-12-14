@@ -31,6 +31,7 @@ import {
   faUserSecret ,
   faCamera,
   faTrashAlt,
+  faAt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -59,6 +60,7 @@ library.add(faUserPlus);
 library.add(faUserSecret);
 library.add(faCamera);
 library.add(faTrashAlt);
+library.add(faAt);
 
 // Création de l'app
 const app = createApp(App);

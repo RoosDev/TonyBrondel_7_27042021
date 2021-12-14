@@ -10,15 +10,18 @@
             @click="toggleModal_DeleteComment()"
         />
     </div>
-    <div id="bubbleText" class="col-12">
+    <article id="bubbleText" class="col-12">
         <p>{{ props.theComment.content }}</p>
-    </div>
+    </article>
     <div id="bubbleAuthor" class="col">
         <p>{{ props.theComment.authorComment.firstname }} {{ props.theComment.authorComment.lastname }} - {{ formatDatePost(props.theComment.updatedAt) }}</p>
     </div>
     <Modal @close="toggleModal_DeleteComment" :modalActive="modalActive_DeleteComment">
         <div :id="'modal-contentComment' + props.theComment.id" class="modal-content">
-            <DeleteComment :commentId="props.theComment.id" :commentContent="props.theComment.content" />
+            <DeleteComment
+                :commentId="props.theComment.id"
+                :commentContent="props.theComment.content"
+            />
         </div>
     </Modal>
 </template>
@@ -32,7 +35,7 @@ import { useModal } from '@/composition/modal';
 
 const myStore: any = store;
 
-const props = defineProps <{
+const props = defineProps<{
     theComment: any,
 }>()
 

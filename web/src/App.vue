@@ -1,11 +1,11 @@
 <template>
   <router-view />
-  <div id="cartridge" class="col-12 col-xl-3">
+  <header id="cartridge" class="col-12 col-xl-3">
     <router-view class="cartridge col-12 col-md-3" name="navMenu"></router-view>
-  </div>
-  <div id="divPage" class="col-12 col-xl-9">
+  </header>
+  <main id="divPage" class="col-12 col-xl-9">
     <router-view name="thePage"></router-view>
-  </div>
+  </main>
   <!-- <div id="appnoncompatible">
     <p>La résolution de votre écran est incompatible avec cette application pour un usage optimal.</p>
     <p>Veuillez changé d'écran.</p>

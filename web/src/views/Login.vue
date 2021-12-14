@@ -1,24 +1,21 @@
 <template>
-  <div id="darkSide" class="col-12">
-    <div
-      id="connectZone"
-      class=" d-sm-flex flex-column flex-md-row col-11 col-sm-11 col-md-11 col-lg-8 col-xl-6"
-    >
-      <div id="connectZone__Login" class="col-12 col-md-5">
+  <main id="darkSide" class="col-12">
+    <div id="connectZone" class="flex-md-row col-11 col-sm-11 col-md-11 col-lg-8 col-xl-6">
+      <section id="connectZone__Login" class="col-12 col-md-5">
         <Log />
-      </div>
+      </section>
       <div id="connectZone__Boarder" class="d-none d-md-block col-0 col-md-2">
         <p></p>
       </div>
-      <div id="connectZone__Signup" class="col-12 col-md-5">
+      <section id="connectZone__Signup" class="col-12 col-md-5">
         <Signup />
-      </div>
+      </section>
     </div>
-  </div>
+  </main>
   <!-- <div id="appnoncompatible" class="col-10 d-sm-none">
     <p>La résolution de votre écran est incompatible avec cette application pour un usage optimal.</p>
     <p>Veuillez changé d'écran.</p>
-  </div> -->
+  </div>-->
 </template>
 
 <script setup lang="ts">
@@ -54,14 +51,16 @@ import Log from '@/components/Log.vue';
   justify-content: space-around;
   align-items: center;
   margin: auto auto 5 auto;
-  background-color: rgba($groupo-colorLight1, 0.6);
+  background-color: rgba($groupo-colorLight1, 0.7);
   box-shadow: -5px 0 20px $groupo-colorLight1;
   border-radius: 15px;
   padding: 0;
   z-index: 5;
+  transition: all 700ms ease-in-out;
 
   &:hover {
     box-shadow: 0 0 10px $groupo-color1;
+    background-color: rgba($color-white, 0.8);
     z-index: 2;
   }
 
@@ -90,6 +89,18 @@ import Log from '@/components/Log.vue';
     font-weight: bold;
     text-align: center;
     font-size: 1.3em;
+  }
+}
+@media screen and (max-width: 767.99px) {
+  #darkSide {
+    overflow-y: scroll;
+    #connectZone {
+      // position: absolute;
+      overflow-y: auto;
+      input {
+        height: 20px;
+      }
+    }
   }
 }
 </style>

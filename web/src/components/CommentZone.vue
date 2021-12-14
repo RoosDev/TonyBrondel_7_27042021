@@ -1,5 +1,5 @@
 <template>
-  <div id="CommentList" :name="theIdPost" class="col-12">
+  <section id="CommentList" :name="theIdPost" class="col-12">
     <!-- Ici sont intégrés les commentaires -->
     <div id="bubbleNoComment" v-if="!props.theComments?.[0]">
       <p>Il n'y a pas encore de commentaire. Soyez le premier.</p>
@@ -13,12 +13,12 @@
     >
       <BubbleComment :theComment="theComment" />
     </div>
-  </div>
-  <div :id="divCommentSend" class="CommentSend">
+  </section>
+  <section :id="divCommentSend" class="CommentSend">
     <form class="row align-items-center" v-on:submit.prevent="sendMyComment">
       <div :id="divTextareaZone" class="textareaZone col-10">
         <textarea
-          name="sendTxtComment"
+          name="Envoi du commentaire"
           :id="textareaSendPost"
           class="sendPost"
           rows="2"
@@ -29,7 +29,7 @@
         ></textarea>
       </div>
       <div :id="buttonSendComment" class="buttonSendZone col-2">
-        <button class="buttonForm" type="submit">
+        <button name="Envoi du commentaire" class="buttonForm" type="submit">
           <font-awesome-icon
             id="paperPlaneIcon"
             class="styleButtonAwesome"
@@ -38,7 +38,7 @@
         </button>
       </div>
     </form>
-  </div>
+  </section>
 </template>
 <script setup lang="ts">
 import { computed, ref } from 'vue';

@@ -9,10 +9,13 @@
         <button id="changePicture" @click="toggleModal_ImageProfile">
           <font-awesome-icon :icon="['fas', 'camera']" id="fontawesome-icon" />
         </button>
-        <button id="deleteProfile" @click="toggleModal_Password">
+        <button id="changeEmail" @click="toggleModal_changeEmail">
+          <font-awesome-icon :icon="['fas', 'at']" id="fontawesome-icon" />
+        </button>
+        <button id="changePassword" @click="toggleModal_Password">
           <font-awesome-icon :icon="['fas', 'key']" id="fontawesome-icon" />
         </button>
-        <button id="changePassword" @click="toggleModal_DeleteProfile">
+        <button id="deleteProfile" @click="toggleModal_DeleteProfile">
           <font-awesome-icon :icon="['fas', 'trash-alt']" id="fontawesome-icon" />
         </button>
       </div>
@@ -75,6 +78,11 @@
       <DeleteProfileProfile :id="myId" />
     </div>
   </Modal>
+  <Modal @close="toggleModal_changeEmail" :modalActive="modalActive_changeEmail">
+    <div class="modal-content">
+      <ChangeEmail :id="myId" :email="userDetail.email" />
+    </div>
+  </Modal>
   <Modal @close="toggleModal_Password" :modalActive="modalActive_Password">
     <div class="modal-content">
       <ChangePass :id="myId" :email="userDetail.email" />
@@ -91,6 +99,7 @@ import store from '../store/index';
 import ChangeProfile from '@/components/ChangeProfile.vue';
 import ChangeImageProfile from '@/components/UploadProfileImage.vue';
 import ChangePass from '@/components/ChangePass.vue';
+import ChangeEmail from '@/components/ChangeEmail.vue';
 import DeleteProfileProfile from '@/components/DeleteProfile.vue';
 import Modal from '@/components/Modal.vue';
 import { useModal } from '@/composition/modal';
@@ -109,6 +118,7 @@ const [modalActive_EditProfil, toggleModal_EditProfil] = useModal()
 const [modalActive_ImageProfile, toggleModal_ImageProfile] = useModal()
 const [modalActive_Password, toggleModal_Password] = useModal()
 const [modalActive_DeleteProfile, toggleModal_DeleteProfile] = useModal()
+const [modalActive_changeEmail, toggleModal_changeEmail] = useModal()
 
 
 onMounted(() => {
@@ -138,7 +148,7 @@ onMounted(() => {
   justify-content: flex-start;
   align-items: flex-start;
   background-color: $groupo-colorLight1;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   #headProfile {
     width: 100%;
@@ -154,7 +164,7 @@ onMounted(() => {
       font-size: 2.5em;
       font-weight: bold;
       text-decoration: underline;
-      color: $groupo-color1;
+      color: $groupo-color2;
       margin-left: 30px;
       text-align: left;
     }
@@ -168,7 +178,8 @@ onMounted(() => {
       #changeProfile,
       #changePicture,
       #deleteProfile,
-      #changePassword {
+      #changePassword, 
+      #changeEmail {
         display: block;
         border: 0;
         background-color: transparent;

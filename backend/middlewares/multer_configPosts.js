@@ -11,7 +11,8 @@ const imageFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    cb("Seule les images sont autorisées.", false);
+    cb("Seule les images sont autorisées.", false)
+    // res.status(401).send({message : "Seule les images sont autorisées."});
   }
 };
 

@@ -93,7 +93,7 @@ const schemaSignup = yup.object().shape({
     .string()
     .required("Email obligatoire")
     .email("Email invalide")
-    .max(75, "maximum 75 caractères!"),
+    .max(125, "maximum 75 caractères!"),
   password: yup
     .string()
     .required("Mot de passe obligatoire")
@@ -245,7 +245,7 @@ const handleRegister = (user) => {
   }
 
   button {
-    margin: 20px 3px 20px 3px;
+    margin: 20px auto 20px auto;
     border: 1px solid $groupo-color1;
     border-radius: 10px;
     background-color: $groupo-colorLight1;
@@ -290,6 +290,31 @@ const handleRegister = (user) => {
   }
   to {
     transform: rotate(359deg);
+  }
+}
+
+@media (max-width: 575.99px) {
+  #signupBox {
+    #signupZone {
+      #signupTitle {
+        margin: 0;
+        p {
+          font-size: 1.3em;
+        }
+      }
+      input {
+        height: 20px;
+      }
+      select {
+        height: 20px;
+      }
+    }
+    button {
+      margin: 10px 3px 10px 3px;
+      &:hover{
+        margin : 13px 0px 7px 6px;
+      }
+    }
   }
 }
 </style>

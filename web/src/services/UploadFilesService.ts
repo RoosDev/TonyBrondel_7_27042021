@@ -1,7 +1,6 @@
 import axios from "axios";
 import store from "../store/index";
 import { computed } from "vue";
-import { mapMutations } from "vuex";
 const myStore: any = store;
 
 class UploadFilesService {

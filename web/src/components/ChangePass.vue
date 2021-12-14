@@ -217,6 +217,9 @@ form {
     margin-bottom: 10px;
   }
 }
+.hidebox{
+  display: none;
+}
 .okSent {
   background-color: #c8ffc8;
   p {

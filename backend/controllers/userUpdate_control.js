@@ -10,7 +10,9 @@ const modelUsers = dbConnect.users;
 const dotenv = require("dotenv");
 const { post } = require("../routes/users_routes");
 dotenv.config();
+const MY_APP_SECRET = process.env.APP_SECRET_KEY;
 const A2_ASSO_DATA_P = process.env.ARGON2_ASSOCIATEDDATA_password;
+const CRYPT_PASS = process.env.Crypto_Passphrase;
 const CRYPT_OutLen = process.env.Crypto_OutPutLength;
 
 //--------------------------------------------------------------------------------------------------
@@ -22,13 +24,13 @@ exports.UpdateProfil = async (req, res, next) => {
   const theProfile = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
-    email: req.body.email,
     job: req.body.job,
     division: req.body.division,
+    last_Connexion: Date.now(),
   };
   try {
     const data = await modelUsers.update(theProfile, {
-      where: { id: req.params.id },
+      where: { id: req.headers.id },
     });
     res.send({ data });
     // (data) => {
@@ -39,8 +41,9 @@ exports.UpdateProfil = async (req, res, next) => {
     //   }
     // };
   } catch (err) {
-    return (res.sendStatus(500).statusMessage =
-      err.message || "Some error occurred while retrieving the post's list.");
+    return res
+      .status(500)
+      .send({ message: "Une erreur s'est produite. Veuillez réessayer." });
   }
 };
 
@@ -171,19 +174,19 @@ exports.updateRole = async (req, res, next) => {
   // Recherche d'une entrée dans la base en fonction de l'email hashé
   const findAdministrator = await modelUsers.findOne({
     where: { id: req.body.idAdmin },
-    
   });
 
   try {
     if (findAdministrator.id == req.body.idToChange) {
-      console.log("Vous ne pouvez pas modifier votre propre rôle.")
-      return res.status(401).send({ 
-        message: "Vous ne pouvez pas modifier votre propre rôle.  "})
+      console.log("Vous ne pouvez pas modifier votre propre rôle.");
+      return res.status(401).send({
+        message: "Vous ne pouvez pas modifier votre propre rôle.  ",
+      });
     } else {
-  
-      if( findAdministrator.role_Id < theRole.role_Id){
-        return res.status(401).send({ 
-          message: "Vous ne pouvez pas accorder un rôle supérieur au votre."})
+      if (findAdministrator.role_Id < theRole.role_Id) {
+        return res.status(401).send({
+          message: "Vous ne pouvez pas accorder un rôle supérieur au votre.",
+        });
       }
       const data = await modelUsers.update(theRole, {
         where: { id: req.body.idToChange },
@@ -193,19 +196,22 @@ exports.updateRole = async (req, res, next) => {
 
       (data) => {
         if (data == 1) {
-          return res.status(201).send({ 
-            message: "Modification enregistrée"})
+          return res.status(201).send({
+            message: "Modification enregistrée",
+          });
         } else {
-          return res.status(401).send({ 
-            message:  "Modification impossible."})
+          return res.status(401).send({
+            message: "Modification impossible.",
+          });
         }
       };
     }
-  // })
+    // })
   } catch (err) {
-    console.log("erreur err : ", err)
-    return res.status(500).send({ 
-      message: "Une erreur s'est produite, veuillez réessayer."})
+    console.log("erreur err : ", err);
+    return res.status(500).send({
+      message: "Une erreur s'est produite, veuillez réessayer.",
+    });
   }
 };
 
@@ -244,30 +250,96 @@ exports.UpdatePassword = async (req, res, next) => {
     };
   } catch (err) {
     return (res.sendStatus(500).statusMessage =
-      err.message || "Some error occurred while retrieving the post's list.");
+      err.message || "Une erreur s'est produite. Veuillez réessayer.");
   }
 };
 
-// Mise à jour d'un profil utilisateur
-exports.UpdateRole = async (req, res, next) => {
-  const theRole = {
-    role_Id: req.body.role_Id,
-    active: req.body.active,
-  };
-  try {
-    const data = await modelUsers.update(theRole, {
-      where: { id: req.params.id },
+//*******************************************************************//
+//            Mise à jour de l'email utilisateur                     //
+//*******************************************************************//
+
+exports.UpdateEmail = async (req, res, next) => {
+  // //-----------------------------------------------------------------------------------------------//
+  //                        TRAITEMENT EN AMONT DES DONNEES AFIN DE LES SECURISER
+  // //-----------------------------------------------------------------------------------------------//
+
+  const newEmail_visible = req.body.email;
+  console.log("newEmail_visible > ", newEmail_visible);
+  // //-----------------------------------------------------------------------------------------------//
+  //                        TRAITEMENT EN AMONT DES DONNEES AFIN DE LES SECURISER
+  // //-----------------------------------------------------------------------------------------------//
+
+  // hash de l email avec CryptoJS :
+  const email_Hash = await CryptoJS.SHA3(newEmail_visible, {
+    outputLength: CRYPT_OutLen,
+  }).toString();
+
+  // cryptage de l email avec CryptoJS
+  const email_Cryp = await CryptoJS.AES.encrypt(
+    newEmail_visible,
+    CRYPT_PASS
+  ).toString();
+  // //-----------------------------------------------------------------------------------------------//
+  console.log("email_Hash > ", email_Hash);
+  console.log("email_Cryp > ", email_Cryp);
+  // //-----------------------------------------------------------------------------------------------//
+  //                        Vérification d'email en doublon
+  // //-----------------------------------------------------------------------------------------------//
+  const existOrNot = await modelUsers.findOne({
+    where: { email_H: email_Hash },
+  });
+  if (existOrNot != null) {
+    return res.status(409).send({
+      message: "Il semble que cet email existe déja.",
     });
-    res.send({ data });
-    (data) => {
-      if (data == 1) {
-        return (res.statusMessage = "Modification enregistrée");
-      } else {
-        return (res.statusMessage = "Modification impossible.");
-      }
+  } else {
+    const theNewEmail = {
+      email_H: email_Hash,
+      email_Crypt: email_Cryp,
     };
-  } catch (err) {
-    return (res.sendStatus(500).statusMessage =
-      err.message || "Some error occurred while retrieving the post's list.");
+
+    try {
+      console.log("theNewEmail > ", theNewEmail);
+      console.log("req.params.id > ", req.params.id);
+
+      const data = await modelUsers.update(theNewEmail, {
+        where: { id: req.params.id },
+      });
+      res.send({ data });
+      (data) => {
+        if (data == 1) {
+          return (res.statusMessage = "Modification enregistrée");
+        } else {
+          return (res.statusMessage = "Modification impossible.");
+        }
+      };
+    } catch (err) {
+      return res.status(500).send({
+        message: "Une erreur s'est produite. Veuillez réessayer.",
+      });
+    }
   }
 };
+// Mise à jour d'un profil utilisateur
+// exports.UpdateRole = async (req, res, next) => {
+//   const theRole = {
+//     role_Id: req.body.role_Id,
+//     active: req.body.active,
+//   };
+//   try {
+//     const data = await modelUsers.update(theRole, {
+//       where: { id: req.params.id },
+//     });
+//     res.send({ data });
+//     (data) => {
+//       if (data == 1) {
+//         return (res.statusMessage = "Modification enregistrée");
+//       } else {
+//         return (res.statusMessage = "Modification impossible.");
+//       }
+//     };
+//   } catch (err) {
+//     return (res.sendStatus(500).statusMessage =
+//       err.message || "Some error occurred while retrieving the post's list.");
+//   }
+// };

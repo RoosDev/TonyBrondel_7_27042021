@@ -42,6 +42,9 @@ const { manager, verifySignUp, authJwt } = require("../middlewares");
     // Modification d un mot de passe utilisateur
     router.put("/myProfile/pass/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.UpdatePassword);
     
+    // Modification d un mot de passe utilisateur
+    router.put("/myProfile/email/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.UpdateEmail);
+
     // // Suppression de son propre profil
     router.put("/myProfile/getout/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.getOutProfil);
 

@@ -3,6 +3,9 @@
     <div id="PostImgForm" class="row">
       <div id="PostImgContent" class="col-8">
         <h2 class="uploadImageH2">Affichez cette image sur la place publique</h2>
+        <p>
+          <em>formats acceptés : .jpg/.png/.gif</em>
+        </p>
         <label class="btn btn-default p-0" id="labelSendPicture" for="myFile">
           Sélectionner un fichier
           <input
@@ -38,7 +41,6 @@
     <div id="previewImgPost" v-if="previewImage">
       <img id="imgPreviewPost" class="preview my-3" :src="previewImage" />
     </div>
-
     <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ message }}</div>
   </div>
 </template>
@@ -77,29 +79,44 @@ const upload = () => {
 
     .then((response: any) => {
       message = response.data.message;
-      // return UploadService.getFiles();
     })
     .then((images) => {
-      buttonSendImage.textContent = 'Envoi en-cours...';
       buttonSendImage.setAttribute("disabled", "");
+      buttonSendImage.textContent = 'Envoi en-cours...';
+      messageUploadImg.classList.toggle("hidebox");
+      messageUploadImg.classList.remove("nokSent");
+      messageUploadImg.classList.add("okSent");
+      messageUploadImg.innerHTML = '<p>Image postée</p>';
+      messageUploadImg.classList.toggle("hidebox");
+      buttonSendImage.textContent = 'Envoyé';
       setTimeout(() => {
-        messageUploadImg.classList.toggle("hidebox");
-        messageUploadImg.classList.remove("nokSent");
-        messageUploadImg.classList.add("okSent");
-        messageUploadImg.innerHTML = '<p>Image postée</p>';
-        messageUploadImg.classList.toggle("hidebox");
-        buttonSendImage.textContent = 'Envoyé';
-      }, 1500);
-      setTimeout(() => {
-        messageUploadImg.classList.toggle("hidebox");
+        buttonSendImage.classList.toggle("hidebox");
         store.commit('SETFEEDLIST');
         myRouter.go('');
 
-      }, 2500);
+      }, 1000);
     })
-    .catch((err) => {
+    .catch((error) => {
+      let msgError = (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      buttonSendImage.setAttribute("disabled", "");
+      messageUploadImg.classList.toggle("hidebox");
+      messageUploadImg.classList.remove("okSent");
+      messageUploadImg.classList.add("nokSent");
+      messageUploadImg.innerHTML = '<p>' + msgError + '</p>';
+      buttonSendImage.textContent = 'Erreur d\'envoi';
+      setTimeout(() => {
+        messageUploadImg.classList.toggle("hidebox");
+        buttonSendImage.textContent = 'Envoyer';
+        buttonSendImage.removeAttribute("disabled")
+
+      }, 3000);
+
       progress.value = 0;
-      message.value = "Could not upload the image! " + err;
       currentImage = undefined;
     });
 };
@@ -124,6 +141,13 @@ onMounted(() => {
 
   #PostImgContent {
     width: 100%;
+    p {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-top: -5px;
+    }
   }
 
   #divButtonUpload {
@@ -133,14 +157,14 @@ onMounted(() => {
     font-size: 1.4em;
     text-decoration: underline;
     font-weight: bold;
-    margin-top: 50px;
+    margin-top: 30px;
   }
 
   #labelSendPicture {
     display: block;
     width: 50%;
-    height: 60px;
-    margin: 50px auto 50px auto;
+    height: 45px;
+    margin: 25px auto 25px auto;
     padding: auto;
     background: $ValidColor1;
     color: $color-white;
@@ -157,12 +181,11 @@ onMounted(() => {
       border: 1px solid $groupo-color1;
     }
   }
-
   #myFile {
     display: block;
     top: 0;
     left: 0;
-    margin: 20px auto 0 auto;
+    margin: 8px auto 0 auto;
     border: 1px solid rgba($groupo-color1, 0.5);
     background-color: rgba($groupo-color4, 0.2);
     border-radius: 10px;
@@ -178,7 +201,7 @@ onMounted(() => {
 
   #quickDisplayImg {
     display: block;
-    margin: 10px auto 10px auto;
+    margin: 5px auto 5px auto;
     text-align: center;
     font-size: 1.2em;
     color: $groupo-color4;
@@ -188,7 +211,7 @@ onMounted(() => {
     display: block;
     width: 150px;
     height: 50px;
-    margin: 10px auto 10px auto;
+    margin: 5px auto 5px auto;
     border: 1px solid $groupo-color1;
     border-radius: 10px;
     background-color: rgba($groupo-color4, 0.2);
@@ -218,17 +241,36 @@ onMounted(() => {
     width: 75%;
     height: 30px;
     margin: 10px;
+    padding: 0;
+    p{
+      text-align: center;
+      margin : 0;
+      font-size: 1em;
+    }
   }
 }
 .progress {
   width: 80%;
-  margin: 10px auto 30px auto;
+  margin: 5px auto 5px auto;
 }
-
+.okSent {
+  background-color: #c8ffc8;
+  p {
+    color: #006500;
+  }
+}
+.nokSent {
+  background-color: #ffc8c8;
+  p {
+    color: #650000;
+  }
+}
 @media (max-width: 767.99px) {
   #PostImg {
+    overflow-y: scroll;
     #labelSendPicture {
       width: 75%;
+      font-size: 1.0em;
     }
     #previewImgPost {
       max-width: 95%;

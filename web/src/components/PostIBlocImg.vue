@@ -1,5 +1,5 @@
 <template>
-  <div id="fullBloc" class="col-11 col-lg-10">
+  <article id="fullBloc" class="col-11 col-lg-10">
     <div id="postBloc">
       <div id="timeLikeMenuZone" class="col-12">
         <span id="timePost">
@@ -35,9 +35,9 @@
         </span>
       </div>
       <div id="PostZoneImg" class="col-12 col-lg-6">
-        <div id="thePostImg" class="col-12">
+        <section id="thePostImg" class="col-12">
           <img id="theImageOfThePost" :src="'http://localhost:8080/' + props.theImgPost" alt />
-        </div>
+        </section>
       </div>
       <div id="commentZone" class="col-12 col-lg-6">
         <CommentZone
@@ -50,7 +50,7 @@
     <div id="postFooter" class="col-6">
       <p></p>
     </div>
-  </div>
+  </article>
   <Modal @close="toggleModal_DeleteImg" :modalActive="modalActive_DeleteImg">
     <div class="modal-content">
       <DeleteImage :postId="theIdPost" />

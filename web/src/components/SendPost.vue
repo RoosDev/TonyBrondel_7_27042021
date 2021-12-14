@@ -1,7 +1,7 @@
 <template lang="fr">
         <div id="sendPost__Global" class="row">
                 <div id="sendPostPicture" >
-                        <img id="pictureSendMsg" src="../assets/ampoule-clean-small.png" alt="Une idée">
+                        <img id="pictureSendMsg" src="../assets/ampoule-clean-small.png" alt="Une idée, exprimez vous ici.">
                 </div>
                 <div id="sendPostAction" >
                         <div id="sendBox__Title" class="col-12" >
@@ -10,7 +10,7 @@
                         <div id="sendBox__Type">
                                 <div id="sendBox__T--text" class="col-6 sendBox__T">
                                   <button type="button" @click="toggleModal_Txt" class="col-10" >
-                                        <font-awesome-icon :icon="['fas', 'edit']" id='fontawesome-icon' /><p>mon côté litteraire</p>
+                                        <font-awesome-icon :icon="['fas', 'edit']" id='fontawesome-icon' /><p>mon côté littéraire</p>
                                   </button>
                                 </div>
                                 <div  id="sendBox__T--img" class="col-6 sendBox__T">

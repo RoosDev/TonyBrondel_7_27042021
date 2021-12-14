@@ -68,7 +68,7 @@ const handleLogin = (user) => {
 
   myStore.dispatch("auth/login", user)
     .then((res) => {
-        myRouter.push('/Home');
+      myRouter.push('/Home');
     })
     .catch((error) => {
       let msgError = (error.response &&
@@ -76,8 +76,8 @@ const handleLogin = (user) => {
         error.response.data.message) ||
         error.message ||
         error.toString();
-      if(msgError == undefined || msgError == null ){
-        msgError =`Il semble qu'il y ait un problème. <br /> Vérifiez les informations saisies.`
+      if (msgError == undefined || msgError == null) {
+        msgError = `Il semble qu'il y ait un problème. <br /> Vérifiez les informations saisies.`
       }
       alertBox.innerHTML = msgError;
       setTimeout(() => {
@@ -96,7 +96,7 @@ const handleLogin = (user) => {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  height: 300px;
+  height: 100%;
   border-radius: 15px;
   margin: auto;
   z-index: 50;
@@ -164,14 +164,32 @@ const handleLogin = (user) => {
 }
 .error-feedback {
   width: 100%;
-  color: red;
+  color: $groupo-color2;
   font-weight: bold;
   font-size: 0.8em;
   text-align: center;
 }
-#alertBox{
+#alertBox {
   text-align: center;
   font-weight: bold;
+}
 
+@media (max-width: 575.99px) {
+  #connectionBox {
+    #secureTitle {
+      p {
+        font-size: 1.3em;
+      }
+    }
+    input {
+      height: 20px;
+    }
+    button {
+      margin : 10px 3px 10px 3px;
+      &:hover{
+        margin: 13px 0px 7px 6px ;
+      }
+    }
+  }
 }
 </style>

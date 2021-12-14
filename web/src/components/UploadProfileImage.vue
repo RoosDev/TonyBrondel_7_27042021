@@ -3,6 +3,10 @@
     <div id="ProfileImgForm" class="row">
       <div id="ProfileImgContent" class="col-8">
         <h2 class="uploadImageH2">Votre photo de profil</h2>
+        <p>
+          <em>formats acceptés : .jpg/.png/.gif</em>
+        </p>
+
         <label class="btn btn-default p-0" id="labelSendPicture" for="myFile">
           Sélectionner un fichier
           <input
@@ -41,7 +45,7 @@
       </div>
     </div>
 
-    <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ message }}</div>
+    <div id="uploadImgMessage" class="alert alert-secondary hidebox" role="alert">{{ message }} bro</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -83,29 +87,43 @@ const upload = () => {
 
     .then((response: any) => {
       message = response.data.message;
-      // return UploadService.getFiles();
     })
     .then((images) => {
-      buttonSendImage.textContent = 'Envoi en-cours...';
       buttonSendImage.setAttribute("disabled", "");
+      buttonSendImage.textContent = 'Envoi en-cours...';
+      messageUploadImg.classList.toggle("hidebox");
+      messageUploadImg.classList.remove("nokSent");
+      messageUploadImg.classList.add("okSent");
+      messageUploadImg.innerHTML = '<p>Image postée</p>';
+      messageUploadImg.classList.toggle("hidebox");
+      buttonSendImage.textContent = 'Envoyé';
       setTimeout(() => {
-        messageUploadImg.classList.toggle("hidebox");
-        messageUploadImg.classList.remove("nokSent");
-        messageUploadImg.classList.add("okSent");
-        messageUploadImg.innerHTML = '<p>Image postée</p>';
-        messageUploadImg.classList.toggle("hidebox");
-        buttonSendImage.textContent = 'Envoyé';
-      }, 1500);
-      setTimeout(() => {
-        messageUploadImg.classList.toggle("hidebox");
-        store.commit('SETFEEDLIST');
+        buttonSendImage.classList.toggle("hidebox");
+        store.commit('SETUSERDETAIL');
         myRouter.go('');
 
-      }, 2500);
+      }, 1500);
     })
-    .catch((err) => {
+    .catch((error) => {
+      let msgError = (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      buttonSendImage.setAttribute("disabled", "");
+      messageUploadImg.classList.toggle("hidebox");
+      messageUploadImg.classList.remove("okSent");
+      messageUploadImg.classList.add("nokSent");
+      messageUploadImg.innerHTML = '<p>' + msgError + '</p>';
+      buttonSendImage.textContent = 'Erreur d\'envoi';
+      setTimeout(() => {
+        buttonSendImage.textContent = 'Envoyer';
+        buttonSendImage.removeAttribute("disabled")
+
+      }, 3000);
+
       progress.value = 0;
-      message.value = "Could not upload the image! " + err;
       currentImage = undefined;
     });
 };
@@ -120,6 +138,7 @@ onMounted(() => {
 
 #ProfileImg {
   display: flex;
+  width: 100%;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
@@ -129,6 +148,13 @@ onMounted(() => {
   }
   #ProfileImgContent {
     width: 100%;
+    p {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-top: -5px;
+    }
   }
 
   #divButtonUpload {
@@ -138,14 +164,14 @@ onMounted(() => {
     font-size: 1.4em;
     text-decoration: underline;
     font-weight: bold;
-    margin-top: 50px;
+    margin-top: 15px;
   }
 
   #labelSendPicture {
     display: block;
     width: 50%;
-    height: 70px;
-    margin: 50px auto 50px auto;
+    height: 45px;
+    margin: 25px auto 25px auto;
     padding: auto;
     background: $ValidColor1;
     color: $color-white;
@@ -155,7 +181,6 @@ onMounted(() => {
     border-radius: 10px;
     text-align: center;
     font-size: 1.4em;
-    
 
     &:hover {
       font-weight: bold;
@@ -168,13 +193,13 @@ onMounted(() => {
     display: block;
     top: 0;
     left: 0;
-    margin: 20px auto 0 auto;
+    margin: 8px auto 0 auto;
     border: 1px solid rgba($groupo-color1, 0.5);
     background-color: rgba($groupo-color4, 0.2);
     border-radius: 10px;
     position: absolute;
     opacity: 0;
-    padding: 14px 0;
+    padding: 10px 0;
     cursor: pointer;
 
     &:hover {
@@ -184,7 +209,7 @@ onMounted(() => {
 
   #quickDisplayImg {
     display: block;
-    margin: 10px auto 10px auto;
+    margin: 5px auto 5px auto;
     text-align: center;
     font-size: 1.2em;
     color: $groupo-color4;
@@ -192,9 +217,10 @@ onMounted(() => {
 
   #buttonSendImage {
     display: block;
-    width: 150px;
+    max-width: 150px;
+    width: 100%;
     height: 50px;
-    margin: 10px auto 10px auto;
+    margin: 5px auto 5px auto;
     border: 1px solid $groupo-color1;
     border-radius: 10px;
     background-color: rgba($groupo-color4, 0.2);
@@ -209,8 +235,8 @@ onMounted(() => {
     }
   }
   #previewImgPost {
-    max-width: 60%;
-    max-height: 60%;
+    max-width: 40%;
+    max-height: 40%;
     margin: 5px;
 
     #imgPreviewPost {
@@ -224,13 +250,32 @@ onMounted(() => {
     width: 75%;
     height: 30px;
     margin: 10px;
+    padding: 0;
+    p{
+      text-align: center;
+      margin : 0;
+      font-size: 1em;
+    }
   }
 }
-
+.okSent {
+  background-color: #c8ffc8;
+  p {
+    color: #006500;
+  }
+}
+.nokSent {
+  background-color: #ffc8c8;
+  p {
+    color: #650000;
+  }
+}
 @media (max-width: 767.99px) {
   #ProfileImg {
+    overflow-y: scroll;
     #labelSendPicture {
       width: 75%;
+      font-size: 0.8em;
     }
     #previewImgPost {
       max-width: 95%;
