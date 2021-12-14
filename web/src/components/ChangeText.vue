@@ -66,14 +66,14 @@ const sendMyPut = () => {
 
     })
     .catch((error) => {
-        let msgError = (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-          error.message ||
-          error.toString();
-        if (msgError == undefined || msgError == null) {
-          msgError = `Une erreur s'est produite. Veuillez réessayer.`
-        }
+      let msgError = (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+      if (msgError == undefined || msgError == null) {
+        msgError = `Une erreur s'est produite. Veuillez réessayer.`
+      }
       sendButtonToChangePost.setAttribute("disabled", "");
       messageAfterSent.classList.toggle("hidebox");
       messageAfterSent.classList.remove("okSent");
@@ -94,7 +94,7 @@ const isPutValid = () => {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../scss/variables.scss";
 
 #PutText {
@@ -102,16 +102,26 @@ const isPutValid = () => {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  
+
   #putTextForm {
     width: 100%;
 
     #PutwriteContent {
       width: 100%;
       label {
+        width: 100%;
         display: block;
         margin: 35px auto 0 auto;
         text-align: center;
+        h2 {
+          width: 100%;
+          font-size: 1.4em;
+          text-decoration: underline;
+          font-weight: bold;
+          color: $groupo-color5;
+          text-align: center;
+          margin-top: 25px;
+        }
       }
 
       .PutContentTextarea {

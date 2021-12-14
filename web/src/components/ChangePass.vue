@@ -149,70 +149,84 @@ const isFormValid = computed((user) => {
 })
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../scss/variables.scss";
 
-#modal-content {
-  border: 0;
-}
+#ChangePass {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 
-form {
-  border: 0;
-
-  #changePassContent {
+  #changePassForm {
     width: 100%;
     border: 0;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
 
-    p {
-      width: 80%;
-      text-align: center;
-    }
-    div[id*="div"] {
+    #changePassContent {
       width: 100%;
-      text-align: center;
-    }
-    input {
-      background-color: $groupo-color4;
-      color: $groupo-colorLight1;
-      width: 75%;
-      height: 30px;
-      margin: 15px auto 15px auto;
       border: 0;
-      border-radius: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
-      font-size: 0.9em;
-
-      &:focus {
-        background-color: $groupo-colorLight1;
-        color: $groupo-color4;
-      }
-    }
-    #divSendButton {
-      width: 100%;
       display: flex;
       flex-flow: column nowrap;
       justify-content: center;
       align-items: center;
+      h2 {
+        width: 100%;
+        font-size: 1.4em;
+        text-decoration: underline;
+        font-weight: bold;
+        color: $groupo-color5;
+        text-align: center;
+        margin-top: 25px;
+      }
 
-      #sendButtonToDelete {
+      p {
+        width: 80%;
+        text-align: center;
+      }
+      div[id*="div"] {
+        width: 100%;
+        text-align: center;
+      }
+      input {
+        background-color: $groupo-color4;
+        color: $groupo-colorLight1;
         width: 75%;
-        height: 40px;
-        margin: 20px auto 20px auto;
-        border: 1px solid $groupo-color1;
+        height: 30px;
+        margin: 15px auto 15px auto;
+        border: 0;
         border-radius: 10px;
-        background-color: $groupo-colorLight1;
-        color: $groupo-color1;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 0.9em;
 
-        &:hover {
-          background-color: $groupo-color4;
-          color: $groupo-colorLight1;
-          margin: 17px auto 23px auto;
-          box-shadow: 5px 5px 15px $groupo-color3;
+        &:focus {
+          background-color: $groupo-colorLight1;
+          color: $groupo-color4;
+        }
+      }
+      #divSendButton {
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+
+        #sendButtonToDelete {
+          width: 75%;
+          height: 40px;
+          margin: 20px auto 20px auto;
+          border: 1px solid $groupo-color1;
+          border-radius: 10px;
+          background-color: $groupo-colorLight1;
+          color: $groupo-color1;
+
+          &:hover {
+            background-color: $groupo-color4;
+            color: $groupo-colorLight1;
+            margin: 17px auto 23px auto;
+            box-shadow: 5px 5px 15px $groupo-color3;
+          }
         }
       }
     }

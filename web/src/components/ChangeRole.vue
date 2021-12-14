@@ -100,108 +100,114 @@ const sendNewRole = (usertoChange) => {
 <style lang="scss">
 @import "../scss/variables.scss";
 
-h2 {
-  font-size: 1.4em;
-  text-decoration: underline;
-  font-weight: bold;
-  margin: 15px;
-}
-
-.pbold {
-  font-size: 1.4em;
-  font-weight: bold;
-  text-align: center;
-  em {
-    font-weight: normal;
-  }
-}
-
-#modal-content {
-  border: 0;
-}
-
-form {
+#ChangeRole {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  border: 0;
-  #changeRoleContent {
+
+  #changeRoleForm {
     width: 100%;
     border: 0;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
 
-    p {
-      width: 80%;
-      text-align: center;
-    }
-    #divrole{
-      width: 80%;
-    label {
-      font-size: 1.1em;
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
-    input {
-      background-color: $groupo-color4;
-      color: $groupo-colorLight1;
-      width: 300px;
-      height: 30px;
-      margin: 15px;
-      border: 0;
-      border-radius: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
-      font-size: 0.9em;
-
-      &:focus {
-        background-color: $groupo-colorLight1;
-        color: $groupo-color4;
-      }
-    }
-    select {
-      background-color: $groupo-color4;
-      color: $groupo-colorLight1;
-      width: 85%;
-      height: 30px;
-      border: 0;
-      border-radius: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
-      font-size: 0.9em;
-
-      &:focus {
-        background-color: $groupo-colorLight1;
-        color: $groupo-color4;
-      }
-    }}
-
-    #divsendRoleToChangeButton {
+    #changeRoleContent {
       width: 100%;
+      border: 0;
       display: flex;
       flex-flow: column nowrap;
       justify-content: center;
       align-items: center;
 
-      .sendRoleToChangeButton {
-        width: 90%;
-        height: 40px;
-        margin: 20px auto 20px auto;
-        border: 1px solid $groupo-color1;
-        border-radius: 10px;
-        background-color: $groupo-colorLight1;
-        color: $groupo-color1;
-
-        &:hover {
+      h2 {
+        width: 100%;
+        font-size: 1.4em;
+        text-decoration: underline;
+        font-weight: bold;
+        color: $groupo-color5;
+        text-align: center;
+        margin-top: 25px;
+      }
+      .pbold {
+        width: 80%;
+        font-size: 1.4em;
+        font-weight: bold;
+        text-align: center;
+        em {
+          font-weight: normal;
+        }
+      }
+      #divrole{
+        width: 80%;
+        label {
+          font-size: 1.1em;
+          margin-top: 15px;
+          margin-bottom: 15px;
+          
+        }
+        input {
           background-color: $groupo-color4;
           color: $groupo-colorLight1;
-          margin: 17px auto 23px auto;
-          box-shadow: 5px 5px 15px $groupo-color3;
+          width: 300px;
+          height: 30px;
+          margin: 15px;
+          border: 0;
+          border-radius: 10px;
+          padding-left: 10px;
+          padding-right: 10px;
+          font-size: 0.9em;
+
+          &:focus {
+            background-color: $groupo-colorLight1;
+            color: $groupo-color4;
+          }
+        }
+        select {
+          background-color: $groupo-color4;
+          color: $groupo-colorLight1;
+          width: 85%;
+          height: 30px;
+          border: 0;
+          border-radius: 10px;
+          padding-left: 10px;
+          padding-right: 10px;
+          font-size: 0.9em;
+
+          &:focus {
+            background-color: $groupo-colorLight1;
+            color: $groupo-color4;
+          }
+        }
+      }
+
+      #divsendRoleToChangeButton {
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+
+        .sendRoleToChangeButton {
+          width: 90%;
+          height: 40px;
+          margin: 20px auto 20px auto;
+          border: 1px solid $groupo-color1;
+          border-radius: 10px;
+          background-color: $groupo-colorLight1;
+          color: $groupo-color1;
+
+          &:hover {
+            background-color: $groupo-color4;
+            color: $groupo-colorLight1;
+            margin: 17px auto 23px auto;
+            box-shadow: 5px 5px 15px $groupo-color3;
+          }
         }
       }
     }
   }
 }
+
 #cleanZone {
   height: 40px;
 }
@@ -234,14 +240,18 @@ form {
 }
 
 @media (max-width: 575.99px) {
-  #changeRoleContent {
-    p {
-      font-size: 0.9em;
-    }
-    #divrole{
-      label {
-      font-size: 0.9em;
+  #ChangeRole {
+    #changeRoleForm {
+      #changeRoleContent {
+        .pbold  {
+          font-size: 0.9em;
+        }
+        #divrole{
+          label {
+          font-size: 0.9em;
 
+          }
+        }
       }
     }
   }

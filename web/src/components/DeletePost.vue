@@ -55,19 +55,33 @@ const deleteMyPost = () => {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../scss/variables.scss";
 
-#PostText {
+#DeletePost {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  #postTextForm {
+    width: 100%;
+    #PostwriteContent {
+      width: 100%;
+      label {
+        width: 100%;
 
-  h2 {
-    font-size: 1.4em;
-    text-decoration: underline;
-    font-weight: bold;
+        h2 {
+          width: 100%;
+          font-size: 1.4em;
+          text-decoration: underline;
+          font-weight: bold;
+          color: $groupo-color5;
+          text-align: center;
+          margin-top: 25px;
+        }
+      }
+    }
   }
 }
 #confirmDelete {

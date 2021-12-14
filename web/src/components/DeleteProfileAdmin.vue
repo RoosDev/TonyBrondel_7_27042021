@@ -68,10 +68,6 @@ const deleteTheProfile = () => {
 <style lang="scss">
 @import "../scss/variables.scss";
 
-#modal-content {
-  border: 0;
-}
-
 form {
   border: 0;
 }
