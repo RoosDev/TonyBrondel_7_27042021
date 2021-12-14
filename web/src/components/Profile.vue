@@ -164,7 +164,7 @@ onMounted(() => {
       font-size: 2.5em;
       font-weight: bold;
       text-decoration: underline;
-      color: $groupo-color2;
+      color: $groupo-color1;
       margin-left: 30px;
       text-align: left;
     }

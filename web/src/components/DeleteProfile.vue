@@ -1,19 +1,19 @@
 <template>
   <div id="ChangeProfile" class="col-12">
-    <form id="DeleteProfileForm" v-on:submit.prevent="deleteMyProfile">
-      <div id="messageDeleteProfile">
-        <p>Souhaitez-vous vraiment supprimer votre profile ?</p>
+    <form id="DeleteMyProfileForm" v-on:submit.prevent="deleteMyProfile">
+      <div id="messageDeleteMyProfile">
+        <p>Souhaitez-vous vraiment supprimer votre profil ?</p>
       </div>
       <div id="cleanZone"></div>
-      <div id="divdeleteProfileButton">
+      <div id="divDeleteMyProfileButton">
         <button
-          id="deleteProfileButton"
+          id="deleteMyProfileButton"
           class="col-9"
           type="submit"
         >Je confirme la suppression de mon profil .</button>
       </div>
     </form>
-    <div id="msgProfileDelete" class="hidebox"></div>
+    <div id="msgMyProfileDelete" class="hidebox"></div>
   </div>
 </template>
 <script setup lang="ts">
@@ -27,37 +27,37 @@ const myRouter: any = useRouter();
 
 // Fonction d'enregistrement du nouveau mot de passe
 const deleteMyProfile = () => {
-  const msgProfileAfterSent = document.querySelector('#msgProfileDelete') as HTMLDivElement;
-  const deleteProfileButton = document.querySelector('#deleteProfileButton') as HTMLButtonElement;
+  const msgMyProfileAfterSent = document.querySelector('#msgMyProfileDelete') as HTMLDivElement;
+  const deleteMyProfileButton = document.querySelector('#deleteMyProfileButton') as HTMLButtonElement;
   const currentUser = computed(() => myStore.state.auth.user);
   const myUserDetails = reactive(currentUser.value);
 
   myStore.dispatch("deleteProfile", myUserDetails )
     .then((data) => {
-      deleteProfileButton.textContent = 'envoi en-cours ...';
+      deleteMyProfileButton.textContent = 'envoi en-cours ...';
       setTimeout(() => {
-        msgProfileAfterSent.classList.remove("nokSent");
-        msgProfileAfterSent.classList.add("okSent");
-        msgProfileAfterSent.innerHTML = '<p>Profil Supprimé</p>';
-        msgProfileAfterSent.classList.toggle("hidebox");
-        deleteProfileButton.textContent = 'Au revoir';
+        msgMyProfileAfterSent.classList.remove("nokSent");
+        msgMyProfileAfterSent.classList.add("okSent");
+        msgMyProfileAfterSent.innerHTML = '<p>Profil Supprimé</p>';
+        msgMyProfileAfterSent.classList.toggle("hidebox");
+        deleteMyProfileButton.textContent = 'Au revoir';
       }, 1000)
     })
     .then((data) => {
       setTimeout(() => {
-        msgProfileAfterSent.classList.toggle("hidebox");
+        msgMyProfileAfterSent.classList.toggle("hidebox");
         localStorage.removeItem("user");
         myRouter.go('');
       }, 2000);
     }),
 
     (error) => {
-      msgProfileAfterSent.classList.toggle("hidebox");
-      msgProfileAfterSent.classList.remove("okSent");
-      msgProfileAfterSent.classList.add("nokSent");
-      msgProfileAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
+      msgMyProfileAfterSent.classList.toggle("hidebox");
+      msgMyProfileAfterSent.classList.remove("okSent");
+      msgMyProfileAfterSent.classList.add("nokSent");
+      msgMyProfileAfterSent.innerHTML = '<p>Une erreur s\'est produite. Veuillez réessayer </p>';
       setTimeout(function () {
-        msgProfileAfterSent.classList.toggle("hidebox");
+        msgMyProfileAfterSent.classList.toggle("hidebox");
       }, 4000);
       console.error("There was an error!", error);
     }
@@ -74,7 +74,7 @@ const deleteMyProfile = () => {
 form {
   border: 0;
 }
-#messageDeleteProfile {
+#messageDeleteMyProfile {
   width: 95%;
   margin-right: auto;
   margin-left: auto;
@@ -89,14 +89,14 @@ p {
     margin-bottom: 50px;
   }
 }
-#divdeleteProfileButton {
+#divDeleteMyProfileButton {
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
 
-  #deleteProfileButton {
+  #deleteMyProfileButton {
     width: 80%;
     height: 60px;
     margin: 20px auto 20px auto;

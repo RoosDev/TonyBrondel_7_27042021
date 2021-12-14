@@ -1,6 +1,6 @@
 <template>
   <div id="adminUser" class="col-12 col-xl-9">
-    <h2 class="col-12">Liste des utilisateurs</h2>
+    <h2 id="h2Admin" class="col-12">Liste des utilisateurs</h2>
     <table id="TableUser" class="table table-striped table-hover col-12">
       <thead>
         <tr>
@@ -15,10 +15,16 @@
       <tbody>
         <tr id="RowUser" v-for="user in usersList" :key="user.id">
           <td scope="row" id="NameUser">{{ user.firstname + ' ' + user.lastname }}</td>
-          <td id="emailUser" class="hideIfVeryTooSmall"> <a :href="'mailto:'+user.email" class="lienEmail">{{ user.email }}</a></td>
+          <td id="emailUser" class="hideIfVeryTooSmall">
+            <a :href="'mailto:' + user.email" class="lienEmail">{{ user.email }}</a>
+          </td>
           <td id="jobUser" class="hideIfTooSmall">{{ user.job }}</td>
           <td id="divisionUser" class="hideIfSmall">{{ user.division }}</td>
-          <td id="roleUser" class="txtcenter" v-if="myRole == 'okAGo' || myRole == 'okMGo'">{{ user.role.role_name }}</td>
+          <td
+            id="roleUser"
+            class="txtcenter"
+            v-if="myRole == 'okAGo' || myRole == 'okMGo'"
+          >{{ user.role.role_name }}</td>
           <td id="actionsAdmin" class="txtcenter" v-if="myRole == 'okAGo' || myRole == 'okMGo'">
             <ButtonRole
               :idToChange="user.id"
@@ -50,9 +56,9 @@ const myStore: any = store;
 
 //Connexion au store pour récupération des informations
 const usersList = computed(() => myStore.state.users.usersList);
-  // Récupération du role de l'utilisateur
-  const currentUser:any = JSON.parse(localStorage.getItem("user")!);
-  const myRole:string = currentUser.canOrNot!;
+// Récupération du role de l'utilisateur
+const currentUser: any = JSON.parse(localStorage.getItem("user")!);
+const myRole: string = currentUser.canOrNot!;
 
 onMounted(() => {
   const currentUser = computed(() => myStore.state.auth.user);
@@ -72,67 +78,68 @@ onMounted(() => {
   right: 0;
   background-color: $groupo-colorLight1;
   overflow-y: scroll;
-}
-h2 {
-  font-size: 2.5em;
-  text-align: center;
-  margin: 25px auto 35px auto;
-  font-weight: bold;
-  text-decoration: underline;
-  color: $groupo-color1;
-}
-#TableUser {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-
-  td {
-    line-height: 100%;
-    vertical-align: middle;
+  
+  #h2Admin {
+    font-size: 2.5em;
+    text-align: center;
+    margin: 25px auto 35px auto;
+    font-weight: bold;
+    text-decoration: underline;
+    color: $groupo-color1;
   }
-}
+  #TableUser {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 
-.txtcenter {
-  text-align: center;
-}
-
-button {
-  display: block;
-  border: 0;
-  background-color: transparent;
-  margin: 3px;
-
-  .buttonIcon {
-    font-size: 2em;
-
-    &:hover {
-      text-shadow: 2px 2px 5px $groupo-color4;
-      color: $groupo-color1;
+    td {
+      line-height: 100%;
+      vertical-align: middle;
     }
   }
-}
-#actionsAdmin {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-}
 
-.lienEmail{
-  color: $groupo-color2;
-  text-decoration: none;
+  .txtcenter {
+    text-align: center;
+  }
 
-  &:hover{
-    color: $groupo-color1;
+  button {
+    display: block;
+    border: 0;
+    background-color: transparent;
+    margin: 3px;
+
+    .buttonIcon {
+      font-size: 2em;
+
+      &:hover {
+        text-shadow: 2px 2px 5px $groupo-color4;
+        color: $groupo-color1;
+      }
+    }
+  }
+  #actionsAdmin {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lienEmail {
+    color: $groupo-color2;
+    text-decoration: none;
+
+    &:hover {
+      color: $groupo-color1;
+    }
   }
 }
 
 @media (max-width: 991.99px) {
   #adminUser {
     position: absolute;
-  }
-  .hideIfSmall {
-    display: none;
+    .hideIfSmall {
+      display: none;
+    }
   }
 }
 @media (max-width: 767.99px) {
@@ -149,14 +156,12 @@ button {
 
 @media (max-width: 329.99px) {
   #TableUser {
-    th{
+    th {
       font-size: 0.8em;
-    }td{
+    }
+    td {
       font-size: 0.8em;
     }
   }
 }
-
-
-
 </style>

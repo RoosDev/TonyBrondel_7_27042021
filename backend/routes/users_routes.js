@@ -13,7 +13,6 @@ const { manager, verifySignUp, authJwt } = require("../middlewares");
 // // Liste des routes pour créer quelque chose :
 
     // Création d'un nouvel utilisateur 
-    // router.post("/signup", passValidation, userSignLogCtrl.signup);
       router.post("/signup",
       [
         verifySignUp.checkDuplicateEmail,
@@ -40,7 +39,7 @@ const { manager, verifySignUp, authJwt } = require("../middlewares");
     router.put("/upload/profile/", [authJwt.verifyToken, authJwt.isProfileOwner], multer.single("file"), userUploadImgCtrl.uploadFiles);
 
     // Modification d un mot de passe utilisateur
-    router.put("/myProfile/pass/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.UpdatePassword);
+    router.put("/myProfile/pass/:id", [authJwt.verifyToken, authJwt.isProfileOwner], passValidation, userUpdateCtrl.UpdatePassword);
     
     // Modification d un mot de passe utilisateur
     router.put("/myProfile/email/:id", [authJwt.verifyToken, authJwt.isProfileOwner], userUpdateCtrl.UpdateEmail);
