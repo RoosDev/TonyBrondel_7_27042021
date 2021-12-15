@@ -36,7 +36,8 @@ CREATE TABLE `users` (
   CONSTRAINT `fk_role` FOREIGN KEY (`role_Id`) REFERENCES `users_roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 ;
 
-INSERT INTO users VALUES(1, 'change me', 'change me', '60cb723ad41d7023e8902dfa35aef4fe1279bfc4cabed866dff09f925257451e', 'U2FsdGVkX1/ykC6hqShPEwMDBoqqBS8AekvnMth6yHwwDK4KkOOwofsuPGMqroiD', '$argon2id$v=19$m=4096,t=36,p=1,data=MjIwZWFlMzFhMjZlNGUxYjhiNjMzMGJiMjg3ZmJkYzQ3N2FiMDQ4NWI5NTgwYTM0MmJkZTQ2ZTkyMTM2YjdjYg$GaSH9psPm5119+bMHtboYA$oSxTI7onZ9irmVldifKN6wlyaxXB9wR1R7d1nredAiGhSzRa3LNklr+JnrlrgMm9WkfEQuHQ7399U+JhtHKl1BonSv0gRaBpq3Oc0UCQwzxytUhmYMddoELaczcT7tRZrGLEdk9TGmpzh7IzDcu6EXLS2M/K0SN72miIGrsGUC6cWoyuiucLZ6TdPiJUq3k9dpHkjhka/dQRi5H2FVxZHkxL65WF8qf1vxMKHgkNCiFm1YQqqO+MBnpbBapLohY84XdCuiWzqmzpv2hSL/44cvDPcleKKLZifYw6o0ECF/UxnckJGu8OavUVwWzBIBV94JN2MOqH7v9sozELlSB/5g', 'change me', null, 'change me', 3, 1, now(), now(), now() )
+INSERT INTO users VALUES(1, 'change me', 'change me', '60cb723ad41d7023e8902dfa35aef4fe1279bfc4cabed866dff09f925257451e', 'U2FsdGVkX1/ykC6hqShPEwMDBoqqBS8AekvnMth6yHwwDK4KkOOwofsuPGMqroiD', '$argon2id$v=19$m=4096,t=36,p=1,data=MjIwZWFlMzFhMjZlNGUxYjhiNjMzMGJiMjg3ZmJkYzQ3N2FiMDQ4NWI5NTgwYTM0MmJkZTQ2ZTkyMTM2YjdjYg$GaSH9psPm5119+bMHtboYA$oSxTI7onZ9irmVldifKN6wlyaxXB9wR1R7d1nredAiGhSzRa3LNklr+JnrlrgMm9WkfEQuHQ7399U+JhtHKl1BonSv0gRaBpq3Oc0UCQwzxytUhmYMddoELaczcT7tRZrGLEdk9TGmpzh7IzDcu6EXLS2M/K0SN72miIGrsGUC6cWoyuiucLZ6TdPiJUq3k9dpHkjhka/dQRi5H2FVxZHkxL65WF8qf1vxMKHgkNCiFm1YQqqO+MBnpbBapLohY84XdCuiWzqmzpv2hSL/44cvDPcleKKLZifYw6o0ECF/UxnckJGu8OavUVwWzBIBV94JN2MOqH7v9sozELlSB/5g', 'change me', null, 'change me', 3, 1, now(), now(), now() );
+
 DROP TABLE IF EXISTS likes_type;
 CREATE TABLE `likes_type` (
   `id` int unsigned NOT NULL,

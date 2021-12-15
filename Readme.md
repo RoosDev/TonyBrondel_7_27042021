@@ -29,9 +29,10 @@
 
 * ### The BACK END
 2. Create Database and tables.
-   1. Go in folder : **/DB**
-   2. Import in MySQL the .sql file
-   3. All settings to connect to the Database must be updated in the file  : **/backend/.env**
+   1. Create de Databse in MySQL 
+   2. Go in folder : **/DB**
+   3. Import in the databse created in MySQL the .sql file
+   4. All settings to connect to the Database must be updated in the file  : **/backend/.env**
 3. In a Shell :
    1. Go in folder : **/backend**
    2. Run *(to install)* :   <br /> 
