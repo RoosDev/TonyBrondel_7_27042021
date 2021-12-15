@@ -48,10 +48,9 @@
    1. Go in folder : **/web**
    2. Run *(to install)* :   <br /> 
     **``` npm install ```**
-   3. Assurez-vous que les dossiers suivants sont bien présents dans le répertoire : <br /> 
+   3. Be sure that folders listed below are created, if not you have to create them : <br /> 
          - **.\web\public\Public_Images\Profile**
          - **.\web\public\Public_Images\Posts**<br />
-      S'ils ne sont pas présent, il faut les créer.
    4. Run *(to start)*:<br /> 
    **``` npm run serve ```**<br /> 
    *(if you want to build the web version to published, you can use : **```npm run build```** )*
