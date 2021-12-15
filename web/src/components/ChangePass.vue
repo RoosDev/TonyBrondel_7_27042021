@@ -180,7 +180,6 @@ const isFormValid = computed((user) => {
         margin-top: 25px;
       }
 
-<<<<<<< HEAD
       p {
         width: 80%;
         text-align: center;
@@ -192,9 +191,6 @@ const isFormValid = computed((user) => {
       input {
         background-color: $groupo-color4;
         color: $groupo-colorLight1;
-=======
-      #sendButtonToDelete {
->>>>>>> 1fccfdd (** FRONT END **)
         width: 75%;
         height: 30px;
         margin: 15px auto 15px auto;
