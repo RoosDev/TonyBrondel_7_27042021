@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import NavComponent from '@/components/Nav.vue';
-import { computed, onMounted, reactive, ref, toRefs, toRef } from "vue";
+import { computed, onMounted, reactive, } from "vue";
 import store from '../store/index';
 
 const myStore: any = store;

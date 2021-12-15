@@ -240,5 +240,11 @@ const isFormValid = computed((user) => {
       }
     }
   }
+#msgFormSent {
+  height: 60px;
+  p{
+    font-size: 0.9em;
+  }
+}
 }
 </style>

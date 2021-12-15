@@ -153,6 +153,8 @@ const handleLogin = (user) => {
     background-color: $groupo-colorLight1;
     width: 150px;
     color: $groupo-color1;
+    font-size: 1.2em;
+    font-weight: bold;
 
     &:hover {
       background-color: $groupo-color4;
@@ -179,6 +181,8 @@ const handleLogin = (user) => {
     #secureTitle {
       p {
         font-size: 1.3em;
+        margin-bottom: 5px;
+
       }
     }
     input {
@@ -186,6 +190,7 @@ const handleLogin = (user) => {
     }
     button {
       margin : 10px 3px 10px 3px;
+      font-size: 1.0em;
       &:hover{
         margin: 13px 0px 7px 6px ;
       }

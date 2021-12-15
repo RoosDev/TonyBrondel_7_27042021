@@ -177,7 +177,7 @@ const isFormValid = computed((user) => {
         font-weight: bold;
         color: $groupo-color5;
         text-align: center;
-        margin-top: 25px;
+        margin-top: 10px;
       }
 
       p {
@@ -238,13 +238,11 @@ const isFormValid = computed((user) => {
   margin-left: auto;
   height: 50px;
   border-radius: 15px;
-  p {
-    font-size: 0.9em;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 7px;
-    margin-bottom: 10px;
-  }
+  font-size: 0.9em;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 7px;
+  margin-bottom: 10px;
 }
 .hidebox {
   display: none;
@@ -277,6 +275,14 @@ const isFormValid = computed((user) => {
         }
       }
     }
+  }
+  #msgFormSentToDelete {
+    width: 95%;
+    height: 60px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    text-align: center;
+    font-weight: bold;
   }
 }
 </style>

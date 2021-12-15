@@ -6,10 +6,6 @@
   <main id="divPage" class="col-12 col-xl-9">
     <router-view name="thePage"></router-view>
   </main>
-  <!-- <div id="appnoncompatible">
-    <p>La résolution de votre écran est incompatible avec cette application pour un usage optimal.</p>
-    <p>Veuillez changé d'écran.</p>
-  </div>-->
 </template>
 
 <script setup lang="ts">

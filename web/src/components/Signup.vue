@@ -251,6 +251,8 @@ const handleRegister = (user) => {
     background-color: $groupo-colorLight1;
     width: 150px;
     color: $groupo-color1;
+    font-weight: bold;
+    font-size: 1.2em;
 
     &:hover {
       background-color: $groupo-color4;
@@ -300,6 +302,7 @@ const handleRegister = (user) => {
         margin: 0;
         p {
           font-size: 1.3em;
+          margin-bottom: 5px;
         }
       }
       input {
@@ -311,6 +314,8 @@ const handleRegister = (user) => {
     }
     button {
       margin: 10px 3px 10px 3px;
+      font-size: 1.0em;
+
       &:hover{
         margin : 13px 0px 7px 6px;
       }

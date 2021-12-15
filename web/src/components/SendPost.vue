@@ -115,7 +115,8 @@ const [modalActive_Img, toggleModal_Img] = useModal();
         border: 1px solid $groupo-color1;
         border-radius: 10px;
         background-color: $groupo-colorLight1;
-        color: $groupo-color1;
+        color: $groupo-color5;
+        font-weight: bold;
 
         &:hover {
           background-color: $groupo-color4;

@@ -162,7 +162,7 @@ const sendMyNewProfile = (userDetail) => {
         font-weight: bold;
         color: $groupo-color5;
         text-align: center;
-        margin-top: 25px;
+        margin-top: 10px;
       }
 
       #changeLogin {
