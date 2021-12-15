@@ -24,7 +24,7 @@
           class="btn btn-success btn-sm float-right"
           :disabled="!activeButtonProfile"
           @click="upload"
-        >Enregistrer {{ myFileName }}</button>
+        >...</button>
       </div>
     </div>
 
@@ -40,8 +40,8 @@
     </div>
 
     <div v-if="previewImage">
-      <div id="previewImgPost">
-        <img id="imgPreviewPost" class="preview my-3" :src="previewImage" />
+      <div id="previewImgPicture">
+        <img id="imgPreviewPicture" class="preview my-3" :src="previewImage" />
       </div>
     </div>
 
@@ -67,12 +67,15 @@ let message = ref("");
 
 const selectImage = () => {
   let myFile = (document.querySelector('#myFile') as HTMLInputElement).files!;
+  const buttonSendImage = document.querySelector('#buttonSendImage')! as HTMLButtonElement;
   activeButtonProfile.value = true
   currentImage = myFile.item(0)!;
   myFileName = myFile.item(0)!.name;
   previewImage.value = URL.createObjectURL(currentImage);
   progress.value = 0;
   message.value = "";
+  buttonSendImage.textContent = 'Cliquez ici pour envoyer';
+
 };
 
 
@@ -118,7 +121,7 @@ const upload = () => {
       messageUploadImg.innerHTML = '<p>' + msgError + '</p>';
       buttonSendImage.textContent = 'Erreur d\'envoi';
       setTimeout(() => {
-        buttonSendImage.textContent = 'Envoyer';
+        buttonSendImage.textContent = '...';
         buttonSendImage.removeAttribute("disabled")
 
       }, 3000);
@@ -236,12 +239,12 @@ onMounted(() => {
       font-weight: bold;
     }
   }
-  #previewImgPost {
-    max-width: 40%;
+  #previewImgPicture {
+    max-width: 150px;
     max-height: 40%;
     margin: 5px;
 
-    #imgPreviewPost {
+    #imgPreviewPicture {
       max-width: 95%;
       max-height: 95%;
       margin: 0;
@@ -279,15 +282,28 @@ onMounted(() => {
       width: 75%;
       font-size: 1.0em;
     }
-    #previewImgPost {
+    #previewImgPicture {
       max-width: 95%;
       max-height: 95%;
 
-      #imgPreviewPost {
+      #imgPreviewPicture {
         max-width: 100%;
         max-height: 100%;
       }
     }
   }
 }
+@media (max-width: 575.99px) {
+  #ProfileImg {
+    #labelSendPicture {
+    }
+    #previewImgPicture {
+
+      #imgPreviewPicture {
+        display: none;
+      }
+    }
+  }
+}
+
 </style>

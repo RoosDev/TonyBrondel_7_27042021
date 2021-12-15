@@ -63,11 +63,9 @@
 To create the first administrator : 
 
 1. Go on the homepage : http://localhost:8080 
-2. Sign Up, like a classic user
-3. Go in MySql 
-   1. select the Database *groupo_prod*   =>   <br />  **``` use groupo_prod;```**
-   2. On the table : *users* 
-   3. Change the *role_Id* to 3 on your user record<br /> , to do the update you can use : *(if your user have the id 1)*: <br />
-    **```UPDATE users SET role_Id = 3 WHERE id = 1; ```**
+2. Sign in with the default admin account :
+   - **login :**  *admin@groupomania.com*
+   -  **password :** *Change-Me1*
+3. When our are logged in, **you have to change email address and password for security** 
 
 ---

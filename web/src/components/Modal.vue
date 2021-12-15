@@ -74,18 +74,17 @@ export default {
     position: relative;
     max-width: 640px;
     width: 80%;
-    min-height: 350px;
-    max-height: 550px;
+    min-height: 300px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
     background-color: #fff;
-    padding: 40px 10px 10px 10px;
+    padding: 64px 16px;
     border-radius: 10px;
 
     #closeModalAwesome {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 15px;
+      right: 15px;
       font-size: 20px;
       cursor: pointer;
       color: $groupo-color4;

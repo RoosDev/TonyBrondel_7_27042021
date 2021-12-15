@@ -116,7 +116,7 @@ const deleteMyProfile = () => {
 
         &:hover {
           background-color: $groupo-color4;
-          margin: 17px auto 23px auto;
+          margin: 53px auto 17px auto;
           box-shadow: 5px 5px 15px $groupo-color3;
           color: $groupo-color1;
         }

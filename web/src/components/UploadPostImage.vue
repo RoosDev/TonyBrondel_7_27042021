@@ -23,7 +23,7 @@
           class="btn btn-success btn-sm float-right"
           :disabled="!activeButton"
           @click="upload"
-        >Enregistrer {{ myFileName }}</button>
+        >...</button>
       </div>
     </div>
 
@@ -61,12 +61,14 @@ let message = ref("");
 
 const selectImage = () => {
   let myFile = (document.querySelector('#myFile') as HTMLInputElement).files!;
+  const buttonSendImage = document.querySelector('#buttonSendImage')! as HTMLButtonElement;
   activeButton.value = true
   currentImage = myFile.item(0)!;
   myFileName = myFile.item(0)!.name;
   previewImage.value = URL.createObjectURL(currentImage);
   progress.value = 0;
   message.value = "";
+  buttonSendImage.textContent = 'Cliquez ici pour envoyer';
 };
 const upload = () => {
   progress.value = 0;
@@ -111,7 +113,7 @@ const upload = () => {
       buttonSendImage.textContent = 'Erreur d\'envoi';
       setTimeout(() => {
         messageUploadImg.classList.toggle("hidebox");
-        buttonSendImage.textContent = 'Envoyer';
+        buttonSendImage.textContent = '...';
         buttonSendImage.removeAttribute("disabled")
 
       }, 3000);
@@ -285,4 +287,16 @@ onMounted(() => {
     }
   }
 }
+@media (max-width: 575.99px) {
+  #PostImg {
+    #previewImgPost {
+        display: none;
+
+      #imgPreviewPost {
+        display: none;
+      }
+    }
+  }
+}
+
 </style>
